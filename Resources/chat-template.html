@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Interface</title>
+    <style>
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            background: #fff; 
+            color: #000; 
+            overflow-x: hidden; 
+            font-size: 14px; 
+        }
+        
+        .chat-container { 
+            max-width: 768px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        
+        .message { 
+            margin-bottom: 24px; 
+            opacity: 1; 
+        }
+        
+        .user-message { 
+            display: flex; 
+            justify-content: flex-end; 
+        }
+        
+        .assistant-message { 
+            display: flex; 
+            justify-content: flex-start; 
+            position: relative;
+        }
+        
+        .message-content { 
+            line-height: 1.6; 
+            max-width: 85%; 
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #6b7280;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .assistant-message:hover .copy-button {
+            opacity: 1;
+        }
+        
+        .copy-button:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .copy-button:active {
+            background: #d1d5db;
+        }
+        
+        .copy-button.copied {
+            background: #dcfce7;
+            color: #16a34a;
+            border-color: #86efac;
+        }
+        
+        .user-message .message-content { 
+            background: #f7f7f8; 
+            color: #000; 
+            padding: 12px 16px; 
+            border-radius: 18px; 
+        }
+        
+        .assistant-message .message-content { 
+            color: #000; 
+        }
+        
+        .tool-call { 
+            background: #f8f9fa; 
+            border: 1px solid #e9ecef; 
+            border-radius: 12px; 
+            padding: 6px 10px; 
+            margin: 4px 0; 
+            display: inline-block; 
+            font-size: 12px; 
+        }
+        
+        .tool-name { 
+            font-weight: 600; 
+            color: #d97706; 
+            margin: 0; 
+            font-size: 12px; 
+            display: inline; 
+        }
+        
+        .tool-args { 
+            background: transparent; 
+            border-radius: 0; 
+            padding: 0; 
+            font-family: inherit; 
+            font-size: 12px; 
+            display: inline; 
+            margin-left: 6px; 
+        }
+        
+        .tool-args-header { 
+            display: none; 
+        }
+        
+        .arg-item { 
+            margin: 0; 
+            display: inline; 
+        }
+        
+        .arg-key { 
+            color: #6b7280; 
+            font-weight: 500; 
+            min-width: auto; 
+        }
+        
+        .arg-value { 
+            color: #374151; 
+            word-break: break-word; 
+        }
+        
+        .arg-separator { 
+            color: #9ca3af; 
+            margin: 0 4px; 
+        }
+        
+        /* Base tag styles - common properties */
+        .persons-tag, 
+        .think-tag { 
+            border-radius: 12px; 
+            padding: 6px 12px; 
+            font-size: 12px; 
+            font-weight: 500; 
+            display: inline-block; 
+            margin: 8px 0; 
+            transition: all 0.3s ease;
+        }
+        
+        .persons-tag { 
+            background: #eff6ff; 
+            color: #1d4ed8; 
+            border: 1px solid #c7d2fe; 
+        }
+        
+        .think-tag { 
+            background: #fef3c7; 
+            color: #d97706; 
+            border: 1px solid #fbbf24; 
+        }
+        
+        /* Streaming states */
+        .think-tag.streaming { 
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
+            animation: heartbeat 2.2s ease-in-out infinite;
+        }
+        
+        .persons-tag.streaming { 
+            border: 1px solid #3b82f6; 
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+            animation: heartbeat 2.2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+                transform: scale(1);
+                font-size: 12px;
+            }
+            25% {
+                box-shadow: 0 0 14px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.2);
+                transform: scale(1.015);
+                font-size: 12.2px;
+            }
+            50% {
+                box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+                transform: scale(1.005);
+                font-size: 12.1px;
+            }
+            75% {
+                box-shadow: 0 0 16px rgba(59, 130, 246, 0.6), 0 0 24px rgba(59, 130, 246, 0.25);
+                transform: scale(1.02);
+                font-size: 12.3px;
+            }
+        }
+        
+        .streaming-args { 
+            opacity: 0.8; 
+            border-left: 3px solid #fbbf24; 
+        }
+        
+        .thinking { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            color: #9ca3af; 
+            font-style: italic; 
+            margin-top: 8px; 
+        }
+        
+        .thinking.completed { 
+            color: #10b981; 
+            font-style: normal; 
+        }
+        
+        /* Table styling */
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 12px 0; 
+            background: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+        }
+        
+        th, td { 
+            padding: 12px; 
+            text-align: left; 
+            border-bottom: 1px solid #e5e7eb; 
+        }
+        
+        th { 
+            background: #f8fafc; 
+            font-weight: 600; 
+            color: #374151; 
+        }
+        
+        tr:hover { 
+            background: #f9fafb; 
+        }
+        
+        tr:last-child td { 
+            border-bottom: none; 
+        }
+        
+        /* Tool call spinner animation */
+        .tool-spinner {
+            display: inline-block;
+            animation: spin 2s linear infinite;
+            color: #fbbf24;
+            transform-origin: center;
+        }
+        
+        /* Tool icon SVG */
+        .tool-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            vertical-align: text-top;
+            margin-right: 4px;
+        }
+        
+        .tool-icon img {
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+        }
+        
+        .tool-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            vertical-align: text-top;
+            margin-right: 4px;
+        }
+        
+        .tool-spinner::before {
+            content: '';
+            display: block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #e5e7eb;
+            border-top: 2px solid #6b7280;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Animations */
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        html { 
+            scroll-behavior: smooth; 
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Messages will be injected here -->
+    </div>
+    
+    <script>
+        // Function to copy assistant message content to clipboard
+        function copyMessageContent(button, messageIndex) {
+            try {
+                // Get the message content element
+                const messageDiv = button.closest('.assistant-message');
+                const contentDiv = messageDiv.querySelector('.message-content');
+                
+                // Clone the content to avoid modifying the original
+                const clonedContent = contentDiv.cloneNode(true);
+                
+                // Remove tool call elements from the clone (they're not part of the message content)
+                const toolCalls = clonedContent.querySelectorAll('.tool-call');
+                toolCalls.forEach(tc => tc.remove());
+                
+                // Remove persons-tag and think-tag elements
+                const personsTags = clonedContent.querySelectorAll('.persons-tag, .think-tag');
+                personsTags.forEach(tag => tag.remove());
+                
+                // Get HTML content with inline styles for better compatibility
+                let htmlContent = clonedContent.innerHTML;
+                
+                // Apply inline styles to tables for better paste compatibility
+                htmlContent = htmlContent.replace(/<table/g, '<table style="border-collapse: collapse; width: 100%; margin: 12px 0;"');
+                htmlContent = htmlContent.replace(/<th/g, '<th style="padding: 12px; text-align: left; border: 1px solid #e5e7eb; background: #f8fafc; font-weight: 600;"');
+                htmlContent = htmlContent.replace(/<td/g, '<td style="padding: 12px; text-align: left; border: 1px solid #e5e7eb;"');
+                htmlContent = htmlContent.replace(/<tr/g, '<tr style="border-bottom: 1px solid #e5e7eb;"');
+                
+                // Extract plain text as fallback
+                let textContent = clonedContent.textContent.trim();
+                
+                // Copy both HTML and plain text to clipboard
+                const clipboardItem = new ClipboardItem({
+                    'text/html': new Blob([htmlContent], { type: 'text/html' }),
+                    'text/plain': new Blob([textContent], { type: 'text/plain' })
+                });
+                
+                navigator.clipboard.write([clipboardItem]).then(() => {
+                    // Update button appearance
+                    const originalText = button.textContent;
+                    button.textContent = 'Copied!';
+                    button.classList.add('copied');
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy:', err);
+                    // Fallback to plain text only
+                    navigator.clipboard.writeText(textContent).then(() => {
+                        button.textContent = 'Copied!';
+                        button.classList.add('copied');
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    }).catch(err2 => {
+                        console.error('Fallback copy failed:', err2);
+                        button.textContent = 'Failed';
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                        }, 2000);
+                    });
+                });
+            } catch (error) {
+                console.error('copyMessageContent error:', error);
+            }
+        }
+        
+        // Function to update messages via 4D JavaScript injection
+        function updateMessages(htmlContent) {
+            try {
+                const container = document.querySelector('.chat-container');
+                if (container) {
+                    container.innerHTML = htmlContent;
+                    
+                    // Scroll to bottom smoothly
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: document.body.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            } catch (error) {
+                console.error('updateMessages error:', error);
+            }
+        }
+        
+        // Initialize smooth scrolling
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Chat interface ready');
+        });
+    </script>
+</body>
+</html>

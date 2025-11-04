@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE base SYSTEM "http://www.4d.com/dtd/2007/base.dtd" >
+<base name="4D_Demo_AI_People_Skills" uuid="01987A4B43787208BA79DAB0439725D6" collation_locale="en">
+	<schema name="DEFAULT_SCHEMA"/>
+	<table name="person" uuid="01987A4BCDA77FBA8E7A4BB18AF3D180" id="1">
+		<field name="ID" uuid="01987A4BCDA874E5B938E48EAEFE611F" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="firstname" uuid="01987A4C04257E5A921205F3957E885E" type="10" limiting_length="255" id="2"/>
+		<field name="lastname" uuid="01987A4C85477D9D8D94D537317C266D" type="10" limiting_length="255" id="3">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="email" uuid="01987A4C94F0753F912D09D3A7986619" type="10" limiting_length="255" id="4">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="phone" uuid="01987A4C9A0F751A873B609CDD4B4BA2" type="10" limiting_length="255" id="5">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="address_id" uuid="C6CAC1A2BCFA42EEA7B110E65C505A4E" type="10" store_as_UUID="true" id="6"/>
+		<field name="jobDetail_id" uuid="69EBA641F0DC493685B4120FB1D668ED" type="10" store_as_UUID="true" id="7"/>
+		<field name="birthDate" uuid="6AD5FB4A2F2A4E9BA0EB01438DEBBFFC" type="8" id="8"/>
+		<field name="embedding" uuid="6F663F394E0D457E9A6AA08CC64A1D7E" type="21" blob_switch_size="2147483647" id="9">
+			<field_extra class_id="4D.Vector"/>
+		</field>
+		<field name="gender" uuid="9E2671560751429FB90FFC711224F4E5" type="10" limiting_length="255" id="10"/>
+		<primary_key field_name="ID" field_uuid="01987A4BCDA874E5B938E48EAEFE611F"/>
+	</table>
+	<table name="providerSettings" uuid="0198C6A4193672FDB6704E91969E11C2" id="2">
+		<field name="ID" uuid="0198C6A4193B7922BBC2562ED3B508DA" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="name" uuid="0198C6A583167D26863D5A88339319E6" type="10" limiting_length="255" id="2"/>
+		<field name="url" uuid="0198C6A597037526AB173AF9AD05C2FF" type="10" limiting_length="255" id="3">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="defaults" uuid="0198C6A5AD9F789FA747A9825A83397A" type="21" blob_switch_size="2147483647" id="4">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="modelsToKeep" uuid="0198C6A5BF377ADDA0215033616AD8BE" type="21" blob_switch_size="2147483647" id="5">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="modelsToRemove" uuid="0198C6A5CEE5761C94BCD4F55B582ADD" type="21" blob_switch_size="2147483647" id="6">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="models" uuid="0198C6A5DB177D02B767917F8186083A" type="21" blob_switch_size="2147483647" id="7">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="key" uuid="0198C6BE7C767E76B518E918BB7C01D0" type="10" limiting_length="255" id="8"/>
+		<primary_key field_name="ID" field_uuid="0198C6A4193B7922BBC2562ED3B508DA"/>
+	</table>
+	<table name="embeddingInfo" uuid="019899973C677418B01A6F3CA2372730" id="3">
+		<field name="ID" uuid="019899973C697722BF27A3D77F4D1844" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="provider" uuid="01989997BE0A7F60BD1F4053A41F980E" type="10" limiting_length="255" id="2"/>
+		<field name="model" uuid="01989997D49D776C8969D85B284E28D2" type="10" limiting_length="255" id="3"/>
+		<field name="embeddingDate" uuid="01989997E34C74AC9FBAC3D0085924E2" type="8" id="4"/>
+		<field name="embeddingTime" uuid="019899981CE8727686361E3A37B5A180" type="9" id="5"/>
+		<field name="duration" uuid="019899C2D8007160A568146A3B206C64" type="9" id="6"/>
+		<primary_key field_name="ID" field_uuid="019899973C697722BF27A3D77F4D1844"/>
+	</table>
+	<table name="jobDetail" uuid="405218A665E749639DE1969436DDD428" id="4">
+		<field name="ID" uuid="C8703FC31BF9441EBD2E14119F0A1124" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="hireDate" uuid="8412816021194393BA7A12DE073EB716" type="8" id="2"/>
+		<field name="jobTitle" uuid="3C2211FE53BE41A29955AA3D3B40E8ED" type="10" limiting_length="255" id="3"/>
+		<field name="notes" uuid="51B66C1060A640FF8704505AFA2627B9" type="10" limiting_length="255" id="4"/>
+		<field name="billingRate" uuid="F241CE4ED7B9493187227936F4CEC3D2" type="3" id="5"/>
+		<primary_key field_name="ID" field_uuid="C8703FC31BF9441EBD2E14119F0A1124"/>
+	</table>
+	<table name="personSkill" uuid="980E0ED3BCAE42398255914A0DC49E06" id="6">
+		<field name="ID" uuid="304E3B55C1D24F158D3BF149F211EB0E" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="skill_id" uuid="BCFCF483E3DC43D28C8A34B85B560C72" type="10" store_as_UUID="true" id="2"/>
+		<field name="yearsOfXP" uuid="638CC3FE185446EC848D3B399F9AC972" type="3" id="3">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="person_id" uuid="23AF63FCFD734D949DC5F7955CCA5DD1" type="10" store_as_UUID="true" id="4">
+			<field_extra multi_line="false"/>
+		</field>
+		<field name="level" uuid="343CEFCACF50402C8DC234BC48F2D5D9" type="3" id="5"/>
+		<primary_key field_name="ID" field_uuid="304E3B55C1D24F158D3BF149F211EB0E"/>
+	</table>
+	<table name="skill" uuid="6F519E9BBFE841F7BFC6800EC303A10F" id="7">
+		<field name="ID" uuid="8128BABF5DFC4C4597DE5892969D26A8" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="category_ID" uuid="D7AC4883E2CB43D593ACC296B19D5716" type="10" store_as_UUID="true" id="2"/>
+		<field name="name" uuid="F5F42F433B2744FCACA030505C899F26" type="10" limiting_length="255" id="3"/>
+		<primary_key field_name="ID" field_uuid="8128BABF5DFC4C4597DE5892969D26A8"/>
+	</table>
+	<table name="skillCategory" uuid="1B01AD9403034C5FB9A3849F6D224DF1" id="8">
+		<field name="ID" uuid="A2F939C4934040A18423FCC76BF85B90" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="name" uuid="3695B180FD1A4E0FA8DE19B164715FF3" type="10" limiting_length="255" id="2"/>
+		<primary_key field_name="ID" field_uuid="A2F939C4934040A18423FCC76BF85B90"/>
+	</table>
+	<table name="address" uuid="1DAD39717EED49EA92AEA8EECA2B5945" id="9">
+		<field name="ID" uuid="F1BA07B46F8D47FDA2E463942AE73AED" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="streetNumber" uuid="5FD33934B0C1404DB5D8707338FD2881" type="10" limiting_length="255" id="2"/>
+		<field name="streetName" uuid="E984CF6C08D34954BB9A3C51CA33136B" type="10" limiting_length="255" id="3"/>
+		<field name="apartment" uuid="F02C20CA83CE4E729F3BE1C4A89E9EE6" type="10" limiting_length="255" id="4"/>
+		<field name="building" uuid="3A7ED1611C9245C2911D7862B2F1C133" type="10" limiting_length="255" id="5"/>
+		<field name="poBox" uuid="5C4F273C4952431F85774EF918E985E5" type="10" limiting_length="255" id="6"/>
+		<field name="city" uuid="49B567FE58A3413E83699E556FE72E69" type="10" limiting_length="255" id="7"/>
+		<field name="region" uuid="704A58CE397C4B49ACC1B0C6CC68C43A" type="10" limiting_length="255" id="8"/>
+		<field name="postalCode" uuid="8BF3230C17564E36BEB3555128BDAF1E" type="10" limiting_length="255" id="9"/>
+		<field name="country" uuid="73C62A89B246482D99251F8A3DDA2FBF" type="10" limiting_length="255" id="10"/>
+		<primary_key field_name="ID" field_uuid="F1BA07B46F8D47FDA2E463942AE73AED"/>
+	</table>
+	<relation uuid="65BB0B55866D4C06B7E03E8AEB884C91" name_Nto1="category" name_1toN="skills" state="1">
+		<related_field kind="source">
+			<field_ref uuid="D7AC4883E2CB43D593ACC296B19D5716" name="category_ID">
+				<table_ref uuid="6F519E9BBFE841F7BFC6800EC303A10F" name="skill"/>
+			</field_ref>
+		</related_field>
+		<related_field kind="destination">
+			<field_ref uuid="A2F939C4934040A18423FCC76BF85B90" name="ID">
+				<table_ref uuid="1B01AD9403034C5FB9A3849F6D224DF1" name="skillCategory"/>
+			</field_ref>
+		</related_field>
+	</relation>
+	<relation uuid="2A560613F8ED45D5AE118FD18172D2EE" name_Nto1="skill" name_1toN="personSkills" state="1">
+		<related_field kind="source">
+			<field_ref uuid="BCFCF483E3DC43D28C8A34B85B560C72" name="skill_id">
+				<table_ref uuid="980E0ED3BCAE42398255914A0DC49E06" name="personSkill"/>
+			</field_ref>
+		</related_field>
+		<related_field kind="destination">
+			<field_ref uuid="8128BABF5DFC4C4597DE5892969D26A8" name="ID">
+				<table_ref uuid="6F519E9BBFE841F7BFC6800EC303A10F" name="skill"/>
+			</field_ref>
+		</related_field>
+	</relation>
+	<relation uuid="FEDC72E505714AE08C81BCF0C4A8BEDD" name_Nto1="person" name_1toN="personSkills" state="1">
+		<related_field kind="source">
+			<field_ref uuid="23AF63FCFD734D949DC5F7955CCA5DD1" name="person_id">
+				<table_ref uuid="980E0ED3BCAE42398255914A0DC49E06" name="personSkill"/>
+			</field_ref>
+		</related_field>
+		<related_field kind="destination">
+			<field_ref uuid="01987A4BCDA874E5B938E48EAEFE611F" name="ID">
+				<table_ref uuid="01987A4BCDA77FBA8E7A4BB18AF3D180" name="person"/>
+			</field_ref>
+		</related_field>
+	</relation>
+	<relation uuid="F6EEE2E22DCD4014A01FA66F6C33D749" name_Nto1="jobDetail" name_1toN="people" state="1">
+		<related_field kind="source">
+			<field_ref uuid="69EBA641F0DC493685B4120FB1D668ED" name="jobDetail_id">
+				<table_ref uuid="01987A4BCDA77FBA8E7A4BB18AF3D180" name="person"/>
+			</field_ref>
+		</related_field>
+		<related_field kind="destination">
+			<field_ref uuid="C8703FC31BF9441EBD2E14119F0A1124" name="ID">
+				<table_ref uuid="405218A665E749639DE1969436DDD428" name="jobDetail"/>
+			</field_ref>
+		</related_field>
+	</relation>
+	<relation uuid="EBDEB51AB81E409BAE48B410F37F36C1" name_Nto1="address" name_1toN="people" state="1">
+		<related_field kind="source">
+			<field_ref uuid="C6CAC1A2BCFA42EEA7B110E65C505A4E" name="address_id">
+				<table_ref uuid="01987A4BCDA77FBA8E7A4BB18AF3D180" name="person"/>
+			</field_ref>
+		</related_field>
+		<related_field kind="destination">
+			<field_ref uuid="F1BA07B46F8D47FDA2E463942AE73AED" name="ID">
+				<table_ref uuid="1DAD39717EED49EA92AEA8EECA2B5945" name="address"/>
+			</field_ref>
+		</related_field>
+	</relation>
+	<index kind="regular" unique_keys="true" uuid="01987A4BCDA975FBA8DF9776075CFA11" type="7">
+		<field_ref uuid="01987A4BCDA874E5B938E48EAEFE611F" name="ID">
+			<table_ref uuid="01987A4BCDA77FBA8E7A4BB18AF3D180" name="person"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="019899973C6A7760AF520D0B8CE7D30E" type="7">
+		<field_ref uuid="019899973C697722BF27A3D77F4D1844" name="ID">
+			<table_ref uuid="019899973C677418B01A6F3CA2372730" name="embeddingInfo"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="0198C6A4193F788BB73098875BA168D5" type="7">
+		<field_ref uuid="0198C6A4193B7922BBC2562ED3B508DA" name="ID">
+			<table_ref uuid="0198C6A4193672FDB6704E91969E11C2" name="providerSettings"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="21C72E221314455B9495AE7C3069829E" type="7">
+		<field_ref uuid="C8703FC31BF9441EBD2E14119F0A1124" name="ID">
+			<table_ref uuid="405218A665E749639DE1969436DDD428" name="jobDetail"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="44E35AED44CA48F38D52334FC3A7C59C" type="7">
+		<field_ref uuid="304E3B55C1D24F158D3BF149F211EB0E" name="ID">
+			<table_ref uuid="980E0ED3BCAE42398255914A0DC49E06" name="personSkill"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="608BD638D96A47A0B3BD41529D5C0DDF" type="7">
+		<field_ref uuid="8128BABF5DFC4C4597DE5892969D26A8" name="ID">
+			<table_ref uuid="6F519E9BBFE841F7BFC6800EC303A10F" name="skill"/>
+		</field_ref>
+	</index>
+	<index kind="regular" uuid="823F6B04BDB54A5EAE226039BB181B19" type="7">
+		<field_ref uuid="C6CAC1A2BCFA42EEA7B110E65C505A4E" name="address_id">
+			<table_ref uuid="01987A4BCDA77FBA8E7A4BB18AF3D180" name="person"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="8FEC11011D8F438BA7E24571E591A900" type="7">
+		<field_ref uuid="A2F939C4934040A18423FCC76BF85B90" name="ID">
+			<table_ref uuid="1B01AD9403034C5FB9A3849F6D224DF1" name="skillCategory"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="955CD67B63A8439597776AEA0553F73B" type="7">
+		<field_ref uuid="F1BA07B46F8D47FDA2E463942AE73AED" name="ID">
+			<table_ref uuid="1DAD39717EED49EA92AEA8EECA2B5945" name="address"/>
+		</field_ref>
+	</index>
+	<base_extra>
+		<journal_file journal_file_enabled="true"/>
+	</base_extra>
+</base>

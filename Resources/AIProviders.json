@@ -1,0 +1,53 @@
+[
+  {
+    "name": "OpenAI",
+    "url": "",
+    "key": "",
+    "defaults": {
+      "embedding": "text-embedding-ada-002",
+      "reasoning": "gpt-4.1-2025-04-14"
+    },
+    "modelsToKeep": {
+      "values": [
+        "gpt-@",
+        "text-embedding@",
+        "chatgpt-@",
+        "o1-@",
+        "o3-@",
+        "o4-@",
+        "computer-@"
+      ]
+    },
+    "modelsToRemove": {
+      "values": [
+        "gpt-image@",
+        "@audio@",
+        "@transcribe@",
+        "@tts@",
+        "@search@",
+        "@realtime@"
+      ]
+    },
+    "models": {
+      "values": []
+    }
+  },
+  {
+    "name": "Ollama",
+    "url": "http://localhost:11434/v1",
+    "key": "",
+    "defaults": {
+      "embedding": "nomic-embed-text:latest",
+      "reasoning": "mistral:latest"
+    },
+    "modelsToKeep": {
+      "values": []
+    },
+    "modelsToRemove": {
+      "values": []
+    },
+    "models": {
+      "values": []
+    }
+  }
+]

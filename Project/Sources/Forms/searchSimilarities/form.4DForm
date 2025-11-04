@@ -1,0 +1,390 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 0,
+	"windowMinHeight": 0,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"events": [
+		"onLoad",
+		"onPageChange",
+		"onValidate",
+		"onClick",
+		"onDoubleClick",
+		"onOutsideCall",
+		"onBeginDragOver",
+		"onDragOver",
+		"onDrop",
+		"onAfterKeystroke",
+		"onMenuSelect",
+		"onPluginArea",
+		"onAfterEdit",
+		"onTimer",
+		"onBoundVariableChange"
+	],
+	"windowTitle": "window title",
+	"destination": "detailScreen",
+	"pages": [
+		{
+			"objects": {}
+		},
+		{
+			"objects": {
+				"Rectangle": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 1448,
+					"height": 900,
+					"right": 1448,
+					"bottom": 900,
+					"stroke": "transparent",
+					"strokeWidth": 0
+				},
+				"Rectangle1": {
+					"type": "rectangle",
+					"top": 64,
+					"left": 23,
+					"width": 239,
+					"height": 626,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"fill": "#FBFBFB"
+				},
+				"peopleListBox": {
+					"type": "listbox",
+					"left": 283,
+					"top": 102,
+					"width": 1142,
+					"height": 260,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.peopleWithSimilarities",
+					"method": "ObjectMethods/peopleListBox.4dm",
+					"selectionMode": "single",
+					"currentItemSource": "Form:C1466.selectedPerson",
+					"hideFocusRing": true,
+					"showFooters": true,
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"columns": [
+						{
+							"header": {
+								"name": "Header13",
+								"text": "Best match"
+							},
+							"name": "Column13",
+							"footer": {
+								"name": "Footer13"
+							},
+							"dataSource": "This:C1470.bestMatch",
+							"width": 150
+						},
+						{
+							"header": {
+								"name": "Header6",
+								"text": "Similarities found"
+							},
+							"name": "Column6",
+							"footer": {
+								"name": "Footer6",
+								"variableCalculation": "sum"
+							},
+							"dataSource": "This:C1470.similarities.length",
+							"width": 100,
+							"dataSourceTypeHint": "number"
+						},
+						{
+							"header": {
+								"text": "Fullname",
+								"name": "Header1"
+							},
+							"name": "Column1",
+							"footer": {
+								"name": "Footer1"
+							},
+							"dataSource": "This:C1470.entity.fullname",
+							"width": 200
+						},
+						{
+							"header": {
+								"name": "Header3",
+								"text": "Email"
+							},
+							"name": "Column3",
+							"footer": {
+								"name": "Footer3"
+							},
+							"dataSource": "This:C1470.entity.email",
+							"width": 200
+						},
+						{
+							"header": {
+								"name": "Header4",
+								"text": "Phone"
+							},
+							"name": "Column4",
+							"footer": {
+								"name": "Footer4"
+							},
+							"dataSource": "This:C1470.entity.phone",
+							"width": 150
+						},
+						{
+							"header": {
+								"name": "Header5",
+								"text": "Address"
+							},
+							"name": "Column5",
+							"footer": {
+								"name": "Footer5"
+							},
+							"dataSource": "This:C1470.entity.address.formatted()",
+							"width": 327
+						}
+					]
+				},
+				"List Box1": {
+					"type": "listbox",
+					"left": 282,
+					"top": 411,
+					"width": 1142,
+					"height": 260,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.similarPeople",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"currentItemSource": "Form:C1466.selectedSimilarPerson",
+					"columns": [
+						{
+							"header": {
+								"name": "Header7",
+								"text": "Similarity",
+								"dataSource": ""
+							},
+							"name": "Column7",
+							"footer": {
+								"name": "Footer7"
+							},
+							"dataSource": "This:C1470.similarity",
+							"dataSourceTypeHint": "number",
+							"truncateMode": "none",
+							"width": 250
+						},
+						{
+							"header": {
+								"text": "Fullname",
+								"name": "Header8"
+							},
+							"name": "Column8",
+							"footer": {
+								"name": "Footer8"
+							},
+							"dataSource": "This:C1470.entity.fullname",
+							"width": 200
+						},
+						{
+							"header": {
+								"name": "Header10",
+								"text": "Email"
+							},
+							"name": "Column10",
+							"footer": {
+								"name": "Footer10"
+							},
+							"dataSource": "This:C1470.entity.email",
+							"width": 200
+						},
+						{
+							"header": {
+								"name": "Header11",
+								"text": "Phone"
+							},
+							"name": "Column11",
+							"footer": {
+								"name": "Footer11"
+							},
+							"dataSource": "This:C1470.entity.phone",
+							"width": 150
+						},
+						{
+							"header": {
+								"name": "Header12",
+								"text": "Address"
+							},
+							"name": "Column12",
+							"footer": {
+								"name": "Footer12"
+							},
+							"dataSource": "This:C1470.entity.address.formatted()",
+							"width": 327
+						}
+					]
+				},
+				"Ruler": {
+					"type": "ruler",
+					"left": 32,
+					"top": 583,
+					"width": 219,
+					"height": 11,
+					"max": 100,
+					"events": [
+						"onDataChange"
+					],
+					"dataSource": "Form:C1466.actions.searchingSimilarities.similarityLevel",
+					"dataSourceTypeHint": "number",
+					"step": 1,
+					"showGraduations": false,
+					"graduationStep": 0,
+					"labelsPlacement": "bottom",
+					"fontFamily": "Avenir Light",
+					"fontSize": 8,
+					"min": 70,
+					"method": "ObjectMethods/Ruler.4dm"
+				},
+				"btnSearchSimilarities": {
+					"type": "button",
+					"text": "Search similarities",
+					"top": 601,
+					"left": 32,
+					"width": 219,
+					"height": 31,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnSearchSimilarities.4dm",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text16": {
+					"type": "text",
+					"text": "This screen will help you find all similarities of the Person table.\r\rFor each Person, all similarities superior to the desired target similarity are searched and presented here.\r\rAdjust ruler to set a target similarity. The lower the target similarity is, the more you will match \"dissimilar\" people.\r\rNote: No AI model is used here, only vector comparison.\r\rTry different embedding models and see how it impacts results here.\r\r",
+					"top": 74,
+					"left": 32,
+					"width": 219,
+					"height": 462,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"textAlign": "left"
+				},
+				"Text21": {
+					"type": "text",
+					"text": "People with similarities",
+					"top": 74,
+					"left": 283,
+					"width": 318,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16
+				},
+				"Text1": {
+					"type": "text",
+					"text": "Similarities for selected person",
+					"top": 382,
+					"left": 282,
+					"width": 323,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16
+				},
+				"similaritiesSearchSpinner": {
+					"type": "spinner",
+					"left": 207,
+					"top": 601,
+					"width": 44,
+					"height": 31,
+					"dataSource": "Form:C1466.actions.searchingSimilarities.running"
+				},
+				"similaritiesSearchMessage": {
+					"type": "input",
+					"left": 32,
+					"top": 639,
+					"width": 219,
+					"height": 37,
+					"dataSource": "Form:C1466.actions.searchingSimilarities.progress.message",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "text",
+					"multiline": "yes"
+				},
+				"Rectangle8": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 1450,
+					"height": 44,
+					"fill": "#b1c4dd",
+					"stroke": "transparent"
+				},
+				"Text18": {
+					"type": "text",
+					"text": "Search for similarities in database",
+					"top": 8,
+					"left": 23,
+					"width": 314,
+					"height": 28,
+					"fontFamily": "Avenir Light",
+					"fontSize": 20
+				},
+				"btnDrop": {
+					"type": "button",
+					"text": "Drop",
+					"top": 684,
+					"left": 1280,
+					"width": 145,
+					"height": 33,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnDrop.4dm"
+				}
+			},
+			"entryOrder": [
+				"Ruler",
+				"btnSearchSimilarities",
+				"peopleListBox",
+				"List Box1",
+				"similaritiesSearchMessage",
+				"btnDrop"
+			]
+		}
+	],
+	"geometryStamp": 499,
+	"method": "method.4dm",
+	"editor": {
+		"groups": {
+			"Group": [
+				"Rectangle1",
+				"Text16"
+			]
+		},
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {}
+		}
+	},
+	"formClass": "formSearchSimilarities"
+}

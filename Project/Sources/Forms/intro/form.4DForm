@@ -1,0 +1,677 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 0,
+	"windowMinHeight": 0,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"events": [
+		"onLoad",
+		"onPageChange",
+		"onValidate",
+		"onClick",
+		"onDoubleClick",
+		"onOutsideCall",
+		"onBeginDragOver",
+		"onDragOver",
+		"onDrop",
+		"onAfterKeystroke",
+		"onMenuSelect",
+		"onPluginArea",
+		"onAfterEdit",
+		"onTimer",
+		"onBoundVariableChange"
+	],
+	"windowTitle": "window title",
+	"destination": "detailScreen",
+	"pages": [
+		{
+			"objects": {}
+		},
+		{
+			"objects": {
+				"Rectangle": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 1450,
+					"height": 900,
+					"stroke": "transparent",
+					"strokeWidth": 0
+				},
+				"Text5": {
+					"type": "text",
+					"text": "AI providers list",
+					"top": 74,
+					"left": 283,
+					"width": 955,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16
+				},
+				"ProvidersListBox": {
+					"type": "listbox",
+					"left": 283,
+					"top": 103,
+					"width": 1015,
+					"height": 188,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.providers",
+					"currentItemSource": "Form:C1466.providersListBox.currentItem",
+					"selectionMode": "single",
+					"singleClickEdit": true,
+					"hideFocusRing": true,
+					"selectedItemsSource": "Form:C1466.providersListBox.selectedItems",
+					"currentItemPositionSource": "Form:C1466.providersListBox.currentItemPos",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"headerHeight": "2em",
+					"scrollbarHorizontal": "hidden",
+					"columns": [
+						{
+							"header": {
+								"text": "Provider",
+								"name": "Header1"
+							},
+							"name": "Column1",
+							"footer": {
+								"name": "Footer1"
+							},
+							"dataSource": "This:C1470.name",
+							"width": 300,
+							"enterable": false,
+							"resizable": false
+						},
+						{
+							"header": {
+								"name": "Header2",
+								"text": "Url"
+							},
+							"name": "Column2",
+							"dataSource": "This:C1470.url",
+							"footer": {
+								"name": "Footer2"
+							},
+							"width": 400,
+							"resizable": false,
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header4",
+								"text": "Available\\reasoning models"
+							},
+							"name": "Column4",
+							"dataSource": "This:C1470.reasoningModels.models.length",
+							"dataSourceTypeHint": "number",
+							"footer": {
+								"name": "Footer4"
+							},
+							"width": 150,
+							"enterable": false,
+							"resizable": false
+						},
+						{
+							"header": {
+								"name": "Header5",
+								"text": "Available\\embedding models"
+							},
+							"name": "Column5",
+							"dataSource": "This:C1470.embeddingModels.models.length",
+							"dataSourceTypeHint": "number",
+							"footer": {
+								"name": "Footer5"
+							},
+							"width": 150,
+							"enterable": false,
+							"resizable": false
+						}
+					]
+				},
+				"Text6": {
+					"type": "text",
+					"text": "OpenAI: if no models are available, review your api key.",
+					"top": 317,
+					"left": 283,
+					"width": 324,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text7": {
+					"type": "text",
+					"text": "Ollama: if no models are available, ",
+					"top": 344,
+					"left": 283,
+					"width": 199,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"ollamaLink": {
+					"type": "input",
+					"top": 344,
+					"left": 484,
+					"width": 91,
+					"height": 19,
+					"dataSource": "\"install Ollama\"",
+					"stroke": "#1E90FF",
+					"textDecoration": "underline",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"dragging": "none",
+					"dropping": "custom",
+					"method": "ObjectMethods/ollamaLink.4dm",
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"contextMenu": "automatic"
+				},
+				"Text8": {
+					"type": "text",
+					"text": ", setup the proper url and port then pull some",
+					"top": 344,
+					"left": 564,
+					"width": 269,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"ollamaModels": {
+					"type": "input",
+					"top": 345,
+					"left": 831,
+					"width": 178,
+					"height": 19,
+					"dataSource": "\"models from Ollama library\"",
+					"stroke": "#1E90FF",
+					"textDecoration": "underline",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"dragging": "none",
+					"dropping": "custom",
+					"method": "ObjectMethods/ollamaModels.4dm",
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"openAILink": {
+					"type": "input",
+					"top": 317,
+					"left": 604,
+					"width": 341,
+					"height": 19,
+					"dataSource": "\"Checkout openAI models to know more about them.\"",
+					"stroke": "#1E90FF",
+					"textDecoration": "underline",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"dragging": "none",
+					"dropping": "custom",
+					"method": "ObjectMethods/openAILink.4dm",
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"btnRefresh": {
+					"type": "button",
+					"text": "Refresh",
+					"top": 664,
+					"left": 723,
+					"width": 115,
+					"height": 31,
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"method": "ObjectMethods/btnRefresh.4dm",
+					"defaultButton": true
+				},
+				"Input2": {
+					"type": "input",
+					"left": 488,
+					"top": 523,
+					"width": 350,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.name",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"method": "ObjectMethods/genericInput.4dm",
+					"events": [
+						"onDataChange"
+					],
+					"placeholder": "Provider name"
+				},
+				"Text9": {
+					"type": "text",
+					"text": "Provider name:",
+					"top": 523,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input1": {
+					"type": "input",
+					"left": 488,
+					"top": 551,
+					"width": 350,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.url",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/genericInput.4dm",
+					"placeholder": "Leave empty for OpenAI"
+				},
+				"Text10": {
+					"type": "text",
+					"text": "Provider url:",
+					"top": 551,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input3": {
+					"type": "input",
+					"left": 488,
+					"top": 610,
+					"width": 350,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.defaults.embedding",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/genericInput.4dm",
+					"placeholder": "Will be selected by default for embeddings"
+				},
+				"Text11": {
+					"type": "text",
+					"text": "Default embedding model:",
+					"top": 610,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input4": {
+					"type": "input",
+					"left": 488,
+					"top": 639,
+					"width": 350,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.defaults.reasoning",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/genericInput.4dm",
+					"placeholder": "Will be selected by default for generative AI"
+				},
+				"Text12": {
+					"type": "text",
+					"text": "Default reasoning model:",
+					"top": 639,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"btnAdd": {
+					"type": "button",
+					"text": "Add",
+					"top": 260,
+					"left": 1314,
+					"width": 115,
+					"height": 31,
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"method": "ObjectMethods/btnAdd.4dm",
+					"style": "regular"
+				},
+				"List Box1": {
+					"type": "listbox",
+					"left": 858,
+					"top": 523,
+					"width": 280,
+					"height": 216,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.providersListBox.currentItem.reasoningModels.models",
+					"currentItemSource": "",
+					"selectionMode": "single",
+					"singleClickEdit": true,
+					"hideFocusRing": true,
+					"selectedItemsSource": "",
+					"currentItemPositionSource": "",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"columns": [
+						{
+							"header": {
+								"text": "reasoning models",
+								"name": "Header3"
+							},
+							"name": "Column3",
+							"footer": {
+								"name": "Footer3"
+							},
+							"dataSource": "This:C1470.model",
+							"width": 274,
+							"enterable": false,
+							"resizable": false
+						}
+					]
+				},
+				"Input5": {
+					"type": "input",
+					"left": 488,
+					"top": 580,
+					"width": 350,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.keyHidden",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "text",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/genericInput.4dm",
+					"placeholder": "Leave empty for local Ollama"
+				},
+				"Text1": {
+					"type": "text",
+					"text": "Provider API Key:",
+					"top": 580,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"btnDelete": {
+					"type": "button",
+					"text": "Delete",
+					"top": 221,
+					"left": 1314,
+					"width": 115,
+					"height": 31,
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"style": "regular",
+					"method": "ObjectMethods/btnDelete.4dm"
+				},
+				"Text2": {
+					"type": "text",
+					"text": "Feel free to add your preferred",
+					"top": 398,
+					"left": 284,
+					"width": 181,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"openAIKitLink": {
+					"type": "input",
+					"top": 398,
+					"left": 465,
+					"width": 223,
+					"height": 19,
+					"dataSource": "\"4D AI Kit compatible provider!\"",
+					"stroke": "#1E90FF",
+					"textDecoration": "underline",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"dragging": "none",
+					"dropping": "custom",
+					"method": "ObjectMethods/openAIKitLink.4dm",
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Rectangle1": {
+					"type": "rectangle",
+					"top": 64,
+					"left": 23,
+					"width": 239,
+					"height": 815,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"fill": "#FBFBFB"
+				},
+				"Text13": {
+					"type": "text",
+					"text": "This demo will teach you how to use 4D AI Kit to implement model tool calling.\r\rIt comes with a pre-generated database with pre-generateed embeddings.\r\rRreview the table on the right and setup your AI providers: you will need at least 1 embedding model and 1 reasoning model..\r\rVocabulary:\rreasoning models are used by generative AI. They are used in this demo to generate persons in database, but also to interact.\r\rEmbedding models are used to compute embeddings.\r\rEmbedding is the process that transforms data (often text) into a vector. The resulting vector is also called an embedding.\r\rTools calling: several recent reasoning models now support tool calling. Based on your prompt and on tools that you declare, the model can decide to call a tool and interpret its result before answering.",
+					"top": 75,
+					"left": 32,
+					"width": 219,
+					"height": 783,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text3": {
+					"type": "text",
+					"text": "Selected provider",
+					"top": 489,
+					"left": 283,
+					"width": 955,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16
+				},
+				"List Box2": {
+					"type": "listbox",
+					"left": 1149,
+					"top": 523,
+					"width": 280,
+					"height": 216,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.providersListBox.currentItem.embeddingModels.models",
+					"currentItemSource": "",
+					"selectionMode": "single",
+					"singleClickEdit": true,
+					"hideFocusRing": true,
+					"selectedItemsSource": "",
+					"currentItemPositionSource": "",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"columns": [
+						{
+							"header": {
+								"text": "Embedding models",
+								"name": "Header6"
+							},
+							"name": "Column6",
+							"footer": {
+								"name": "Footer6"
+							},
+							"dataSource": "This:C1470.model",
+							"width": 274,
+							"enterable": false,
+							"resizable": false
+						}
+					]
+				},
+				"Rectangle8": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 1450,
+					"height": 44,
+					"fill": "#b1c4dd",
+					"stroke": "transparent"
+				},
+				"Text18": {
+					"type": "text",
+					"text": "Introduction and setup",
+					"top": 8,
+					"left": 23,
+					"width": 314,
+					"height": 28,
+					"fontFamily": "Avenir Light",
+					"fontSize": 20
+				},
+				"Text4": {
+					"type": "text",
+					"text": "LM Studio is also supported,",
+					"top": 371,
+					"left": 284,
+					"width": 181,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"lmStudioLink": {
+					"type": "input",
+					"top": 371,
+					"left": 451,
+					"width": 223,
+					"height": 19,
+					"dataSource": "\"check it out here\"",
+					"stroke": "#1E90FF",
+					"textDecoration": "underline",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"dragging": "none",
+					"dropping": "custom",
+					"method": "ObjectMethods/lmStudioLink.4dm",
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				}
+			},
+			"entryOrder": [
+				"ProvidersListBox",
+				"btnDelete",
+				"btnAdd",
+				"Input2",
+				"Input1",
+				"Input5",
+				"Input3",
+				"Input4",
+				"btnRefresh",
+				"lmStudioLink"
+			]
+		}
+	],
+	"geometryStamp": 1113,
+	"editor": {
+		"groups": {
+			"Group": [
+				"Text2",
+				"openAIKitLink"
+			],
+			"Group1": [
+				"Text6",
+				"openAILink"
+			],
+			"Group2": [
+				"Text7",
+				"ollamaLink",
+				"Text8",
+				"ollamaModels"
+			],
+			"Group3": [
+				"Rectangle1",
+				"Text13"
+			],
+			"Group4": [
+				"Text4",
+				"lmStudioLink"
+			]
+		},
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {}
+		}
+	},
+	"method": "method.4dm",
+	"formClass": "formIntro"
+}

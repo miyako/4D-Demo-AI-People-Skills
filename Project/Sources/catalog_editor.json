@@ -1,0 +1,273 @@
+{
+	"tables": {
+		"address": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 838.18359375,
+				"top": 441.8984375,
+				"width": 224.73828125,
+				"height": 258.28125
+			},
+			"displayable_fields_count": 10,
+			"fields_ordering": 2,
+			"fields": {
+				"country": {
+					"position": 11
+				},
+				"postalCode": {
+					"position": 10
+				},
+				"region": {
+					"position": 9
+				},
+				"city": {
+					"position": 8
+				},
+				"poBox": {
+					"position": 7
+				},
+				"building": {
+					"position": 6
+				},
+				"apartment": {
+					"position": 5
+				},
+				"streetName": {
+					"position": 4
+				},
+				"streetNumber": {
+					"position": 3
+				},
+				"ID": {
+					"position": 1
+				}
+			}
+		},
+		"skillCategory": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 4.73828125,
+				"top": 372.609375,
+				"width": 120,
+				"height": 167.33203125
+			},
+			"displayable_fields_count": 6
+		},
+		"skill": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 193.62890625,
+				"top": 369.25,
+				"width": 120,
+				"height": 167.33203125
+			},
+			"displayable_fields_count": 6
+		},
+		"personSkill": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 373.9609375,
+				"top": 366.203125,
+				"width": 120,
+				"height": 167.33203125
+			},
+			"displayable_fields_count": 6,
+			"fields_ordering": 2,
+			"fields": {
+				"level": {
+					"position": 5
+				},
+				"person_id": {
+					"position": 3
+				},
+				"yearsOfXP": {
+					"position": 4
+				},
+				"skill_id": {
+					"position": 2
+				},
+				"ID": {
+					"position": 1
+				}
+			}
+		},
+		"jobDetail": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 375.38671875,
+				"top": 561.27734375,
+				"width": 120,
+				"height": 175.09765625
+			},
+			"displayable_fields_count": 6
+		},
+		"embeddingInfo": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 395.21875,
+				"top": 65.1875,
+				"width": 182.83203125,
+				"height": 220.7265625
+			},
+			"displayable_fields_count": 8
+		},
+		"providerSettings": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 605.953125,
+				"top": 64.171875,
+				"width": 182.78125,
+				"height": 222.68359375
+			},
+			"displayable_fields_count": 8,
+			"fields_ordering": 2,
+			"fields": {
+				"key": {
+					"position": 4
+				},
+				"models": {
+					"position": 8
+				},
+				"modelsToRemove": {
+					"position": 7
+				},
+				"modelsToKeep": {
+					"position": 6
+				},
+				"defaults": {
+					"position": 5
+				},
+				"url": {
+					"position": 3
+				},
+				"name": {
+					"position": 2
+				},
+				"ID": {
+					"position": 1
+				}
+			}
+		},
+		"person": {
+			"color": {
+				"red": 255,
+				"green": 255,
+				"blue": 255,
+				"alpha": 0
+			},
+			"coordinates": {
+				"left": 592.03515625,
+				"top": 358.10546875,
+				"width": 145.98828125,
+				"height": 380.99609375
+			},
+			"displayable_fields_count": 16,
+			"fields": {
+				"gender": {
+					"position": 9
+				},
+				"birthDate": {
+					"position": 8
+				},
+				"jobDetail_id": {
+					"position": 2
+				},
+				"address_id": {
+					"position": 3
+				},
+				"phone": {
+					"position": 7
+				},
+				"email": {
+					"position": 6
+				},
+				"lastname": {
+					"position": 5
+				},
+				"firstname": {
+					"position": 4
+				},
+				"ID": {
+					"position": 1
+				}
+			}
+		}
+	},
+	"relations": {
+		"EBDEB51AB81E409BAE48B410F37F36C1": {
+			"color": {
+				"red": 30,
+				"green": 30,
+				"blue": 30,
+				"alpha": 0
+			}
+		},
+		"F6EEE2E22DCD4014A01FA66F6C33D749": {
+			"color": {
+				"red": 30,
+				"green": 30,
+				"blue": 30,
+				"alpha": 0
+			}
+		},
+		"FEDC72E505714AE08C81BCF0C4A8BEDD": {
+			"color": {
+				"red": 30,
+				"green": 30,
+				"blue": 30,
+				"alpha": 0
+			}
+		},
+		"2A560613F8ED45D5AE118FD18172D2EE": {
+			"color": {
+				"red": 30,
+				"green": 30,
+				"blue": 30,
+				"alpha": 0
+			}
+		},
+		"65BB0B55866D4C06B7E03E8AEB884C91": {
+			"color": {
+				"red": 30,
+				"green": 30,
+				"blue": 30,
+				"alpha": 0
+			}
+		}
+	}
+}

@@ -1,0 +1,270 @@
+[
+  { "name": "JavaScript", "category": { "name": "Programming Languages" } },
+  { "name": "4D", "category": { "name": "Programming Languages" } },
+  { "name": "Python", "category": { "name": "Programming Languages" } },
+  { "name": "Java", "category": { "name": "Programming Languages" } },
+  { "name": "C#", "category": { "name": "Programming Languages" } },
+  { "name": "Ruby", "category": { "name": "Programming Languages" } },
+  { "name": "C++", "category": { "name": "Programming Languages" } },
+  { "name": "Go", "category": { "name": "Programming Languages" } },
+  { "name": "Rust", "category": { "name": "Programming Languages" } },
+  { "name": "PHP", "category": { "name": "Programming Languages" } },
+  { "name": "Perl", "category": { "name": "Programming Languages" } },
+  { "name": "HTML", "category": { "name": "Web Development" } },
+  { "name": "CSS", "category": { "name": "Web Development" } },
+  { "name": "React", "category": { "name": "Web Development" } },
+  { "name": "Angular", "category": { "name": "Web Development" } },
+  { "name": "Vue.js", "category": { "name": "Web Development" } },
+  { "name": "Node.js", "category": { "name": "Web Development" } },
+  { "name": "SASS", "category": { "name": "Web Development" } },
+  { "name": "Bootstrap", "category": { "name": "Web Development" } },
+  { "name": "Tailwind CSS", "category": { "name": "Web Development" } },
+  { "name": "Next.js", "category": { "name": "Web Development" } },
+  { "name": "Swift", "category": { "name": "Mobile Development" } },
+  { "name": "Kotlin", "category": { "name": "Mobile Development" } },
+  { "name": "Flutter", "category": { "name": "Mobile Development" } },
+  { "name": "React Native", "category": { "name": "Mobile Development" } },
+  { "name": "Objective-C", "category": { "name": "Mobile Development" } },
+  { "name": "Xamarin", "category": { "name": "Mobile Development" } },
+  { "name": "Ionic", "category": { "name": "Mobile Development" } },
+  { "name": "Java (Android)", "category": { "name": "Mobile Development" } },
+  {
+    "name": "4D Data engineering",
+    "category": { "name": "Data Engineering & Analysis" }
+  },
+  { "name": "SQL", "category": { "name": "Data Engineering & Analysis" } },
+  { "name": "ETL", "category": { "name": "Data Engineering & Analysis" } },
+  {
+    "name": "Apache Spark",
+    "category": { "name": "Data Engineering & Analysis" }
+  },
+  { "name": "Hadoop", "category": { "name": "Data Engineering & Analysis" } },
+  {
+    "name": "Data Warehousing",
+    "category": { "name": "Data Engineering & Analysis" }
+  },
+  { "name": "Pandas", "category": { "name": "Data Engineering & Analysis" } },
+  { "name": "NumPy", "category": { "name": "Data Engineering & Analysis" } },
+  {
+    "name": "Matplotlib",
+    "category": { "name": "Data Engineering & Analysis" }
+  },
+  { "name": "Seaborn", "category": { "name": "Data Engineering & Analysis" } },
+  { "name": "AWS", "category": { "name": "Cloud Computing" } },
+  { "name": "Azure", "category": { "name": "Cloud Computing" } },
+  { "name": "Google Cloud", "category": { "name": "Cloud Computing" } },
+  { "name": "Kubernetes", "category": { "name": "Cloud Computing" } },
+  { "name": "Docker", "category": { "name": "Cloud Computing" } },
+  { "name": "Terraform", "category": { "name": "Cloud Computing" } },
+  { "name": "CI/CD", "category": { "name": "DevOps & Infrastructure" } },
+  { "name": "Jenkins", "category": { "name": "DevOps & Infrastructure" } },
+  { "name": "Ansible", "category": { "name": "DevOps & Infrastructure" } },
+  { "name": "Monitoring", "category": { "name": "DevOps & Infrastructure" } },
+  { "name": "Prometheus", "category": { "name": "DevOps & Infrastructure" } },
+  { "name": "Grafana", "category": { "name": "DevOps & Infrastructure" } },
+  { "name": "Penetration Testing", "category": { "name": "Cybersecurity" } },
+  { "name": "Network Security", "category": { "name": "Cybersecurity" } },
+  { "name": "Encryption", "category": { "name": "Cybersecurity" } },
+  { "name": "Firewalls", "category": { "name": "Cybersecurity" } },
+  { "name": "Ethical Hacking", "category": { "name": "Cybersecurity" } },
+  {
+    "name": "TensorFlow",
+    "category": { "name": "Artificial Intelligence & Machine Learning" }
+  },
+  {
+    "name": "PyTorch",
+    "category": { "name": "Artificial Intelligence & Machine Learning" }
+  },
+  {
+    "name": "Scikit-learn",
+    "category": { "name": "Artificial Intelligence & Machine Learning" }
+  },
+  {
+    "name": "NLP",
+    "category": { "name": "Artificial Intelligence & Machine Learning" }
+  },
+  {
+    "name": "Computer Vision",
+    "category": { "name": "Artificial Intelligence & Machine Learning" }
+  },
+  {
+    "name": "Reinforcement Learning",
+    "category": { "name": "Artificial Intelligence & Machine Learning" }
+  },
+  { "name": "MySQL", "category": { "name": "Database & Storage" } },
+  { "name": "PostgreSQL", "category": { "name": "Database & Storage" } },
+  { "name": "MongoDB", "category": { "name": "Database & Storage" } },
+  { "name": "Redis", "category": { "name": "Database & Storage" } },
+  { "name": "Cassandra", "category": { "name": "Database & Storage" } },
+  { "name": "4D Database", "category": { "name": "Database & Storage" } },
+  {
+    "name": "Power BI",
+    "category": { "name": "Business Intelligence & Reporting" }
+  },
+  {
+    "name": "Tableau",
+    "category": { "name": "Business Intelligence & Reporting" }
+  },
+  {
+    "name": "Excel",
+    "category": { "name": "Business Intelligence & Reporting" }
+  },
+  {
+    "name": "Data Visualization",
+    "category": { "name": "Business Intelligence & Reporting" }
+  },
+  {
+    "name": "Project Management",
+    "category": { "name": "Business & Management" }
+  },
+  { "name": "Agile", "category": { "name": "Business & Management" } },
+  { "name": "Scrum", "category": { "name": "Business & Management" } },
+  { "name": "Leadership", "category": { "name": "Business & Management" } },
+  { "name": "Communication", "category": { "name": "Soft Skills" } },
+  { "name": "Teamwork", "category": { "name": "Soft Skills" } },
+  { "name": "Problem Solving", "category": { "name": "Soft Skills" } },
+  { "name": "Adaptability", "category": { "name": "Soft Skills" } },
+  { "name": "Git", "category": { "name": "Tools & Methodologies" } },
+  { "name": "JIRA", "category": { "name": "Tools & Methodologies" } },
+  { "name": "Confluence", "category": { "name": "Tools & Methodologies" } },
+  {
+    "name": "Design Thinking",
+    "category": { "name": "Tools & Methodologies" }
+  },
+  {
+    "name": "Sourcing & Screening",
+    "category": { "name": "Recruitment & Talent Acquisition" }
+  },
+  {
+    "name": "Interviewing Techniques",
+    "category": { "name": "Recruitment & Talent Acquisition" }
+  },
+  {
+    "name": "Employer Branding",
+    "category": { "name": "Recruitment & Talent Acquisition" }
+  },
+  {
+    "name": "Onboarding",
+    "category": { "name": "Recruitment & Talent Acquisition" }
+  },
+
+  {
+    "name": "Payroll Administration",
+    "category": { "name": "Compensation & Benefits" }
+  },
+  {
+    "name": "Job Evaluation & Grading",
+    "category": { "name": "Compensation & Benefits" }
+  },
+  {
+    "name": "Salary Benchmarking",
+    "category": { "name": "Compensation & Benefits" }
+  },
+  {
+    "name": "Benefits Management",
+    "category": { "name": "Compensation & Benefits" }
+  },
+
+  { "name": "L&D Strategy", "category": { "name": "Training & Development" } },
+  {
+    "name": "Instructional Design",
+    "category": { "name": "Training & Development" }
+  },
+  {
+    "name": "Coaching & Mentoring",
+    "category": { "name": "Training & Development" }
+  },
+  {
+    "name": "Career Pathing",
+    "category": { "name": "Training & Development" }
+  },
+
+  {
+    "name": "Goal Setting & KPIs",
+    "category": { "name": "Performance & Talent Management" }
+  },
+  {
+    "name": "Performance Appraisal Systems",
+    "category": { "name": "Performance & Talent Management" }
+  },
+  {
+    "name": "Succession Planning",
+    "category": { "name": "Performance & Talent Management" }
+  },
+  {
+    "name": "High-Potential Programs",
+    "category": { "name": "Performance & Talent Management" }
+  },
+
+  {
+    "name": "Conflict Resolution",
+    "category": { "name": "Employee Relations" }
+  },
+  {
+    "name": "Mediation & Negotiation",
+    "category": { "name": "Employee Relations" }
+  },
+  {
+    "name": "Employee Engagement Programs",
+    "category": { "name": "Employee Relations" }
+  },
+  {
+    "name": "Diversity, Equity & Inclusion",
+    "category": { "name": "Employee Relations" }
+  },
+
+  {
+    "name": "Labor Law & Regulations",
+    "category": { "name": "HR Compliance & Policies" }
+  },
+  {
+    "name": "Health & Safety",
+    "category": { "name": "HR Compliance & Policies" }
+  },
+  {
+    "name": "Employment Contracts",
+    "category": { "name": "HR Compliance & Policies" }
+  },
+  {
+    "name": "Policy Development",
+    "category": { "name": "HR Compliance & Policies" }
+  },
+
+  {
+    "name": "HRIS Systems",
+    "category": { "name": "HR Analytics & Technology" }
+  },
+  {
+    "name": "Data Reporting & Dashboards",
+    "category": { "name": "HR Analytics & Technology" }
+  },
+  {
+    "name": "People Analytics",
+    "category": { "name": "HR Analytics & Technology" }
+  },
+  {
+    "name": "Workforce Planning",
+    "category": { "name": "HR Analytics & Technology" }
+  },
+
+  {
+    "name": "Change Management",
+    "category": { "name": "Strategic & Business-Oriented HR" }
+  },
+  {
+    "name": "Organizational Development",
+    "category": { "name": "Strategic & Business-Oriented HR" }
+  },
+  {
+    "name": "Strategic Workforce Planning",
+    "category": { "name": "Strategic & Business-Oriented HR" }
+  },
+  {
+    "name": "Culture Building",
+    "category": { "name": "Strategic & Business-Oriented HR" }
+  },
+  {
+    "name": "Business Partnering",
+    "category": { "name": "Strategic & Business-Oriented HR" }
+  }
+]

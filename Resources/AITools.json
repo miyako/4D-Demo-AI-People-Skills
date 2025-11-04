@@ -1,0 +1,70 @@
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "tool_PersonSearchByVector",
+        "description": "Retrieves persons using vector comparison. It is mandatory to call this function with required arguments. This function returns the top matching records after vector search based on input arguments, but keep in mind that this is a vector search, so results may not be absolutely accurate. It is mandatory to check that returned results are relevant to the search intent, by analyzing the detailed data returned. Vectorized information are the following: identity (name, email, phone, gender, birth date), skills (hard and soft skills, expertise level, years of experience), jobDetails (job titles, hr notes, hire date, billing rate), address (street info, city, state, country).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "terms": {
+              "type": "string",
+              "description": "English phrase precisely describing a profile to search. This will be vectorized and compared against a vector in database. The phrase must describe a person, ie identity and/or HR information and/or skills and level reached and/or address. If you want to search people living in New York' or in 'Chicago', use multiple calls to tool_PersonSearchByVector: for example: one call with 'people living in New York' and another call with 'people living in Chicago'. This way you can retrieve persons living in either city. Same goes for skills, jobDetails and identity. You can however use more complex phrases in a single call if it makes sense that a given person have them all, for example: 'senior Frontend developer hired approximately in 2020 expert in React and Javascript and Agile methodology and living in north america'  Be careful to avoid terms that have not been vectorized. Another key point: Each person has only one address in the database. If a search involves multiple locations (countries, cities, etc.), a separate search must be performed for each location, and then the results should be merged. Never search for people who would be located in several different places within the same tool call, as this cannot exist in the database. Example of embedding: 'Isabella Moretti is a female person. she was born on 1991-05-23. she can be contacted via her email address isabella.moretti@globesoftint.com or by phone on +39 349 864 2931. Her skills and experience are the following: master in JavaScript (Programming Languages) with 9 years of experience. expert in React (Web Development) with 8 years of experience. absolute master in CSS (Web Development) with 10 years of experience. absolute master in HTML (Web Development) with 10 years of experience. expert in Node.js (Web Development) with 6 years of experience. expert in Git (Tools & Methodologies) with 7 years of experience. expert in JIRA (Tools & Methodologies) with 5 years of experience. expert in Agile (Business & Management) with 7 years of experience. She was hired by the company on 2016-02-08. Her job title is Senior Frontend Developer and her daily rate is 1200 USD. Additionnaly: she can work remotely and is certified in Agile. She lives in Italy. Her exact address is 15 Via della Libertà, Milan, Lombardy, 20121, Italy."
+            }
+          },
+          "required": ["terms"],
+          "strict": true,
+          "additionalProperties": false
+        },
+        "x-examples": [
+          {
+            "description": "To search *developers* named *john doe*, with *expert* skills in *python* in *europe*",
+            "value": {
+              "terms": "a developer or programmer named john doe, expert in python, living in europe"
+            }
+          },
+          {
+            "description": "To search project managers in united states",
+            "value": {
+              "terms": "a project manager or project leader living in the United States"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "tool_listSkillsAndCategories",
+        "description": "Retrieves all skills in the database, and their category. Useful to refine first the actual skill values in database before vector search.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "tool_listCitiesAndCountries",
+        "description": "Retrieves all cities in the database, and their country. Useful to refine first the actual cities and countries values in database before vector search.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "tool_listJobTitles",
+        "description": "Retrieves all job titles in the database. Useful to refine first the actual job titles values in database before vector search",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    }
+  ]
+}

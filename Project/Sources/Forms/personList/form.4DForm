@@ -1,0 +1,410 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 1200,
+	"windowMinHeight": 700,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 20,
+	"bottomMargin": 20,
+	"events": [
+		"onLoad",
+		"onPageChange",
+		"onValidate",
+		"onClick",
+		"onDoubleClick",
+		"onOutsideCall",
+		"onAfterKeystroke",
+		"onMenuSelect",
+		"onAfterEdit",
+		"onTimer",
+		"onBoundVariableChange"
+	],
+	"windowTitle": "Person List",
+	"destination": "detailScreen",
+	"formClass": "formPersonList",
+	"pages": [
+		{
+			"objects": {}
+		},
+		{
+			"objects": {
+				"backgroundRectangle": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 1450,
+					"height": 900,
+					"fill": "#F5F7FA",
+					"stroke": "transparent"
+				},
+				"headerRectangle": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 1450,
+					"height": 60,
+					"fill": "#2C5F9F",
+					"stroke": "transparent"
+				},
+				"titleText": {
+					"type": "text",
+					"text": "Person Directory",
+					"top": 12,
+					"left": 30,
+					"width": 300,
+					"height": 36,
+					"fontFamily": "Avenir Light",
+					"fontSize": 28,
+					"fontWeight": "bold",
+					"stroke": "#FFFFFF"
+				},
+				"subtitleText": {
+					"type": "text",
+					"text": "Search and manage your people database",
+					"top": 40,
+					"left": 32,
+					"width": 400,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"stroke": "#B8D4F1"
+				},
+				"searchPanel": {
+					"type": "rectangle",
+					"top": 80,
+					"left": 30,
+					"width": 1390,
+					"height": 110,
+					"borderRadius": 12,
+					"fill": "#FFFFFF",
+					"stroke": "#E1E8ED"
+				},
+				"searchLabel": {
+					"type": "text",
+					"text": "Search Query",
+					"top": 95,
+					"left": 50,
+					"width": 150,
+					"height": 20,
+					"textAlign": "left",
+					"fontFamily": "Avenir Medium",
+					"fontSize": 13,
+					"fontWeight": "bold",
+					"stroke": "#2C3E50"
+				},
+				"searchInput": {
+					"type": "input",
+					"left": 50,
+					"top": 118,
+					"width": 500,
+					"height": 32,
+					"dataSource": "Form:C1466.searchText",
+					"fontFamily": "Avenir Light",
+					"fontSize": 14,
+					"borderStyle": "solid",
+					"fill": "#F8FAFB",
+					"stroke": "#CBD5E0",
+					"enterable": true,
+					"focusable": true,
+					"placeholder": "Enter name, email, or use semantic search..."
+				},
+				"quantityLabel": {
+					"type": "text",
+					"text": "Max Results",
+					"top": 95,
+					"left": 580,
+					"width": 120,
+					"height": 20,
+					"textAlign": "left",
+					"fontFamily": "Avenir Medium",
+					"fontSize": 13,
+					"fontWeight": "bold",
+					"stroke": "#2C3E50"
+				},
+				"quantityInput": {
+					"type": "input",
+					"left": 580,
+					"top": 118,
+					"width": 100,
+					"height": 32,
+					"dataSource": "Form:C1466.requestedQuantity",
+					"dataSourceTypeHint": "number",
+					"fontFamily": "Avenir Light",
+					"fontSize": 14,
+					"borderStyle": "solid",
+					"fill": "#F8FAFB",
+					"stroke": "#CBD5E0",
+					"enterable": true,
+					"focusable": true,
+					"textAlign": "center"
+				},
+				"btnSearch": {
+					"type": "button",
+					"text": "🔍 Search",
+					"top": 115,
+					"left": 710,
+					"width": 140,
+					"height": 38,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnSearch.4dm",
+					"fontFamily": "Avenir Medium",
+					"fontSize": 14,
+					"fontWeight": "bold",
+					"fill": "#3498DB",
+					"stroke": "#2980B9",
+					"borderStyle": "solid"
+				},
+				"btnExport": {
+					"type": "button",
+					"text": "📥 Export JSON",
+					"top": 115,
+					"left": 870,
+					"width": 150,
+					"height": 38,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnExport.4dm",
+					"fontFamily": "Avenir Medium",
+					"fontSize": 14,
+					"fontWeight": "bold",
+					"fill": "#27AE60",
+					"stroke": "#229954",
+					"borderStyle": "solid"
+				},
+				"helpText": {
+					"type": "text",
+					"text": "💡 Tip: Use semantic search to find people by skills, job roles, or descriptions",
+					"top": 158,
+					"left": 50,
+					"width": 600,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 11,
+					"stroke": "#7F8C8D"
+				},
+				"resultsPanel": {
+					"type": "rectangle",
+					"top": 210,
+					"left": 30,
+					"width": 1390,
+					"height": 650,
+					"borderRadius": 12,
+					"fill": "#FFFFFF",
+					"stroke": "#E1E8ED"
+				},
+				"resultsLabel": {
+					"type": "text",
+					"text": "Results",
+					"top": 222,
+					"left": 50,
+					"width": 150,
+					"height": 24,
+					"textAlign": "left",
+					"fontFamily": "Avenir Medium",
+					"fontSize": 16,
+					"fontWeight": "bold",
+					"stroke": "#2C3E50"
+				},
+				"resultsCount": {
+					"type": "input",
+					"left": 120,
+					"top": 224,
+					"width": 180,
+					"height": 20,
+					"dataSource": "String(Form:C1466.personList.length)+\" person(s) found\"",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"enterable": false,
+					"focusable": false,
+					"hideFocusRing": true,
+					"borderStyle": "none",
+					"fill": "transparent",
+					"stroke": "#7F8C8D"
+				},
+				"personListBox": {
+					"type": "listbox",
+					"left": 50,
+					"top": 255,
+					"width": 1350,
+					"height": 585,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange",
+						"onDoubleClick"
+					],
+					"dataSource": "Form:C1466.personList",
+					"listboxType": "collection",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"rowControlSource": "currentItem",
+					"alternateFill": "#F8FAFB",
+					"headerHeight": "2em",
+					"columns": [
+						{
+							"header": {
+								"text": "First Name",
+								"name": "headerFirstname",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colFirstname",
+							"footer": {
+								"name": "footerFirstname"
+							},
+							"dataSource": "This:C1470.firstname",
+							"width": 150,
+							"minWidth": 100
+						},
+						{
+							"header": {
+								"text": "Last Name",
+								"name": "headerLastname",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colLastname",
+							"footer": {
+								"name": "footerLastname"
+							},
+							"dataSource": "This:C1470.lastname",
+							"width": 150,
+							"minWidth": 100
+						},
+						{
+							"header": {
+								"text": "Email",
+								"name": "headerEmail",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colEmail",
+							"footer": {
+								"name": "footerEmail"
+							},
+							"dataSource": "This:C1470.email",
+							"width": 220,
+							"minWidth": 150
+						},
+						{
+							"header": {
+								"text": "Phone",
+								"name": "headerPhone",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colPhone",
+							"footer": {
+								"name": "footerPhone"
+							},
+							"dataSource": "This:C1470.phone",
+							"width": 140,
+							"minWidth": 120
+						},
+						{
+							"header": {
+								"text": "Job Title",
+								"name": "headerJobTitle",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colJobTitle",
+							"footer": {
+								"name": "footerJobTitle"
+							},
+							"dataSource": "This:C1470.jobDetail.jobTitle",
+							"width": 180,
+							"minWidth": 140
+						},
+						{
+							"header": {
+								"text": "City",
+								"name": "headerCity",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colCity",
+							"footer": {
+								"name": "footerCity"
+							},
+							"dataSource": "This:C1470.address.city",
+							"width": 130,
+							"minWidth": 100
+						},
+						{
+							"header": {
+								"text": "Country",
+								"name": "headerCountry",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colCountry",
+							"footer": {
+								"name": "footerCountry"
+							},
+							"dataSource": "This:C1470.address.country",
+							"width": 130,
+							"minWidth": 100
+						},
+						{
+							"header": {
+								"text": "Skills",
+								"name": "headerSkills",
+								"fontWeight": "bold",
+								"stroke": "#2C3E50"
+							},
+							"name": "colSkills",
+							"footer": {
+								"name": "footerSkills"
+							},
+							"dataSource": "This:C1470.personSkills.extract(\"skill.name\").join(\", \")",
+							"width": 250,
+							"minWidth": 200
+						}
+					]
+				}
+			}
+		}
+	],
+	"geometryStamp": 200,
+	"formSizeAnchor": "personListBox",
+	"editor": {
+		"groups": {
+			"header": [
+				"headerRectangle",
+				"titleText",
+				"subtitleText"
+			],
+			"searchArea": [
+				"searchPanel",
+				"searchLabel",
+				"searchInput",
+				"quantityLabel",
+				"quantityInput",
+				"btnSearch",
+				"btnExport",
+				"helpText"
+			],
+			"resultsArea": [
+				"resultsPanel",
+				"resultsLabel",
+				"resultsCount",
+				"personListBox"
+			]
+		},
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {}
+		}
+	}
+}
