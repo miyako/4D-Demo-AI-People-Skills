@@ -119,7 +119,7 @@ Function onStreamTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 	var $elapsedTime : Integer
 	
 	If (Not($result.success))
-		throw(999; "Problem querying AI provider, please try again")
+		ALERT("Problem querying AI provider, please try again. Error: "+$result.errors[0].message)
 		return 
 	End if 
 	

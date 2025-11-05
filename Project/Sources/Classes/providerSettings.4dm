@@ -15,7 +15,7 @@ Function loadDefaults()
 	This.fromCollection($jsonContent)
 	
 Function updateProviderSettings()
-	var $providers : cs.providerSettingsSelection:=This.all()
+	var $providers : cs.providerSettingsSelection
 	var $provider : cs.providerSettingsEntity
 	var $AIClient : cs.AIKit.OpenAI
 	var $modelsList : cs.AIKit.OpenAIModelListResult
@@ -29,6 +29,8 @@ Function updateProviderSettings()
 		This.loadDefaults()
 	End if 
 	
+	$providers:=This.all()
+	
 	For each ($provider; $providers)
 		$AIClient:=cs.AIKit.OpenAI.new($provider.key)
 		$AIClient.baseURL:=($provider.url#"") ? $provider.url : $AIClient.baseURL
@@ -38,7 +40,7 @@ Function updateProviderSettings()
 /**
 * In case OpenAI provider was removed and then added back
 * Set back models to keep and remove
-**/			
+**/
 				If (($provider.modelsToKeep=Null) || ($provider.modelsToKeep.values=Null) || ($provider.modelsToKeep.values.length=0))
 					$provider.modelsToKeep:={values: ["gpt-@"; "text-embedding@"; "chatgpt-@"; "o1-@"; "o3-@"; "o4-@"; "computer-@"]}
 				End if 

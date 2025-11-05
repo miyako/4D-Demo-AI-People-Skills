@@ -37,8 +37,26 @@
     "url": "http://localhost:11434/v1",
     "key": "",
     "defaults": {
-      "embedding": "nomic-embed-text:latest",
-      "reasoning": "mistral:latest"
+      "embedding": "",
+      "reasoning": ""
+    },
+    "modelsToKeep": {
+      "values": []
+    },
+    "modelsToRemove": {
+      "values": []
+    },
+    "models": {
+      "values": []
+    }
+  },
+  {
+    "name": "LM Studio",
+    "url": "http://localhost:1234/v1",
+    "key": "",
+    "defaults": {
+      "embedding": "",
+      "reasoning": ""
     },
     "modelsToKeep": {
       "values": []
