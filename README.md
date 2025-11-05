@@ -197,26 +197,6 @@ Defines custom function calling tools available to the AI agent with detailed sc
 ### personArraySchema.json
 JSON schema for validating generated employee data structure.
 
-## 📚 Project Structure
-
-```
-├── Components/
-│   └── 4D-AIKit-21.2/          # AI integration component
-├── Data/                        # Database files
-├── Project/
-│   ├── Sources/
-│   │   ├── Classes/             # All class definitions
-│   │   ├── DatabaseMethods/     # Startup and database methods
-│   │   ├── Forms/               # UI forms
-│   │   └── Methods/             # Project methods
-│   └── DerivedData/             # Compiled code
-├── Resources/
-│   ├── AIProviders.json         # AI provider configuration
-│   ├── AITools.json             # Custom tool definitions
-│   └── personArraySchema.json   # Data validation schema
-└── README.md
-```
-
 ## 🧪 Example Queries
 
 ### Data Generation
