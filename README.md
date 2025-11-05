@@ -99,6 +99,8 @@ Edit the `Resources/AIProviders.json` file to add your API credentials:
 ]
 ```
 
+Note that this file is only used at first launch. Once providers are loaded in database, it is ignored. Use the Demo app forms to update providers details.
+
 **Options:**
 - **OpenAI**: Add your API key in the `key` field
 - **Ollama**: Install [Ollama](https://ollama.ai/) locally and ensure it's running on port 11434
