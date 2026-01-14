@@ -82,5 +82,6 @@
 		}
 	},
 	"method": "",
-	"formClass": "formMenu"
+	"formClass": "formMenu",
+	"menuBar": "Barre #1"
 }

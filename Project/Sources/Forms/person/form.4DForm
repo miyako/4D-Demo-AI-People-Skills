@@ -26,7 +26,7 @@
 		"onTimer",
 		"onBoundVariableChange"
 	],
-	"windowTitle": "window title",
+	"windowTitle": "",
 	"destination": "detailScreen",
 	"pages": [
 		{
@@ -333,5 +333,6 @@
 		}
 	},
 	"formClass": "person",
-	"method": ""
+	"method": "",
+	"menuBar": "Barre #1"
 }

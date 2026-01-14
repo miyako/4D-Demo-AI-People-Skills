@@ -28,7 +28,7 @@
 		"onTimer",
 		"onBoundVariableChange"
 	],
-	"windowTitle": "window title",
+	"windowTitle": "",
 	"destination": "detailScreen",
 	"pages": [
 		{
@@ -386,5 +386,6 @@
 			"View 1": {}
 		}
 	},
-	"formClass": "formSearchSimilarities"
+	"formClass": "formSearchSimilarities",
+	"menuBar": "Barre #1"
 }

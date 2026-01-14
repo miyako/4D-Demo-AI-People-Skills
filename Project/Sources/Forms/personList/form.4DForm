@@ -384,6 +384,12 @@
 				"titleText",
 				"subtitleText"
 			],
+			"resultsArea": [
+				"resultsPanel",
+				"resultsLabel",
+				"resultsCount",
+				"personListBox"
+			],
 			"searchArea": [
 				"searchPanel",
 				"searchLabel",
@@ -393,12 +399,6 @@
 				"btnSearch",
 				"btnExport",
 				"helpText"
-			],
-			"resultsArea": [
-				"resultsPanel",
-				"resultsLabel",
-				"resultsCount",
-				"personListBox"
 			]
 		},
 		"activeView": "View 1",
@@ -406,5 +406,6 @@
 		"views": {
 			"View 1": {}
 		}
-	}
+	},
+	"menuBar": "Barre #1"
 }

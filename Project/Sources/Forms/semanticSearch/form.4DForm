@@ -28,7 +28,7 @@
 		"onTimer",
 		"onBoundVariableChange"
 	],
-	"windowTitle": "window title",
+	"windowTitle": "",
 	"destination": "detailScreen",
 	"pages": [
 		{
@@ -272,5 +272,6 @@
 		"views": {
 			"View 1": {}
 		}
-	}
+	},
+	"menuBar": "Barre #1"
 }

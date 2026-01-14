@@ -28,7 +28,7 @@
 		"onTimer",
 		"onBoundVariableChange"
 	],
-	"windowTitle": "window title",
+	"windowTitle": "",
 	"destination": "detailScreen",
 	"pages": [
 		{
@@ -734,5 +734,6 @@
 		}
 	},
 	"method": "method.4dm",
-	"formClass": "formVectorize"
+	"formClass": "formVectorize",
+	"menuBar": "Barre #1"
 }
