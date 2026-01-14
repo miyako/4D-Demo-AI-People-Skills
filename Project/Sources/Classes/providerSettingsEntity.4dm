@@ -1,19 +1,21 @@
 Class extends Entity
 
 Function get keyHidden() : Text
-	return (This.key="") ? "" : "******"
+	return ((This.key=Null) || (This.key="")) ? "" : "******"
 	
 Function set keyHidden($value : Text)
 	If ($value#"******")
 		This.key:=$value
 	End if 
 	
-	
-	
 Function get embeddingModels() : Object
 	var $models : Collection
 	
-	$models:=This.models.values.query("model in :1"; ["@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"])
+	If (This.models=Null)
+		return {models: []}
+	End if 
+	
+	$models:=This.models.values.query("model in :1"; ["@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-onnx"])
 	return {models: $models}
 	
 Function set embeddingModels()
@@ -23,12 +25,14 @@ Function get hasEmbeddingModels() : Boolean
 	
 Function set hasEmbeddingModels()
 	
-	
-	
 Function get reasoningModels() : Object
 	var $models : Collection
 	
-	$models:=This.models.values.query("not(model in :1)"; ["@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"])
+	If (This.models=Null)
+		return {models: []}
+	End if 
+	
+	$models:=This.models.values.query("not(model in :1)"; ["@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-onnx"])
 	//$models:=This.models.values.minus(This.embeddingModels.values)
 	return {models: $models}
 	
