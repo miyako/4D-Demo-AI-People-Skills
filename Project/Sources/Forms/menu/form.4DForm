@@ -3,6 +3,9 @@
 		"version": "1",
 		"kind": "form"
 	},
+	"css": [
+		"/SOURCES/main.css"
+	],
 	"windowSizingX": "variable",
 	"windowSizingY": "variable",
 	"windowMinWidth": 0,
@@ -13,27 +16,14 @@
 	"bottomMargin": 0,
 	"events": [
 		"onLoad",
-		"onPageChange",
-		"onValidate",
 		"onClick",
-		"onDoubleClick",
-		"onOutsideCall",
-		"onBeginDragOver",
-		"onDragOver",
-		"onDrop",
-		"onAfterKeystroke",
-		"onMenuSelect",
-		"onPluginArea",
-		"onAfterEdit",
-		"onTimer",
-		"onBoundVariableChange"
+		"onDataChange",
+		"onUnload",
+		"onPageChange"
 	],
-	"windowTitle": "AI Tool calling with 4D",
+	"windowTitle": "",
 	"destination": "detailScreen",
 	"pages": [
-		{
-			"objects": {}
-		},
 		{
 			"objects": {
 				"Rectangle": {
@@ -41,47 +31,1095 @@
 					"top": 34,
 					"left": 0,
 					"width": 1448,
-					"height": 660,
-					"stroke": "transparent",
-					"strokeWidth": 0
+					"height": 700,
+					"class": "background"
 				},
-				"Subform": {
-					"type": "subform",
-					"left": 0,
+				"Rectangle8": {
+					"type": "rectangle",
 					"top": 34,
-					"width": 1448,
-					"height": 900,
-					"dataSource": "",
-					"dataSourceTypeHint": "text",
-					"detailForm": "intro"
+					"left": 0,
+					"width": 1450,
+					"height": 44,
+					"stroke": "transparent",
+					"class": "titleBackground"
 				},
 				"Tab Control": {
 					"type": "tab",
-					"text": "Tab control",
 					"top": 4,
 					"left": 0,
 					"width": 1448,
 					"height": 28,
 					"dataSource": "Form:C1466.menu",
-					"fontFamily": "Avenir Light",
-					"fontSize": 16,
 					"method": "ObjectMethods/Tab Control.4dm",
 					"events": [
 						"onClick"
 					]
 				}
 			}
+		},
+		{
+			"objects": {
+				"Text18": {
+					"type": "text",
+					"text": "Introduction and setup",
+					"top": 41,
+					"left": 23,
+					"width": 314,
+					"height": 28,
+					"class": "title"
+				},
+				"Rectangle1": {
+					"type": "rectangle",
+					"top": 96,
+					"left": 23,
+					"width": 239,
+					"height": 615,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "background"
+				},
+				"Text13": {
+					"type": "text",
+					"text": "This demo will teach you how to use 4D AI Kit to implement model tool calling.\r\rIt comes with a pre-generated database with pre-generateed embeddings.\r\rRreview the table on the right and setup your AI providers: you will need at least 1 embedding model and 1 reasoning model..\r\rVocabulary:\rreasoning models are used by generative AI. They are used in this demo to generate persons in database, but also to interact.\r\rEmbedding models are used to compute embeddings.\r\rEmbedding is the process that transforms data (often text) into a vector. The resulting vector is also called an embedding.\r\rTools calling: several recent reasoning models now support tool calling. Based on your prompt and on tools that you declare, the model can decide to call a tool and interpret its result before answering.",
+					"top": 106,
+					"left": 32,
+					"width": 219,
+					"height": 605,
+					"class": "description"
+				},
+				"Text5": {
+					"type": "text",
+					"text": "AI providers list",
+					"top": 92,
+					"left": 283,
+					"width": 955,
+					"height": 22,
+					"class": "subtitle"
+				},
+				"ProvidersListBox": {
+					"type": "listbox",
+					"left": 283,
+					"top": 121,
+					"width": 1015,
+					"height": 188,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.providers",
+					"currentItemSource": "Form:C1466.providersListBox.currentItem",
+					"selectionMode": "single",
+					"singleClickEdit": true,
+					"hideFocusRing": true,
+					"selectedItemsSource": "Form:C1466.providersListBox.selectedItems",
+					"currentItemPositionSource": "Form:C1466.providersListBox.currentItemPos",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"headerHeight": "2em",
+					"scrollbarHorizontal": "hidden",
+					"alternateFill": "automaticAlternate",
+					"horizontalLineStroke": "transparent",
+					"columns": [
+						{
+							"header": {
+								"text": "Provider",
+								"name": "Header1"
+							},
+							"name": "Column1",
+							"footer": {
+								"name": "Footer1"
+							},
+							"dataSource": "This:C1470.name",
+							"width": 300,
+							"enterable": false,
+							"resizable": false
+						},
+						{
+							"header": {
+								"name": "Header2",
+								"text": "Url"
+							},
+							"name": "Column2",
+							"dataSource": "This:C1470.url",
+							"footer": {
+								"name": "Footer2"
+							},
+							"width": 400,
+							"resizable": false,
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header4",
+								"text": "Available\\reasoning models"
+							},
+							"name": "Column4",
+							"dataSource": "This:C1470.reasoningModels.models.length",
+							"dataSourceTypeHint": "number",
+							"footer": {
+								"name": "Footer4"
+							},
+							"width": 150,
+							"enterable": false,
+							"resizable": false
+						},
+						{
+							"header": {
+								"name": "Header5",
+								"text": "Available\\embedding models"
+							},
+							"name": "Column5",
+							"dataSource": "This:C1470.embeddingModels.models.length",
+							"dataSourceTypeHint": "number",
+							"footer": {
+								"name": "Footer5"
+							},
+							"width": 150,
+							"enterable": false,
+							"resizable": false
+						}
+					]
+				},
+				"btnRefresh": {
+					"type": "button",
+					"text": "Refresh",
+					"top": 671,
+					"left": 1183,
+					"width": 115,
+					"height": 31,
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"method": "ObjectMethods/btnRefresh.4dm",
+					"defaultButton": true
+				},
+				"List Box1": {
+					"type": "listbox",
+					"left": 767,
+					"top": 343,
+					"width": 260,
+					"height": 306,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.providersListBox.currentItem.reasoningModels.models",
+					"currentItemSource": "",
+					"selectionMode": "single",
+					"singleClickEdit": true,
+					"hideFocusRing": true,
+					"selectedItemsSource": "",
+					"currentItemPositionSource": "",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"alternateFill": "automaticAlternate",
+					"resizingMode": "legacy",
+					"horizontalLineStroke": "transparent",
+					"columns": [
+						{
+							"header": {
+								"text": "Reasoning models",
+								"name": "Header3"
+							},
+							"name": "Column3",
+							"footer": {
+								"name": "Footer3"
+							},
+							"dataSource": "This:C1470.model",
+							"width": 200,
+							"enterable": false,
+							"resizable": false
+						}
+					]
+				},
+				"List Box2": {
+					"type": "listbox",
+					"left": 1038,
+					"top": 343,
+					"width": 260,
+					"height": 306,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"listboxType": "collection",
+					"dataSource": "Form:C1466.providersListBox.currentItem.embeddingModels.models",
+					"currentItemSource": "",
+					"selectionMode": "single",
+					"singleClickEdit": true,
+					"hideFocusRing": true,
+					"selectedItemsSource": "",
+					"currentItemPositionSource": "",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"alternateFill": "automaticAlternate",
+					"resizingMode": "legacy",
+					"horizontalLineStroke": "transparent",
+					"columns": [
+						{
+							"header": {
+								"text": "Embedding models",
+								"name": "Header6"
+							},
+							"name": "Column6",
+							"footer": {
+								"name": "Footer6"
+							},
+							"dataSource": "This:C1470.model",
+							"width": 200,
+							"enterable": false,
+							"resizable": false
+						}
+					]
+				},
+				"Input2": {
+					"type": "input",
+					"left": 468,
+					"top": 514,
+					"width": 270,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.name",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"method": "ObjectMethods/genericInput.4dm",
+					"events": [
+						"onDataChange"
+					],
+					"placeholder": "Provider name"
+				},
+				"Text9": {
+					"type": "text",
+					"text": "Provider name:",
+					"top": 514,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input1": {
+					"type": "input",
+					"left": 468,
+					"top": 542,
+					"width": 270,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.url",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/Input1.4dm",
+					"placeholder": "Leave empty for OpenAI"
+				},
+				"Text10": {
+					"type": "text",
+					"text": "Provider url:",
+					"top": 542,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input3": {
+					"type": "input",
+					"left": 468,
+					"top": 601,
+					"width": 270,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.defaults.embedding",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/Input3.4dm",
+					"placeholder": "Will be selected by default for embeddings"
+				},
+				"Text11": {
+					"type": "text",
+					"text": "Default embedding model:",
+					"top": 601,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input4": {
+					"type": "input",
+					"left": 468,
+					"top": 630,
+					"width": 270,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.defaults.reasoning",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/Input4.4dm",
+					"placeholder": "Will be selected by default for generative AI"
+				},
+				"Text12": {
+					"type": "text",
+					"text": "Default reasoning model:",
+					"top": 630,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input5": {
+					"type": "input",
+					"left": 468,
+					"top": 571,
+					"width": 270,
+					"height": 18,
+					"dataSource": "Form:C1466.providersListBox.currentItem.keyHidden",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "solid",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "text",
+					"multiline": "no",
+					"events": [
+						"onDataChange"
+					],
+					"method": "ObjectMethods/Input5.4dm",
+					"placeholder": "Leave empty for local Ollama"
+				},
+				"Text1": {
+					"type": "text",
+					"text": "Provider API Key:",
+					"top": 571,
+					"left": 284,
+					"width": 180,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text3": {
+					"type": "text",
+					"text": "Selected provider",
+					"top": 480,
+					"left": 283,
+					"width": 475,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16
+				}
+			}
+		},
+		{
+			"objects": {
+				"Text2": {
+					"type": "text",
+					"text": "Generate data & embeddings",
+					"top": 41,
+					"left": 23,
+					"width": 314,
+					"height": 28,
+					"fontFamily": "Avenir Light",
+					"fontSize": 20,
+					"class": "title"
+				},
+				"providersGenList": {
+					"type": "dropdown",
+					"left": 835,
+					"top": 126,
+					"width": 208,
+					"height": 27,
+					"events": [
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "object",
+					"dataSource": "Form:C1466.providersGen",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"method": "ObjectMethods/providersGenList.4dm"
+				},
+				"modelsGenList": {
+					"type": "dropdown",
+					"left": 835,
+					"top": 155,
+					"width": 208,
+					"height": 27,
+					"events": [
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "object",
+					"dataSource": "Form:C1466.modelsGen",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text8": {
+					"type": "text",
+					"text": "Provider:",
+					"top": 130,
+					"left": 777,
+					"width": 59,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text4": {
+					"type": "text",
+					"text": "Model:",
+					"top": 159,
+					"left": 776,
+					"width": 60,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text6": {
+					"type": "text",
+					"text": "People",
+					"top": 94,
+					"left": 283,
+					"width": 250,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16,
+					"textAlign": "left"
+				},
+				"Rectangle2": {
+					"type": "rectangle",
+					"top": 129,
+					"left": 282,
+					"width": 231,
+					"height": 85,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "titleBackground"
+				},
+				"Text7": {
+					"type": "text",
+					"text": "Persons in database",
+					"top": 139,
+					"left": 292,
+					"width": 170,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"fontWeight": "normal"
+				},
+				"Input6": {
+					"type": "input",
+					"left": 292,
+					"top": 168,
+					"width": 209,
+					"height": 42,
+					"dataSource": "ds:C1482.person.all().length",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 30,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent",
+					"fontWeight": "bold"
+				},
+				"Rectangle9": {
+					"type": "rectangle",
+					"top": 242,
+					"left": 282,
+					"width": 761,
+					"height": 469,
+					"borderRadius": 20,
+					"stroke": "#E2E8F0",
+					"class": "background"
+				},
+				"InputAIText": {
+					"type": "input",
+					"left": 297,
+					"top": 259,
+					"width": 727,
+					"height": 433,
+					"dataSource": "Form:C1466.AIText",
+					"enterable": false,
+					"multiline": "yes",
+					"fontFamily": "Avenir Medium",
+					"fontSize": 13,
+					"scrollbarHorizontal": "hidden",
+					"contextMenu": "automatic",
+					"showSelection": false,
+					"wordwrap": "normal",
+					"borderStyle": "none",
+					"fill": "transparent",
+					"hideFocusRing": true
+				},
+				"Rectangle3": {
+					"type": "rectangle",
+					"top": 96,
+					"left": 23,
+					"width": 239,
+					"height": 615,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "background"
+				},
+				"Text16": {
+					"type": "text",
+					"text": "Populate here the demo's database by:\r* generating persons\r* computing embeddings.\r\rUse AI to generate random persons. ==> Newly created person Entities come without embedding <==\rSo after generating people, don't forget to generate embeddings below.\r\rResults obtained in this demo will vary depending on the embedding model used.\r\rIf provider & model drop down boxes are empty, please setup your providers in the Intro screen.",
+					"top": 116,
+					"left": 32,
+					"width": 219,
+					"height": 605,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"class": "description"
+				},
+				"Text14": {
+					"type": "text",
+					"text": "Embeddings",
+					"top": 94,
+					"left": 1119,
+					"width": 250,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16,
+					"textAlign": "left"
+				},
+				"Line": {
+					"type": "line",
+					"top": 96,
+					"left": 1063,
+					"width": 0,
+					"height": 615,
+					"stroke": "#DADADB",
+					"startPoint": "bottomLeft",
+					"strokeWidth": 1
+				},
+				"Rectangle4": {
+					"type": "rectangle",
+					"top": 411,
+					"left": 1119,
+					"width": 232,
+					"height": 85,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "titleBackgroundAlert"
+				},
+				"Text15": {
+					"type": "text",
+					"text": "Persons missing embeddings",
+					"top": 421,
+					"left": 1129,
+					"width": 203,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input8": {
+					"type": "input",
+					"left": 1129,
+					"top": 450,
+					"width": 210,
+					"height": 42,
+					"dataSource": "ds:C1482.person.peopleMissingEmbedding()",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 30,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent",
+					"fontWeight": "bold"
+				},
+				"Rectangle5": {
+					"type": "rectangle",
+					"top": 129,
+					"left": 1119,
+					"width": 231,
+					"height": 85,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "titleBackground"
+				},
+				"Text17": {
+					"type": "text",
+					"text": "Embedding status",
+					"top": 139,
+					"left": 1129,
+					"width": 170,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"fontWeight": "normal"
+				},
+				"Input7": {
+					"type": "input",
+					"left": 1129,
+					"top": 168,
+					"width": 209,
+					"height": 42,
+					"dataSource": "Form:C1466.actions.embedding.status",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 30,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent",
+					"fontWeight": "bold",
+					"textAlign": "right"
+				},
+				"Rectangle6": {
+					"type": "rectangle",
+					"top": 222,
+					"left": 1118,
+					"width": 231,
+					"height": 85,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "titleBackground"
+				},
+				"Text19": {
+					"type": "text",
+					"text": "Model used",
+					"top": 232,
+					"left": 1128,
+					"width": 170,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"fontWeight": "normal"
+				},
+				"Input9": {
+					"type": "input",
+					"left": 1128,
+					"top": 253,
+					"width": 209,
+					"height": 26,
+					"dataSource": "Form:C1466.actions.embedding.info.provider",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 18,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent",
+					"fontWeight": "bold",
+					"textAlign": "right"
+				},
+				"Rectangle7": {
+					"type": "rectangle",
+					"top": 316,
+					"left": 1119,
+					"width": 231,
+					"height": 85,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "titleBackground"
+				},
+				"Text20": {
+					"type": "text",
+					"text": "Embedding date / time / duration",
+					"top": 326,
+					"left": 1129,
+					"width": 209,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"fontWeight": "normal"
+				},
+				"Input10": {
+					"type": "input",
+					"left": 1129,
+					"top": 349,
+					"width": 209,
+					"height": 26,
+					"dataSource": "Form:C1466.embeddingDateTime",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 18,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent",
+					"fontWeight": "bold",
+					"textAlign": "right"
+				},
+				"Input11": {
+					"type": "input",
+					"left": 1129,
+					"top": 374,
+					"width": 209,
+					"height": 16,
+					"dataSource": "Form:C1466.actions.embedding.info.duration/1000",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 18,
+					"dataSourceTypeHint": "time",
+					"fill": "transparent",
+					"fontWeight": "bold",
+					"textAlign": "right",
+					"timeFormat": "mm:ss"
+				},
+				"Input12": {
+					"type": "input",
+					"left": 1128,
+					"top": 281,
+					"width": 209,
+					"height": 26,
+					"dataSource": "Form:C1466.actions.embedding.info.model",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 14,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent",
+					"fontWeight": "bold",
+					"textAlign": "right"
+				},
+				"providersEmbList": {
+					"type": "dropdown",
+					"left": 1177,
+					"top": 549,
+					"width": 208,
+					"height": 27,
+					"events": [
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "object",
+					"dataSource": "Form:C1466.providersEmb",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"method": "ObjectMethods/providersEmbList.4dm"
+				},
+				"modelsEmbList": {
+					"type": "dropdown",
+					"left": 1177,
+					"top": 578,
+					"width": 208,
+					"height": 27,
+					"events": [
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "object",
+					"dataSource": "Form:C1466.modelsEmb",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text21": {
+					"type": "text",
+					"text": "Provider:",
+					"top": 553,
+					"left": 1118,
+					"width": 59,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text22": {
+					"type": "text",
+					"text": "Model:",
+					"top": 582,
+					"left": 1118,
+					"width": 59,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text23": {
+					"type": "text",
+					"text": "Compute embeddings for all records",
+					"top": 514,
+					"left": 1118,
+					"width": 267,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16
+				},
+				"Check Box": {
+					"type": "checkbox",
+					"text": "Recompute all embeddings",
+					"top": 610,
+					"left": 1119,
+					"width": 266,
+					"height": 22,
+					"events": [
+						"onClick"
+					],
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSource": "Form:C1466.actions.embedding.recomputeAll"
+				},
+				"btnVectorize": {
+					"type": "button",
+					"text": "🪄 Compute Embeddings",
+					"top": 665,
+					"left": 1119,
+					"width": 269,
+					"height": 41,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnVectorize.4dm",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"embeddingProgressBar": {
+					"type": "progress",
+					"left": 1129,
+					"top": 665,
+					"width": 247,
+					"height": 17,
+					"max": 100,
+					"dataSource": "Form:C1466.actions.embedding.progress.value"
+				},
+				"embeddingProgressMessage": {
+					"type": "input",
+					"left": 1129,
+					"top": 680,
+					"width": 218,
+					"height": 19,
+					"dataSource": "Form:C1466.actions.embedding.progress.message",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer"
+				},
+				"btnDropData": {
+					"type": "button",
+					"text": "⚠️ Drop all data",
+					"top": 661,
+					"left": 32,
+					"width": 219,
+					"height": 41,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnDropData.4dm",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"inputSpecificRequest": {
+					"type": "input",
+					"left": 297,
+					"top": 635,
+					"width": 441,
+					"height": 73,
+					"placeholder": "You have a specific request? Type it here and it will be included in the prompt. Otherwise leave empty.",
+					"dataSource": "Form:C1466.actions.generatingPeople.specificRequest",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"hideFocusRing": true
+				},
+				"Line1": {
+					"type": "line",
+					"top": 624,
+					"left": 292,
+					"width": 732,
+					"height": 0,
+					"stroke": "#DBDBDB",
+					"startPoint": "topLeft"
+				},
+				"btnGeneratePeople": {
+					"type": "button",
+					"text": "🪄 Generate people",
+					"top": 660,
+					"left": 755,
+					"width": 269,
+					"height": 41,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnGeneratePeople.4dm",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"peopleGenSpinner": {
+					"type": "spinner",
+					"left": 980,
+					"top": 672,
+					"width": 44,
+					"height": 31,
+					"dataSource": "Form:C1466.actions.generatingPeople.running"
+				},
+				"peopleGenProgressBar": {
+					"type": "progress",
+					"left": 765,
+					"top": 660,
+					"width": 249,
+					"height": 22,
+					"max": 100,
+					"dataSource": "Form:C1466.actions.generatingPeople.progress.value"
+				},
+				"peopleGenProgressMessage": {
+					"type": "input",
+					"left": 765,
+					"top": 674,
+					"width": 210,
+					"height": 19,
+					"dataSource": "Form:C1466.actions.generatingPeople.progress.message",
+					"enterable": false,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"fill": "transparent"
+				},
+				"Input13": {
+					"type": "input",
+					"left": 818,
+					"top": 635,
+					"width": 23,
+					"height": 19,
+					"dataSource": "Form:C1466.actions.generatingPeople.quantity",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"defaultValue": "30",
+					"min": 0,
+					"max": 999,
+					"multiline": "no",
+					"textAlign": "center"
+				},
+				"Text24": {
+					"type": "text",
+					"text": "Generate",
+					"top": 635,
+					"left": 759,
+					"width": 60,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text25": {
+					"type": "text",
+					"text": "people, by batches of",
+					"top": 635,
+					"left": 845,
+					"width": 148,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input14": {
+					"type": "input",
+					"left": 976,
+					"top": 635,
+					"width": 20,
+					"height": 19,
+					"dataSource": "Form:C1466.actions.generatingPeople.quantityBy",
+					"enterable": true,
+					"focusable": false,
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"dataSourceTypeHint": "integer",
+					"multiline": "no",
+					"defaultValue": "10",
+					"min": 1,
+					"max": 50,
+					"textAlign": "center"
+				},
+				"embeddingSpinner": {
+					"type": "spinner",
+					"left": 1344,
+					"top": 673,
+					"width": 44,
+					"height": 31,
+					"dataSource": "Form:C1466.actions.embedding.running"
+				}
+			}
 		}
 	],
-	"geometryStamp": 225,
+	"geometryStamp": 613,
 	"editor": {
+		"groups": {
+			"Group": [
+				"Rectangle2",
+				"Text7",
+				"Input6"
+			],
+			"Group1": [
+				"Rectangle4",
+				"Text15",
+				"Input8"
+			],
+			"Group2": [
+				"Rectangle5",
+				"Text17",
+				"Input7"
+			],
+			"Group3": [
+				"Rectangle1",
+				"Text13"
+			],
+			"Group4": [
+				"Rectangle6",
+				"Text19",
+				"Input9",
+				"Input12"
+			],
+			"Group5": [
+				"Rectangle7",
+				"Text20",
+				"Input10",
+				"Input11"
+			],
+			"Group8": [
+				"Rectangle3",
+				"Text16"
+			]
+		},
 		"activeView": "View 1",
 		"defaultView": "View 1",
 		"views": {
 			"View 1": {}
 		}
 	},
-	"method": "",
-	"formClass": "formMenu",
+	"method": "method.4dm",
+	"formClass": "formVectorize",
 	"menuBar": "Barre #1"
 }

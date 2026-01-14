@@ -1,6 +1,7 @@
 Class extends AI_Agent
 
 singleton Class constructor()
+	
 	Super()
 	
 Function vectorize($value : Variant) : 4D.Vector

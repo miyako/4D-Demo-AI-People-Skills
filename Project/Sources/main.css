@@ -29,10 +29,16 @@ text.subtitle {
 	rectangle.titleBackground {
 		fill: #b1c4dd;
 	}	
+	rectangle.titleBackgroundAlert {
+		fill: #FDBBC1;
+	}		
 }
 
 @media (prefers-color-scheme: dark) {
 	rectangle.titleBackground {
-	fill: #142841;
-}	
+		fill: #142841;
+	}	
+	rectangle.titleBackgroundAlert {
+		fill: #54060d;
+	}	
 }

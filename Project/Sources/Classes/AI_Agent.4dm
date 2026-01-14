@@ -2,13 +2,13 @@ property model : Text
 property provider : Text
 property AIClient : cs.AIKit.OpenAI
 
-
 Class constructor()
+	
 	This.model:=""
 	This.provider:=""
 	
-	
 Function setAgent($providerName : Text; $model : Text; $reset : Boolean)
+	
 	var $provider : cs.providerSettingsEntity
 	var $AIClient : cs.AIKit.OpenAI
 	
@@ -24,7 +24,7 @@ Function setAgent($providerName : Text; $model : Text; $reset : Boolean)
 		
 		This.provider:=$providerName
 		This.model:=$model
-		This.AIClient:=cs.AIKit.OpenAI.new($provider.key)
+		This.AIClient:=cs.AIKit.OpenAI.new($provider.key#Null ? $provider.key : "")
 		If ($provider.url#"")
 			This.AIClient.baseURL:=$provider.url
 		End if 
