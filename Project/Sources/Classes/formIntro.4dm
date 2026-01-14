@@ -6,8 +6,12 @@ property url_ollamaModels : Text
 property url_AIKitProviders : Text
 property url_LMStudio : Text
 
+Class extends formMenu
 
 Class constructor
+	
+	Super()
+	
 	This.providers:=ds.providerSettings.all()
 	This.providersListBox:={}
 	This.url_openAIModels:="https://platform.openai.com/docs/models"
@@ -17,38 +21,54 @@ Class constructor
 	This.url_LMStudio:="https://lmstudio.ai/"
 	
 Function formEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Load)
-			LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)
-	End case 
+	
+	If (FORM Get current page=1)
+		Case of 
+			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
+				LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)
+		End case 
+	End if 
 	
 Function btnAddProviderEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Clicked)
-			ds.providerSettings.add()
-			This.providers:=ds.providerSettings.all()
-			LISTBOX SELECT ROW(*; "ProvidersListBox"; Form.providers.length)
-	End case 
+	
+	If (FORM Get current page=1)
+		Case of 
+			: ($formEventCode=On Clicked)
+				ds.providerSettings.add()
+				This.providers:=ds.providerSettings.all()
+				LISTBOX SELECT ROW(*; "ProvidersListBox"; Form.providers.length)
+		End case 
+	End if 
 	
 Function btnDeleteProviderEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Clicked)
-			If (This.providersListBox.currentItem#Null)
-				This.providersListBox.currentItem.drop()
-				This.providers:=ds.providerSettings.all()
-				LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)
-			End if 
-	End case 
+	
+	If (FORM Get current page=1)
+		Case of 
+			: ($formEventCode=On Clicked)
+				If (This.providersListBox.currentItem#Null)
+					This.providersListBox.currentItem.drop()
+					This.providers:=ds.providerSettings.all()
+					LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)
+				End if 
+		End case 
+	End if 
 	
 Function btnRefreshProvidersEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Clicked)
-			ds.providerSettings.updateProviderSettings()
-			Form.providers:=ds.providerSettings.all()
-	End case 
+	
+	If (FORM Get current page=1)
+		Case of 
+			: ($formEventCode=On Clicked)
+				ds.providerSettings.updateProviderSettings()
+				Form.providers:=ds.providerSettings.all()
+		End case 
+	End if 
 	
 Function genericInputEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Data Change)
-			This.providersListBox.currentItem.save()
-	End case 
+	
+	If (FORM Get current page=1)
+		Case of 
+			: ($formEventCode=On Data Change)
+				This.providersListBox.currentItem.save()
+		End case 
+	End if 
+	
