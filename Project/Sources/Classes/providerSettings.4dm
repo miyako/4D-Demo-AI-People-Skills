@@ -1,20 +1,20 @@
 Class extends DataClass
 
-
-Function openProviderFile($path : Text) : Collection
-	var $jsonText : Text
+Function resolve($item : Object) : Object
 	
-	$jsonText:=File($path).getText()
-	return JSON Parse($jsonText; Is collection)
+	return OB Class($item).new($item.platformPath; fk platform path)
 	
-Function loadDefaults()
-	var $providersFilePath:="/RESOURCES/AIProviders.json"
-	var $jsonContent : Collection
+Function getAccessToken($provider : Text) : Text
 	
-	$jsonContent:=This.openProviderFile($providersFilePath)
-	This.fromCollection($jsonContent)
+	var $file : 4D.File
+	$file:=This.resolve(Folder("/PROJECT/")).parent.file($provider+".token")
+	
+	If ($file.exists)
+		return $file.getText()
+	End if 
 	
 Function updateProviderSettings()
+	
 	var $providers : cs.providerSettingsSelection
 	var $provider : cs.providerSettingsEntity
 	var $AIClient : cs.AIKit.OpenAI
@@ -25,14 +25,10 @@ Function updateProviderSettings()
 	var $modelsToRemove : Collection
 	var $defaultModel : Object
 	
-	If (This.all().length=0)
-		This.loadDefaults()
-	End if 
-	
 	$providers:=This.all()
 	
 	For each ($provider; $providers)
-		$AIClient:=cs.AIKit.OpenAI.new($provider.key)
+		$AIClient:=cs.AIKit.OpenAI.new(This.getAccessToken($provider.name))
 		$AIClient.baseURL:=($provider.url#"") ? $provider.url : $AIClient.baseURL
 		$modelsList:=$AIClient.models.list()
 		If ($modelsList.success)
@@ -52,8 +48,18 @@ Function updateProviderSettings()
 			
 			$f:=Formula(New object("model"; $1.value.id))
 			$models:=$modelsList.models.map($f)
-			$modelsToKeep:=($provider.modelsToKeep.values.length=0) ? ["@"] : $provider.modelsToKeep.values.copy()
-			$modelsToRemove:=$provider.modelsToRemove.values.copy()
+			If ($provider.modelsToKeep=Null) || ($provider.modelsToKeep.values.length=0)
+				$modelsToKeep:=["@"]
+			Else 
+				$modelsToKeep:=$provider.modelsToKeep.values.copy()
+			End if 
+			
+			If ($provider.modelsToRemove=Null)
+				$modelsToRemove:=[]
+			Else 
+				$modelsToRemove:=$provider.modelsToRemove.values.copy()
+			End if 
+			
 			$models:=$models.query("model in :1 and not (model in :2)"; $modelsToKeep; $modelsToRemove)
 			$models:=$models.orderBy("model asc")
 			$provider.models:={values: $models}
@@ -61,14 +67,18 @@ Function updateProviderSettings()
 			$provider.models:={values: []}
 		End if 
 		
+		If ($provider.defaults=Null)
+			$provider.defaults:={embedding: Null; reasoning: Null}
+		End if 
+		
 		If ($provider.models.values.length>0)
 			If ($provider.models.values.query("model = :1"; $provider.defaults.embedding).length=0)
-				$defaultModel:=$provider.models.values.query("model = :1"; "@embed@").first()
+				$defaultModel:=$provider.models.values.query("model = :1 or model = :2"; "@embed@"; "@-onnx").first()
 				$provider.defaults.embedding:=($defaultModel#Null) ? $defaultModel.model : "No embedding model detected"
 			End if 
 			
 			If ($provider.models.values.query("model = :1"; $provider.defaults.reasoning).length=0)
-				$defaultModel:=$provider.models.values.query("model # :1"; "@embed@").first()
+				$defaultModel:=$provider.models.values.query("model # :1 and model # :2"; "@embed@"; "@-onnx").first()
 				$provider.defaults.reasoning:=($defaultModel#Null) ? $defaultModel.model : "No reasoning model detected"
 			End if 
 		End if 
