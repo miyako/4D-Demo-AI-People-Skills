@@ -4,6 +4,10 @@
 		"4D AIKit": {
 			"github": "4d/4D-AIKit",
 			"version": "4d"
+		},
+		"onnx genai": {
+			"github": "miyako/onnx-genai",
+			"version": "latest"
 		}
 	}
 }
