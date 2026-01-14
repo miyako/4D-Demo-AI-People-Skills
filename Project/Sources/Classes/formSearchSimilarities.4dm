@@ -45,7 +45,7 @@ Function btnSearchSimilaritiesEventHandler($formEventCode : Integer)
 			This.actions.searchingSimilarities.progress.message:="Searching similar people"
 			
 			$startMillisecond:=Milliseconds
-			Form.peopleWithSimilarities:=ds.person.peopleWithSimilarities($formObject.actions.searchingSimilarities.similarityLevel/100)
+			Form.peopleWithSimilarities:=ds.person.peopleWithSimilarities(Form.actions.searchingSimilarities.similarityLevel/100)
 			Form.actions.searchingSimilarities.timing:=Milliseconds-$startMillisecond
 			
 			For each ($person; Form.peopleWithSimilarities)

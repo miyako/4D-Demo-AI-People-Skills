@@ -29,20 +29,26 @@ $event.onTerminate:=Formula(LOG EVENT(Into 4D debug message; (["process"; $1.pid
 
 $port:=8080
 
+var $options : Object
 $options:={}
 var $huggingfaces : cs.event.huggingfaces
 
+var $chat_template : Text
 $chat_template:="{% set loop_messages = messages %}{% for message in loop_messages %}{% set content = '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n'+ message['content'] | trim + '<|eot_id|>' %}{% if loop.index0 == 0 %}{% set content = bos_token + cont"+"ent %}{% endif %}{{ content }}{% endfor %}{% if add_generation_prompt %}{{ '<|start_header_id|>assistant<|end_header_id|>\n\n' }}{% endif %}"
 
+var $folder : 4D.Folder
 $folder:=$homeFolder.folder("Llama-3-ELYZA-JP-8B-onnx-int4-cpu")
+var $path : Text
 $path:="keisuke-miyako/Llama-3-ELYZA-JP-8B-onnx-int4-cpu"
 $URL:="keisuke-miyako/Llama-3-ELYZA-JP-8B-onnx-int4-cpu"
+var $chat : cs.event.huggingface
 $chat:=cs.event.huggingface.new($folder; $URL; $path; "chat.completion")
 $huggingfaces:=cs.event.huggingfaces.new([$chat])
 
 $folder:=$homeFolder.folder("ruri-v3-310m-onnx")
 $path:="keisuke-miyako/ruri-v3-310m-onnx"
 $URL:="keisuke-miyako/ruri-v3-310m-onnx"
+var $embeddings : cs.event.huggingface
 $embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding"; "model_quantized.onnx")
 $huggingfaces:=cs.event.huggingfaces.new([$chat; $embeddings])
 
