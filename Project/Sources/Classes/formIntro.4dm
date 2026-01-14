@@ -22,7 +22,7 @@ Class constructor
 	
 Function formEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=1)
+	If (This.menu.currentValue="Intro")
 		Case of 
 			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
 				LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)

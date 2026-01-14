@@ -70,7 +70,7 @@ Function formEventHandler($formEventCode : Integer)
 	
 	Super.formEventHandler($formEventCode)
 	
-	If (FORM Get current page=2)
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
 				OBJECT SET VISIBLE(*; "peopleGen@"; False)
@@ -79,12 +79,16 @@ Function formEventHandler($formEventCode : Integer)
 					OBJECT SET VISIBLE(*; "embedding@"; True)
 					OBJECT SET VISIBLE(*; "btnVectorize"; False)
 				End if 
+				If (This.actions.generatingPeople.running=1)
+					OBJECT SET VISIBLE(*; "peopleGen@"; True)
+					OBJECT SET VISIBLE(*; "btnGeneratePeople"; False)
+				End if 
 		End case 
 	End if 
 	
 Function providersGenListEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=2)
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Data Change)
 				This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
@@ -93,7 +97,7 @@ Function providersGenListEventHandler($formEventCode : Integer)
 	
 Function providersEmbListEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=2)
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Data Change)
 				This.modelsEmb:=This.setModelList(This.providersEmb; "embedding")
@@ -102,7 +106,7 @@ Function providersEmbListEventHandler($formEventCode : Integer)
 	
 Function btnGeneratePeopleEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=2)
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Clicked)
 				If (This.modelsGen.currentValue="")
@@ -125,7 +129,7 @@ Function btnGeneratePeopleEventHandler($formEventCode : Integer)
 	
 Function btnVectorizeEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=2)
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		var $provider; $model : Text
 		var $recomputeAll : Boolean
 		
@@ -157,7 +161,7 @@ Function btnVectorizeEventHandler($formEventCode : Integer)
 	
 Function btnDropDataEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=2)
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Clicked)
 				ds.person.all().drop()
@@ -177,62 +181,75 @@ Function btnDropDataEventHandler($formEventCode : Integer)
 	
 Function terminateGeneratePeople()
 	
-	OBJECT SET VISIBLE(*; "peopleGen@"; False)
-	OBJECT SET VISIBLE(*; "btnGeneratePeople"; True)
+	If (Form#Null)
+		OBJECT SET VISIBLE(*; "peopleGen@"; False)
+		OBJECT SET VISIBLE(*; "btnGeneratePeople"; True)
+		Form.actions.generatingPeople.running:=0
+	End if 
 	
 Function progressGeneratePeople($input : Object)
 	
-	If (Not(Undefined($input.AIText)))
-		Form.AIText+=$input.AIText
-		//scroll down
-		HIGHLIGHT TEXT(*; "InputAIText"; Length(Form.AIText); Length(Form.AIText))
-		GOTO OBJECT(*; "InputAIText")
-	End if 
-	
-	If (Not(Undefined($input.progress)))
-		Form.actions.generatingPeople.progress.message:=(Undefined($input.progress.message) ? Form.actions.generatingPeople.progress.message : $input.progress.message)
-		Form.actions.generatingPeople.progress.value:=(Undefined($input.progress.value) ? Form.actions.generatingPeople.progress.value : $input.progress.value)
+	If (Form#Null)
+		If (Not(Undefined($input.AIText)))
+			Form.AIText+=$input.AIText
+			//scroll down
+			HIGHLIGHT TEXT(*; "InputAIText"; Length(Form.AIText); Length(Form.AIText))
+			GOTO OBJECT(*; "InputAIText")
+		End if 
+		
+		If (Not(Undefined($input.progress)))
+			Form.actions.generatingPeople.progress.message:=(Undefined($input.progress.message) ? Form.actions.generatingPeople.progress.message : $input.progress.message)
+			Form.actions.generatingPeople.progress.value:=(Undefined($input.progress.value) ? Form.actions.generatingPeople.progress.value : $input.progress.value)
+		End if 
 	End if 
 	
 Function terminateVectorizing()
 	
-	OBJECT SET VISIBLE(*; "embedding@"; False)
-	OBJECT SET VISIBLE(*; "btnVectorize"; True)
-	
-	If (ds.embeddingInfo.embeddingStatus())
-		Form.actions.embedding.status:="Done"
-		Form.actions.embedding.info:=ds.embeddingInfo.info()
-	Else 
-		Form.actions.embedding.status:="Missing"
+	If (Form#Null)
+		OBJECT SET VISIBLE(*; "embedding@"; False)
+		OBJECT SET VISIBLE(*; "btnVectorize"; True)
+		If (ds.embeddingInfo.embeddingStatus())
+			Form.actions.embedding.status:="Done"
+			Form.actions.embedding.info:=ds.embeddingInfo.info()
+		Else 
+			Form.actions.embedding.status:="Missing"
+		End if 
+		Form.actions.embedding.running:=0
 	End if 
 	
 Function progressVectorizing($progress : Object)
 	
-	Form.actions.embedding.progress.value:=$progress.value
-	Form.actions.embedding.progress.message:=$progress.message
+	If (Form#Null)
+		Form.actions.embedding.progress.value:=$progress.value
+		Form.actions.embedding.progress.message:=$progress.message
+	End if 
 	
 	//MARK: -
 	//MARK: Other functions
 	
 Function setModelList($providerList : Object; $kind : Text) : Object
-	var $provider : cs.providerSettingsEntity
-	var $models : Collection
-	var $list : Object:={}
-	var $defaultModel : Text
 	
-	$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
-	Case of 
-		: ($kind="reasoning")
-			$models:=$provider.reasoningModels.models
-			$defaultModel:=$provider.defaults.reasoning
-		: ($kind="embedding")
-			$models:=$provider.embeddingModels.models
-			$defaultModel:=$provider.defaults.embedding
-	End case 
-	$list.values:=$models.extract("model")
-	$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
-	
-	return $list
+	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
+		
+		var $provider : cs.providerSettingsEntity
+		var $models : Collection
+		var $list : Object:={}
+		var $defaultModel : Text
+		
+		$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
+		Case of 
+			: ($kind="reasoning")
+				$models:=$provider.reasoningModels.models
+				$defaultModel:=$provider.defaults.reasoning
+			: ($kind="embedding")
+				$models:=$provider.embeddingModels.models
+				$defaultModel:=$provider.defaults.embedding
+		End case 
+		$list.values:=$models.extract("model")
+		$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
+		
+		return $list
+	End if 
 	
 	//MARK: -
 	//MARK: Computed properties

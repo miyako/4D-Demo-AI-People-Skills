@@ -5,7 +5,12 @@ property people : cs.personSelection
 property selectedPerson : cs.personEntity
 property webAreaInitialized : Boolean
 
+Class extends formSemanticSearch
+
 Class constructor()
+	
+	Super()
+	
 	var $providers : cs.providerSettingsSelection
 	var $provider : cs.providerSettingsEntity
 	var $models : Collection
@@ -32,87 +37,106 @@ Class constructor()
 	//MARK: Form & form objects event handlers
 	
 Function formEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Load)
-			OBJECT SET VISIBLE(*; "questionning@"; False)
-			OBJECT SET VISIBLE(*; "timingResult"; False)
-			OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-	End case 
+	
+	Super.formEventHandler($formEventCode)
+	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		Case of 
+			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
+				OBJECT SET VISIBLE(*; "questionning@"; False)
+				OBJECT SET VISIBLE(*; "timingResult"; False)
+				OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
+		End case 
+	End if 
 	
 Function providersGenListEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Data Change)
-			This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
-	End case 
 	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		Case of 
+			: ($formEventCode=On Data Change)
+				This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
+		End case 
+	End if 
 	
 Function btnNewChatEventHandler($formEventCode : Integer)
-	cs.AI_QuestionningTools.me.resetContext()
-	This.people:=Null
-	This.webAreaInitialized:=False
-	var $templateFilename : Text
-	var $templatePath : Text
-	$templateFilename:=cs.ChatHTMLRenderer.me.getInitialHTML()
-	$templatePath:=Get 4D folder(Current resources folder)+$templateFilename
-	OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-	WA OPEN URL(*; "Web Area"; $templatePath)
-	This.actions:={\
-		questionning: {running: 0; progress: {message: ""}; timing: 0; prompt: ""}\
-		}
+	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		cs.AI_QuestionningTools.me.resetContext()
+		This.people:=Null
+		This.webAreaInitialized:=False
+		var $templateFilename : Text
+		var $templatePath : Text
+		$templateFilename:=cs.ChatHTMLRenderer.me.getInitialHTML()
+		$templatePath:=Get 4D folder(Current resources folder)+$templateFilename
+		OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
+		WA OPEN URL(*; "Web Area"; $templatePath)
+		This.actions:={\
+			questionning: {running: 0; progress: {message: ""}; timing: 0; prompt: ""}\
+			}
+	End if 
 	
 Function btnAskMeEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Clicked)
-			If (This.modelsGen.currentValue="")
-				ALERT("Please select a model first")
-				return 
-			End if 
-			
-			This.actions.questionning.running:=1
-			This.actions.questionning.timing:=0
-			
-			Form.people:=Null
-			OBJECT SET VISIBLE(*; "questionning@"; True)
-			OBJECT SET VISIBLE(*; "btn@"; False)
-			OBJECT SET VISIBLE(*; "select@"; False)
-			OBJECT SET VISIBLE(*; "timingResult"; False)
-			
-			cs.AI_QuestionningTools.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue)
-			cs.AI_QuestionningTools.me.askMe(Form.actions.questionning.prompt; Form)
-			This.actions.questionning.prompt:=""
-			
-	End case 
+	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		Case of 
+			: ($formEventCode=On Clicked)
+				If (This.modelsGen.currentValue="")
+					ALERT("Please select a model first")
+					return 
+				End if 
+				
+				This.actions.questionning.running:=1
+				This.actions.questionning.timing:=0
+				
+				Form.people:=Null
+				OBJECT SET VISIBLE(*; "questionning@"; True)
+				OBJECT SET VISIBLE(*; "btn@"; False)
+				OBJECT SET VISIBLE(*; "select@"; False)
+				OBJECT SET VISIBLE(*; "timingResult"; False)
+				
+				cs.AI_QuestionningTools.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue)
+				cs.AI_QuestionningTools.me.askMe(Form.actions.questionning.prompt; Form)
+				This.actions.questionning.prompt:=""
+				
+		End case 
+	End if 
 	
 Function lbPeopleListboxEventHandler($formEventCode : Integer)
-	Case of 
-		: ($formEventCode=On Selection Change)
-			If (This.selectedPerson#Null)
-				OBJECT SET SUBFORM(*; "personDetails"; "person")
-			Else 
-				OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-			End if 
-	End case 
 	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		Case of 
+			: ($formEventCode=On Selection Change)
+				If (This.selectedPerson#Null)
+					OBJECT SET SUBFORM(*; "personDetails"; "person")
+				Else 
+					OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
+				End if 
+		End case 
+	End if 
 	
 	//MARK: -
 	//MARK: Form actions callback functions
 	
 Function terminateQuestionning($timing : Integer; $peopleFound : cs.personSelection)
-	If (Current form name="menu")
-		EXECUTE METHOD IN SUBFORM("Subform"; Formula(Form.terminateQuestionning($1; $2)); *; $timing; $peopleFound)
-	Else 
+	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		
+		Form.terminateQuestionning($timing; $peopleFound)
+		
 		Form.actions.questionning.timingResult:="Answer given in "+String($timing)+" ms"
 		Form.people:=$peopleFound
 		OBJECT SET VISIBLE(*; "questionning@"; False)
 		OBJECT SET VISIBLE(*; "btn@"; True)
 		OBJECT SET VISIBLE(*; "select@"; True)
 		OBJECT SET VISIBLE(*; "timingResult"; True)
+		
 	End if 
 	
 Function progressQuestionning($input : Object)
-	If (Current form name="menu")
-		EXECUTE METHOD IN SUBFORM("Subform"; Formula(Form.progressQuestionning($1)); *; $input)
-	Else 
+	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		
+		Form.progressQuestionning($input)
 		
 		If (Not(Undefined($input.messages)))
 			// Initialize web area with template HTML file on first use
@@ -139,23 +163,26 @@ Function progressQuestionning($input : Object)
 	//MARK: Other functions
 	
 Function setModelList($providerList : Object; $kind : Text) : Object
-	var $provider : cs.providerSettingsEntity
-	var $models : Collection
-	var $list : Object:={}
-	var $defaultModel : Text
 	
-	$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
-	Case of 
-		: ($kind="reasoning")
-			$models:=$provider.reasoningModels.models
-			$defaultModel:=$provider.defaults.reasoning
-		: ($kind="embedding")
-			$models:=$provider.embeddingModels.models
-			$defaultModel:=$provider.defaults.embedding
-	End case 
-	$list.values:=$models.extract("model")
-	$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
+	Super.setModelList($providerList; $kind)
 	
-	return $list
-	
-	
+	If (This.menu.currentValue="Question me with tools 🪄")
+		var $provider : cs.providerSettingsEntity
+		var $models : Collection
+		var $list : Object:={}
+		var $defaultModel : Text
+		
+		$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
+		Case of 
+			: ($kind="reasoning")
+				$models:=$provider.reasoningModels.models
+				$defaultModel:=$provider.defaults.reasoning
+			: ($kind="embedding")
+				$models:=$provider.embeddingModels.models
+				$defaultModel:=$provider.defaults.embedding
+		End case 
+		$list.values:=$models.extract("model")
+		$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
+		
+		return $list
+	End if 

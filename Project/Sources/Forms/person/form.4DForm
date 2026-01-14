@@ -263,6 +263,7 @@
 					"hideExtraBlankRows": false,
 					"fontFamily": "Avenir Light",
 					"fontSize": 12,
+					"resizingMode": "legacy",
 					"columns": [
 						{
 							"header": {

@@ -35,11 +35,11 @@
 			"objects": {}
 		},
 		{
-			"objects": {},
-			"entryOrder": []
+			"objects": {}
 		}
 	],
-	"geometryStamp": 2674,
+	"geometryStamp": 155,
+	"formClass": "formSemanticSearch",
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",
@@ -47,7 +47,5 @@
 			"View 1": {}
 		}
 	},
-	"method": "method.4dm",
-	"formClass": "formQuestionMeTools",
 	"menuBar": "Barre #1"
 }

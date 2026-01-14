@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="4">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="5">
 	<com.4d>
 		<interface>
 			<user splash_screen="false"/>
@@ -9,5 +9,6 @@
 				<qodlystudio enabled="true"/>
 			</standalone_server>
 		</web>
+		<general startup_environnement="1"/>
 	</com.4d>
 </preferences>

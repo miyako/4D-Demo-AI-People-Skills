@@ -32,12 +32,29 @@
 			"formHDI",
 			"formIntro",
 			"formMenu",
+			"formSemanticSearch",
 			"formVectorize",
+			"initData",
+			"person",
 			"personEntity",
 			"personSkillEntity",
 			"personSkillSelection",
 			"providerSettings",
-			"providerSettingsEntity"
+			"providerSettingsEntity",
+			"workerHelper"
+		]
+	},
+	"DEV": {
+		"forms": [
+			"personList",
+			"searchSimilarities",
+			"selectAPerson",
+			"skillsSummary"
+		],
+		"classes": [
+			"formPersonList",
+			"formSearchSimilarities",
+			"formSkillsSummary"
 		]
 	},
 	"trash": {}

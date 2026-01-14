@@ -1072,9 +1072,495 @@
 					"dataSource": "Form:C1466.actions.embedding.running"
 				}
 			}
+		},
+		{
+			"objects": {
+				"Text26": {
+					"type": "text",
+					"text": "Semantic search",
+					"top": 41,
+					"left": 23,
+					"width": 201,
+					"height": 28,
+					"fontFamily": "Avenir Light",
+					"fontSize": 20
+				},
+				"Rectangle10": {
+					"type": "rectangle",
+					"top": 96,
+					"left": 23,
+					"width": 239,
+					"height": 625,
+					"borderRadius": 10,
+					"stroke": "#EBEBEB",
+					"class": "background"
+				},
+				"Text27": {
+					"type": "text",
+					"text": "This demo uses a tool leveraging vector search to retrieve persons from database.\r\r\r",
+					"top": 103,
+					"left": 32,
+					"width": 219,
+					"height": 603,
+					"class": "description"
+				},
+				"Input": {
+					"type": "input",
+					"left": 512,
+					"top": 104,
+					"width": 358,
+					"height": 19,
+					"dataSource": "Form:C1466.textToSearch",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text": {
+					"type": "text",
+					"text": "search text",
+					"top": 104,
+					"left": 282,
+					"width": 179,
+					"height": 18,
+					"textAlign": "right",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Input15": {
+					"type": "input",
+					"left": 512,
+					"top": 130,
+					"width": 358,
+					"height": 19,
+					"dataSource": "Form:C1466.requestedQuantity",
+					"dataSourceTypeHint": "number",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"Text28": {
+					"type": "text",
+					"text": "results to retrieve",
+					"top": 131,
+					"left": 282,
+					"width": 179,
+					"height": 18,
+					"textAlign": "right",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"List Box": {
+					"type": "listbox",
+					"left": 277,
+					"top": 173,
+					"width": 1150,
+					"height": 499,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"dataSource": "Form:C1466.result",
+					"listboxType": "collection",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"columns": [
+						{
+							"header": {
+								"text": "Name",
+								"name": "Header7"
+							},
+							"name": "Column7",
+							"footer": {
+								"name": "Footer7"
+							},
+							"dataSource": "This:C1470.person.fullname",
+							"truncateMode": "none",
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header10",
+								"text": "Score"
+							},
+							"name": "Column10",
+							"dataSource": "This:C1470.score",
+							"footer": {
+								"name": "Footer10"
+							},
+							"truncateMode": "none",
+							"width": 74,
+							"textAlign": "left",
+							"class": "titleBackground",
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header8",
+								"text": "Job Title"
+							},
+							"name": "Column8",
+							"dataSource": "This:C1470.person.jobDetail.jobTitle",
+							"footer": {
+								"name": "Footer8"
+							},
+							"width": 137,
+							"truncateMode": "none",
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header9",
+								"text": "City"
+							},
+							"name": "Column9",
+							"dataSource": "This:C1470.person.address.city",
+							"footer": {
+								"name": "Footer9"
+							},
+							"width": 133,
+							"truncateMode": "none",
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header11",
+								"text": "Country"
+							},
+							"name": "Column11",
+							"dataSource": "This:C1470.person.address.country",
+							"footer": {
+								"name": "Footer11"
+							},
+							"width": 133,
+							"truncateMode": "none",
+							"enterable": false
+						},
+						{
+							"header": {
+								"name": "Header12",
+								"text": "Skills"
+							},
+							"name": "Column12",
+							"width": 532,
+							"dataSource": "This:C1470.person.personSkills.extract(\"skill.name\").join(\" | \")",
+							"footer": {
+								"name": "Footer12"
+							},
+							"truncateMode": "none",
+							"enterable": false
+						}
+					]
+				},
+				"btnSearch": {
+					"type": "button",
+					"text": "Search",
+					"top": 109,
+					"left": 907,
+					"width": 141,
+					"height": 31,
+					"events": [
+						"onClick"
+					],
+					"method": "ObjectMethods/btnSearch.4dm",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"defaultButton": true
+				},
+				"Input16": {
+					"type": "input",
+					"left": 402,
+					"top": 692,
+					"width": 128,
+					"height": 17,
+					"dataSource": "Form:C1466.result.length",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"hideFocusRing": true,
+					"borderStyle": "none"
+				},
+				"Text29": {
+					"type": "text",
+					"text": "Total search results",
+					"top": 692,
+					"left": 277,
+					"width": 125,
+					"height": 18,
+					"textAlign": "left",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				}
+			}
+		},
+		{
+			"objects": {
+				"Text30": {
+					"type": "text",
+					"text": "Question your database!",
+					"top": 41,
+					"left": 23,
+					"width": 314,
+					"height": 28,
+					"fontFamily": "Avenir Light",
+					"fontSize": 20
+				},
+				"Line2": {
+					"type": "line",
+					"top": 96,
+					"left": 988,
+					"width": 0,
+					"height": 615,
+					"stroke": "#DBDBDB",
+					"startPoint": "bottomLeft"
+				},
+				"peopleListbox": {
+					"type": "listbox",
+					"left": 1004,
+					"top": 112,
+					"width": 410,
+					"height": 126,
+					"events": [
+						"onClick",
+						"onHeaderClick",
+						"onDataChange",
+						"onSelectionChange"
+					],
+					"dataSource": "Form:C1466.people",
+					"listboxType": "collection",
+					"focusable": false,
+					"currentItemSource": "Form:C1466.selectedPerson",
+					"method": "ObjectMethods/peopleListbox.4dm",
+					"fontFamily": "Avenir Light",
+					"fontSize": 12,
+					"scrollbarHorizontal": "hidden",
+					"scrollbarVertical": "visible",
+					"visibility": "visible",
+					"resizingMode": "legacy",
+					"columns": [
+						{
+							"header": {
+								"text": "Person",
+								"name": "Header13",
+								"fontSize": 12
+							},
+							"name": "Column13",
+							"footer": {
+								"name": "Footer13"
+							},
+							"dataSource": "This:C1470.fullname",
+							"width": 133,
+							"resizable": true,
+							"fontSize": 12
+						},
+						{
+							"header": {
+								"name": "Header14",
+								"text": "Country"
+							},
+							"name": "Column14",
+							"footer": {
+								"name": "Footer14"
+							},
+							"dataSource": "This:C1470.address.country",
+							"width": 129
+						},
+						{
+							"header": {
+								"name": "Header15",
+								"text": "Job title"
+							},
+							"name": "Column15",
+							"footer": {
+								"name": "Footer15"
+							},
+							"dataSource": "This:C1470.jobDetail.jobTitle",
+							"width": 129
+						}
+					]
+				},
+				"answerArea_title2": {
+					"type": "text",
+					"text": "Identified persons",
+					"top": 84,
+					"left": 1004,
+					"width": 218,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16,
+					"visibility": "visible"
+				},
+				"personDetails": {
+					"type": "subform",
+					"left": 1004,
+					"top": 274,
+					"width": 410,
+					"height": 444,
+					"detailForm": "person",
+					"hideFocusRing": true,
+					"visibility": "visible",
+					"dataSource": "Form:C1466.selectedPerson"
+				},
+				"answerArea_title3": {
+					"type": "text",
+					"text": "Selected person",
+					"top": 242,
+					"left": 1004,
+					"width": 218,
+					"height": 22,
+					"fontFamily": "Avenir Light",
+					"fontSize": 16,
+					"visibility": "visible"
+				},
+				"Web Area": {
+					"type": "webArea",
+					"left": 15,
+					"top": 96,
+					"width": 959,
+					"height": 469,
+					"webEngine": "embedded",
+					"borderStyle": "none",
+					"methodsAccessibility": "all"
+				},
+				"Rectangle11": {
+					"type": "rectangle",
+					"top": 580,
+					"left": 15,
+					"width": 959,
+					"height": 131,
+					"borderRadius": 20,
+					"stroke": "#E8E8E8",
+					"strokeWidth": 1,
+					"class": "background"
+				},
+				"Input17": {
+					"type": "input",
+					"left": 31,
+					"top": 593,
+					"width": 673,
+					"height": 109,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"fill": "transparent",
+					"dataSource": "Form:C1466.actions.questionning.prompt",
+					"placeholder": "Ask anything about employees, skills, locations, etc.",
+					"borderStyle": "none",
+					"borderRadius": 8,
+					"hideFocusRing": true,
+					"events": [
+						"onDataChange"
+					],
+					"method": ""
+				},
+				"questionningProgressMessage": {
+					"type": "input",
+					"left": 31,
+					"top": 686,
+					"width": 645,
+					"height": 19,
+					"dataSource": "Form:C1466.actions.questionning.progress.message",
+					"enterable": false,
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"textAlign": "left"
+				},
+				"btnAskMe": {
+					"type": "button",
+					"text": "🚀",
+					"top": 669,
+					"left": 724,
+					"width": 60,
+					"height": 36,
+					"events": [
+						"onClick"
+					],
+					"borderStyle": "none",
+					"method": "ObjectMethods/btnAskMe.4dm",
+					"defaultButton": false
+				},
+				"btnNewChat": {
+					"type": "button",
+					"text": "🗑️",
+					"top": 669,
+					"left": 900,
+					"width": 60,
+					"height": 36,
+					"events": [
+						"onClick"
+					],
+					"borderStyle": "none",
+					"method": "ObjectMethods/btnNewChat.4dm",
+					"defaultButton": false
+				},
+				"selectProvidersList": {
+					"type": "dropdown",
+					"left": 795,
+					"top": 593,
+					"width": 170,
+					"height": 27,
+					"events": [
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "object",
+					"dataSource": "Form:C1466.providersGen",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"method": "ObjectMethods/selectProvidersList.4dm"
+				},
+				"selectModelsList": {
+					"type": "dropdown",
+					"left": 795,
+					"top": 621,
+					"width": 170,
+					"height": 27,
+					"events": [
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "object",
+					"dataSource": "Form:C1466.modelsGen",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"selectProvidersTitle": {
+					"type": "text",
+					"text": "Provider",
+					"top": 596,
+					"left": 724,
+					"width": 68,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"selectModelsTitle": {
+					"type": "text",
+					"text": "Model",
+					"top": 624,
+					"left": 724,
+					"width": 68,
+					"height": 18,
+					"fontFamily": "Avenir Light",
+					"fontSize": 13
+				},
+				"timingResult": {
+					"type": "input",
+					"left": 724,
+					"top": 647,
+					"width": 241,
+					"height": 19,
+					"dataSource": "Form:C1466.actions.questionning.timingResult",
+					"enterable": false,
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"fontFamily": "Avenir Light",
+					"fontSize": 13,
+					"textAlign": "left"
+				}
+			}
 		}
 	],
-	"geometryStamp": 617,
+	"geometryStamp": 722,
 	"editor": {
 		"groups": {
 			"Group": [
@@ -1108,6 +1594,10 @@
 				"Input10",
 				"Input11"
 			],
+			"Group6": [
+				"Rectangle10",
+				"Text27"
+			],
 			"Group8": [
 				"Rectangle3",
 				"Text16"
@@ -1120,6 +1610,6 @@
 		}
 	},
 	"method": "method.4dm",
-	"formClass": "formVectorize",
+	"formClass": "formSemanticSearch",
 	"menuBar": "Barre #1"
 }

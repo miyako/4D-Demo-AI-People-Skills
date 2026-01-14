@@ -28,6 +28,10 @@ text.subtitle {
 @media (prefers-color-scheme: light) {
 	rectangle.titleBackground {
 		fill: #b1c4dd;
+	}
+	column.titleBackground {
+		fill: #b1c4dd;
+		alternateFill:#b1c4dd;
 	}	
 	rectangle.titleBackgroundAlert {
 		fill: #FDBBC1;
@@ -37,6 +41,10 @@ text.subtitle {
 @media (prefers-color-scheme: dark) {
 	rectangle.titleBackground {
 		fill: #142841;
+	}	
+	column.titleBackground {
+		fill: #142841;
+		alternateFill:#142841;
 	}	
 	rectangle.titleBackgroundAlert {
 		fill: #54060d;

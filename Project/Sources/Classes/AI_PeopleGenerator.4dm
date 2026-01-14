@@ -136,7 +136,7 @@ Function prompt()
 	$progress:={value: Int(This.generated/This.quantity*100); message: "Generating people "+String(This.generated)+"/"+String(This.quantity)}
 	$toGenerate:=(This.quantityBy<(This.quantity-This.generated)) ? This.quantityBy : (This.quantity-This.generated)
 	Case of 
-		: (This.model="@jp@") || (True)
+		: (True)
 			$prompt:=String($toGenerate)+" 人分のデータを生成してください。"+This.specificRequest+"回答は以下の文字列で始めてください```json\n{ \"personArray\":"
 		Else 
 			$prompt:="generate "+String($toGenerate)+" people. Specific request: "+This.specificRequest+"Start answering with ```json\n{ \"personArray\":"
@@ -154,7 +154,7 @@ Function initBot()
 	This.loadSchemas()
 	
 	Case of 
-		: (This.model="@jp@") || (True)
+		: (True)
 			$systemPrompt:="あなたは誠実で優秀な日本人のサンプルデータ生成アシスタントです。特に指示が無い場合は、常に日本語で回答してください。あなたの回答はデータベースにサンプルデータを登録す"+"るために使用されます。\n"+\
 				"**場面**\n"+\
 				"わたしのデータベースアプリケーションには、さまざま業種のソフトウェア開発プロジェクトを手掛ける国際的なコンサルティング会社で使用されるデータベースで、開発エンジニアや"+"人事部門やプロジェクトマネージャーといった分野のスキルを有するメンバーの個人情報が登録されることになっています。\n"+\
