@@ -1,14 +1,4 @@
-//%attributes = {}
-//LM Studio:
-//URL: http://127.0.0.1:1234/v1
-//text-embedding-mxbai-embed-large-v1
-//text-embedding-nomic-embed-text-v1.5
-
-
-//Ollama:
-//URL: http://localhost:11434/v1
-//nomic-embed-text:latest
-
+//%attributes = {"invisible":true,"preemptive":"capable"}
 var $textToSearch : Text
 var $AIClient : cs.AIKit.OpenAI  //no key needed if local model 
 var $embeddingResult : cs.AIKit.OpenAIEmbeddingsResult
