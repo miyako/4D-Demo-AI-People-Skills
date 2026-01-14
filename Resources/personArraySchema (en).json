@@ -1,0 +1,141 @@
+{
+  "type": "object",
+  "properties": {
+    "personArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "description": "The person's first name."
+          },
+          "lastname": {
+            "type": "string",
+            "description": "The person's last name. Avoid too generic names like 'Doe'."
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The person's email address (should be realistic)."
+          },
+          "phone": {
+            "type": "string",
+            "description": "The person's phone number as a string."
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The person's birth date (ISO date string)."
+          },
+          "gender": {
+            "type": "string",
+            "description": "The person's gender or qualifier."
+          },
+          "address": {
+            "type": "object",
+            "description": "The person's address information. While not all address attributes are mandatory, a general rule for an address to be valid is: must have non empty streetName AND (streetNumber OR building OR poBox) AND city AND postalCode AND country",
+            "properties": {
+              "streetNumber": {
+                "type": "string",
+                "description": "Street number as a string. Can be empty."
+              },
+              "streetName": {
+                "type": "string",
+                "description": "Street name as a string. Mandatory."
+              },
+              "apartment": {
+                "type": "string",
+                "description": "Apartment number as a string. Can be empty."
+              },
+              "building": {
+                "type": "string",
+                "description": "Building name or number as a string. Can be empty."
+              },
+              "poBox": {
+                "type": "string",
+                "description": "PO box as a string. Can be empty."
+              },
+              "city": {
+                "type": "string",
+                "description": "City name as a string. Mandatory."
+              },
+              "region": {
+                "type": "string",
+                "description": "Region or state as a string. Can be empty."
+              },
+              "postalCode": {
+                "type": "string",
+                "description": "Postal code as a string. Mandatory"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country name as a string. Mandatory."
+              }
+            },
+            "required": ["streetName", "city", "postalCode", "country"]
+          },
+          "personSkills": {
+            "type": "array",
+            "description": "Array of skills for the person. 5 to 15 skills, coherent with **jobTitle**",
+            "items": {
+              "type": "object",
+              "description": "A skill object representing a specific skill the person has, with years of experience and level reached.",
+              "properties": {
+                "skillName": {
+                  "type": "string",
+                  "description": "Name of the skill."
+                },
+                "yearsOfXP": {
+                  "type": "integer",
+                  "description": "Number of years of experience for the skill."
+                },
+                "level": {
+                  "type": "integer",
+                  "description": "Skill level (1 = beginner, 10 = expert)."
+                }
+              },
+              "required": ["skillName", "yearsOfXP", "level"]
+            }
+          },
+          "jobDetail": {
+            "type": "object",
+            "description": "Job-related details for the person.",
+            "properties": {
+              "hireDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Hire date (ISO date string)."
+              },
+              "jobTitle": {
+                "type": "string",
+                "description": "Job title as a string. A plausible jobTitle for this person, given the skills he/she has, years of experience and level for each skill taken into account"
+              },
+              "notes": {
+                "type": "string",
+                "description": "HR notes as a string (optional, ~10% of employees, leave empty for ~90% of employees)."
+              },
+              "billingRate": {
+                "type": "integer",
+                "description": "Daily billing rate as an integer (250-2000)."
+              }
+            },
+            "required": ["hireDate", "jobTitle", "notes", "billingRate"]
+          }
+        },
+        "required": [
+          "firstname",
+          "lastname",
+          "email",
+          "phone",
+          "birthDate",
+          "gender",
+          "address",
+          "personSkills",
+          "jobDetail"
+        ]
+      }
+    }
+  },
+  "required": ["personArray"]
+}

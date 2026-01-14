@@ -571,7 +571,7 @@
 					"left": 297,
 					"top": 259,
 					"width": 727,
-					"height": 433,
+					"height": 353,
 					"dataSource": "Form:C1466.AIText",
 					"enterable": false,
 					"multiline": "yes",
@@ -1074,7 +1074,7 @@
 			}
 		}
 	],
-	"geometryStamp": 613,
+	"geometryStamp": 617,
 	"editor": {
 		"groups": {
 			"Group": [

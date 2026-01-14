@@ -25,7 +25,7 @@ Class constructor()
 	
 	This.actions:={\
 		embedding: {running: 0; progress: {value: 0; message: ""}; recomputeAll: False}; \
-		generatingPeople: {running: 0; progress: {value: 0; message: ""}; quantity: 30; quantityBy: 10; specificRequest: ""}\
+		generatingPeople: {running: 0; progress: {value: 0; message: ""}; quantity: 9; quantityBy: 3; specificRequest: ""}\
 		}
 	
 	$embeddingStatusOK:=ds.embeddingInfo.embeddingStatus()

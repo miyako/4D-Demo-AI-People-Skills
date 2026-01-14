@@ -8,86 +8,86 @@
         "properties": {
           "firstname": {
             "type": "string",
-            "description": "The person's first name."
+            "description": "人の名。"
           },
           "lastname": {
             "type": "string",
-            "description": "The person's last name."
+            "description": "人の姓。"
           },
           "email": {
             "type": "string",
             "format": "email",
-            "description": "The person's email address (should be realistic)."
+            "description": "その人の電子メール アドレス (現実的なものにしてください)。"
           },
           "phone": {
             "type": "string",
-            "description": "The person's phone number as a string."
+            "description": "人物の電話番号を文字列として返します。"
           },
           "gender": {
             "type": "string",
-            "description": "The person's gender or qualifier."
+            "description": "人物の性別または修飾語。"
           },
           "address": {
             "type": "object",
-            "description": "The person's address information. While not all address attributes are mandatory, a general rule for an address to be valid is: must have non empty streetName AND (streetNumber OR building OR poBox) AND city AND postalCode AND country",
+            "description": "個人の住所情報。すべての住所属性が必須というわけではありませんが、住所が有効であるための一般的なルールは、streetNameと(streetNumberまたはbuildingまたはpoBox)とcityとpostalCodeとcountryの要素が空でないことです。",
             "properties": {
               "streetNumber": {
                 "type": "string",
-                "description": "Street number as a string. Can be empty."
+                "description": "番地を表す文字列。空でも構いません。"
               },
               "streetName": {
                 "type": "string",
-                "description": "Street name as a string. Mandatory."
+                "description": "通り名を文字列で指定します。必須です。"
               },
               "apartment": {
                 "type": "string",
-                "description": "Apartment number as a string. Can be empty."
+                "description": "アパート番号を表す文字列。空白でも構いません。"
               },
               "building": {
                 "type": "string",
-                "description": "Building name or number as a string. Can be empty."
+                "description": "建物名または番号を表す文字列。空でも構いません。"
               },
               "poBox": {
                 "type": "string",
-                "description": "PO box as a string. Can be empty."
+                "description": "文字列としての私書箱。空でも構いません。"
               },
               "city": {
                 "type": "string",
-                "description": "City name as a string. Mandatory."
+                "description": "都市名を文字列で指定します。必須です。"
               },
               "region": {
                 "type": "string",
-                "description": "Region or state as a string. Can be empty."
+                "description": "地域または州を表す文字列。空でも構いません。"
               },
               "postalCode": {
                 "type": "string",
-                "description": "Postal code as a string. Mandatory"
+                "description": "郵便番号を文字列で指定します。必須です。"
               },
               "country": {
                 "type": "string",
-                "description": "Country name as a string. Mandatory."
+                "description": "国名を文字列で指定します。必須です。"
               }
             },
             "required": ["streetName", "city", "postalCode", "country"]
           },
           "personSkills": {
             "type": "array",
-            "description": "Array of skills for the person. 5 to 15 skills, coherent with **jobTitle**",
+            "description": "人物のスキルの配列。**jobTitle** と一貫性のある 5 ～ 15 個のスキル",
             "items": {
               "type": "object",
-              "description": "A skill object representing a specific skill the person has, with years of experience and level reached.",
+              "description": "経験年数と到達レベルとともに、その人が持つ特定のスキルを表すスキル オブジェクト。",
               "properties": {
                 "skillName": {
                   "type": "string",
-                  "description": "Name of the skill."
+                  "description": "スキルの名前。"
                 },
                 "yearsOfXP": {
                   "type": "integer",
-                  "description": "Number of years of experience for the skill."
+                  "description": "スキルの経験年数。"
                 },
                 "level": {
                   "type": "integer",
-                  "description": "Skill level (1 = beginner, 10 = expert)."
+                  "description": "スキルレベル（1 = 初心者、10 = エキスパート）。"
                 }
               },
               "required": ["skillName", "yearsOfXP", "level"]
@@ -95,19 +95,19 @@
           },
           "jobDetail": {
             "type": "object",
-            "description": "Job-related details for the person.",
+            "description": "人物の職業関連の詳細。",
             "properties": {
               "jobTitle": {
                 "type": "string",
-                "description": "Job title as a string. A plausible jobTitle for this person, given the skills he/she has, years of experience and level for each skill taken into account"
+                "description": "文字列としての職名。この人物のスキル、経験年数、各スキルのレベルを考慮した妥当な職名。"
               },
               "notes": {
                 "type": "string",
-                "description": "HR notes as a string (optional, ~10% of employees, leave empty for ~90% of employees)."
+                "description": "人事部向けのメモを文字列として指定します (オプション、従業員の約 10%、従業員の約 90% の場合は空白のままにします)。"
               },
               "billingRate": {
                 "type": "integer",
-                "description": "Daily billing rate as an integer (250-2000)."
+                "description": "1 日あたりの課金レートを整数で指定します (25000 ～ 75000)。"
               }
             },
             "required": ["jobTitle", "notes", "billingRate"]

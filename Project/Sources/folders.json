@@ -24,12 +24,18 @@
 		],
 		"classes": [
 			"addressEntity",
+			"AI_Agent",
+			"AI_PeopleGenerator",
+			"AI_PersonVectorizer",
 			"AI_Vectorizer",
 			"embeddingInfo",
 			"formHDI",
 			"formIntro",
 			"formMenu",
+			"formVectorize",
 			"personEntity",
+			"personSkillEntity",
+			"personSkillSelection",
 			"providerSettings",
 			"providerSettingsEntity"
 		]

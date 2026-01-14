@@ -28,7 +28,8 @@ Function updateProviderSettings()
 	$providers:=This.all()
 	
 	For each ($provider; $providers)
-		$AIClient:=cs.AIKit.OpenAI.new(This.getAccessToken($provider.name))
+		$provider.key:=This.getAccessToken($provider.name)
+		$AIClient:=cs.AIKit.OpenAI.new($provider.key)
 		$AIClient.baseURL:=($provider.url#"") ? $provider.url : $AIClient.baseURL
 		$modelsList:=$AIClient.models.list()
 		If ($modelsList.success)

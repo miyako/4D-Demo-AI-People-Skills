@@ -176,7 +176,7 @@ Function initBot()
 	
 	$options.model:=This.model
 	$options.temperature:=0
-	$options.stream:=True
+	$options.stream:=False  //True
 	$options.onData:=This.onStreamData
 	$options.onTerminate:=This.onStreamTerminate
 	
