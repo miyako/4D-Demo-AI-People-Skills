@@ -5,7 +5,7 @@ var $i; $window : Integer
 
 Case of 
 	: (Count parameters=0)
-		$options:={title: "Tool calling\rwith 4D AI Kit"}
+		$options:={title: "AI Tool calling with 4D"}
 		
 		ARRAY LONGINT($windows; 0)
 		WINDOW LIST($windows)
@@ -18,13 +18,13 @@ Case of
 			End if 
 		End for 
 		
-		CALL WORKER(1; Formula(00_Start); $options)
+		CALL WORKER(1; Formula(01_Start); $options)
 		
 	Else 
 		
 		SET MENU BAR(1)
-		$window:=Open form window("HDI"; Shift down ? Plain form window : Plain form window no title; Horizontally centered; Vertically centered)
+		$window:=Open form window("menu"; Plain form window; Horizontally centered; Vertically centered)
 		SET WINDOW TITLE($options.title; $window)
-		DIALOG("HDI"; *)
+		DIALOG("menu"; *)
 		
 End case 
