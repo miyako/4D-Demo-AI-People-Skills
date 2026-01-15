@@ -26,3 +26,12 @@ Backup/
 backupHistory.json
 Components/
 OpenAI.token
+xAI.token
+Groq.token
+Azure.token
+Cohere.token
+Gemini.token
+NVIDIA.token
+Mistral.token
+OpenRouter.token
+Perplexity.token

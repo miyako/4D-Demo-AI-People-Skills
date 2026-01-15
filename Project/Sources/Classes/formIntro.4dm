@@ -31,44 +31,35 @@ Function formEventHandler($formEventCode : Integer)
 	
 Function btnAddProviderEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=1)
-		Case of 
-			: ($formEventCode=On Clicked)
-				ds.providerSettings.add()
-				This.providers:=ds.providerSettings.all()
-				LISTBOX SELECT ROW(*; "ProvidersListBox"; Form.providers.length)
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Clicked)
+			ds.providerSettings.add()
+			This.providers:=ds.providerSettings.all()
+			LISTBOX SELECT ROW(*; "ProvidersListBox"; Form.providers.length)
+	End case 
 	
 Function btnDeleteProviderEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=1)
-		Case of 
-			: ($formEventCode=On Clicked)
-				If (This.providersListBox.currentItem#Null)
-					This.providersListBox.currentItem.drop()
-					This.providers:=ds.providerSettings.all()
-					LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)
-				End if 
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Clicked)
+			If (This.providersListBox.currentItem#Null)
+				This.providersListBox.currentItem.drop()
+				This.providers:=ds.providerSettings.all()
+				LISTBOX SELECT ROW(*; "ProvidersListBox"; 1)
+			End if 
+	End case 
 	
 Function btnRefreshProvidersEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=1)
-		Case of 
-			: ($formEventCode=On Clicked)
-				ds.providerSettings.updateProviderSettings()
-				Form.providers:=ds.providerSettings.all()
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Clicked)
+			ds.providerSettings.updateProviderSettings()
+			Form.providers:=ds.providerSettings.all()
+	End case 
 	
 Function genericInputEventHandler($formEventCode : Integer)
 	
-	If (FORM Get current page=1)
-		Case of 
-			: ($formEventCode=On Data Change)
-				This.providersListBox.currentItem.save()
-		End case 
-	End if 
-	
+	Case of 
+		: ($formEventCode=On Data Change)
+			This.providersListBox.currentItem.save()
+	End case 

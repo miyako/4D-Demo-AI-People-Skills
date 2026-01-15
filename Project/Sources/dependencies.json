@@ -8,6 +8,10 @@
 		"onnx genai": {
 			"github": "miyako/onnx-genai",
 			"version": "latest"
+		},
+		"CTranslate2": {
+			"github": "miyako/CTranslate2",
+			"version": "latest"
 		}
 	}
 }

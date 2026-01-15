@@ -113,76 +113,70 @@ Function providersEmbListEventHandler($formEventCode : Integer)
 	
 Function btnGeneratePeopleEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
-		Case of 
-			: ($formEventCode=On Clicked)
-				If (This.modelsGen.currentValue="")
-					ALERT("Please select a model first")
-					return 
-				End if 
-				
-				This.actions.generatingPeople.running:=1
-				This.actions.generatingPeople.progress:={value: 0; message: "Generating people"}
-				
-				OBJECT SET VISIBLE(*; "peopleGen@"; True)
-				OBJECT SET VISIBLE(*; "btnGeneratePeople"; False)
-				
-				Form.AIText:=""
-				cs.AI_PeopleGenerator.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue; True)
-				cs.AI_PeopleGenerator.me.generatePeopleAsync(This.actions.generatingPeople.quantity; This.actions.generatingPeople.quantityBy; This.actions.generatingPeople.specificRequest; Form)
-				
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Clicked)
+			If (This.modelsGen.currentValue="")
+				ALERT("Please select a model first")
+				return 
+			End if 
+			
+			This.actions.generatingPeople.running:=1
+			This.actions.generatingPeople.progress:={value: 0; message: "Generating people"}
+			
+			OBJECT SET VISIBLE(*; "peopleGen@"; True)
+			OBJECT SET VISIBLE(*; "btnGeneratePeople"; False)
+			
+			Form.AIText:=""
+			cs.AI_PeopleGenerator.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue; True)
+			cs.AI_PeopleGenerator.me.generatePeopleAsync(This.actions.generatingPeople.quantity; This.actions.generatingPeople.quantityBy; This.actions.generatingPeople.specificRequest; Form)
+			
+	End case 
 	
 Function btnVectorizeEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
-		var $provider; $model : Text
-		var $recomputeAll : Boolean
-		
-		Case of 
-			: ($formEventCode=On Clicked)
-				
-				If (This.modelsEmb.currentValue="")
-					ALERT("Please select a model first")
-					return 
-				End if 
-				
-				This.actions.embedding.running:=1
-				This.actions.embedding.status:="In progress"
-				This.actions.embedding.embeddingInfo:=ds.embeddingInfo.dummyInfo()
-				This.actions.embedding.progress:={value: 0; message: "Generating embeddings"}
-				
-				OBJECT SET VISIBLE(*; "embedding@"; True)
-				OBJECT SET VISIBLE(*; "btnVectorize"; False)
-				
-				Form.window:=Current form window
-				
-				$provider:=This.providersEmb.currentValue
-				$model:=This.modelsEmb.currentValue
-				$recomputeAll:=This.actions.embedding.recomputeAll
-				
-				CALL WORKER(String(Session.id)+"-embedding"; Formula(cs.AI_PersonVectorizer.me.vectorizePeople($1; $2; $3; $4)); $provider; $model; $recomputeAll; Form)
-				
-		End case 
-	End if 
+	var $provider; $model : Text
+	var $recomputeAll : Boolean
+	
+	Case of 
+		: ($formEventCode=On Clicked)
+			
+			If (This.modelsEmb.currentValue="")
+				ALERT("Please select a model first")
+				return 
+			End if 
+			
+			This.actions.embedding.running:=1
+			This.actions.embedding.status:="In progress"
+			This.actions.embedding.embeddingInfo:=ds.embeddingInfo.dummyInfo()
+			This.actions.embedding.progress:={value: 0; message: "Generating embeddings"}
+			
+			OBJECT SET VISIBLE(*; "embedding@"; True)
+			OBJECT SET VISIBLE(*; "btnVectorize"; False)
+			
+			Form.window:=Current form window
+			
+			$provider:=This.providersEmb.currentValue
+			$model:=This.modelsEmb.currentValue
+			$recomputeAll:=This.actions.embedding.recomputeAll
+			
+			CALL WORKER(String(Session.id)+"-embedding"; Formula(cs.AI_PersonVectorizer.me.vectorizePeople($1; $2; $3; $4)); $provider; $model; $recomputeAll; Form)
+			
+	End case 
 	
 Function btnDropDataEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
-		Case of 
-			: ($formEventCode=On Clicked)
-				ds.person.all().drop()
-				ds.address.all().drop()
-				ds.jobDetail.all().drop()
-				ds.embeddingInfo.all().drop()
-				ds.skill.all().drop()
-				ds.skillCategory.all().drop()
-				ds.personSkill.all().drop()
-				This.actions.embedding:={running: 0; progress: {value: 0; message: ""}; status: "Missing"}
-				cs.initData.me.importSkills()
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Clicked)
+			ds.person.all().drop()
+			ds.address.all().drop()
+			ds.jobDetail.all().drop()
+			ds.embeddingInfo.all().drop()
+			ds.skill.all().drop()
+			ds.skillCategory.all().drop()
+			ds.personSkill.all().drop()
+			This.actions.embedding:={running: 0; progress: {value: 0; message: ""}; status: "Missing"}
+			cs.initData.me.importSkills()
+	End case 
 	
 	//MARK: -
 	//MARK: Form actions callback functions
