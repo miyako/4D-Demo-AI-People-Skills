@@ -55,7 +55,7 @@ Function tool_PersonSearchByVector($input : Object) : Object
 	
 	$result:=ds.person.personSearchByVector($input.terms; 20)
 	
-	If ($result.success)
+	If ($result.success) || ($result.peopleFound.length=0)
 		return {peopleFound: $result.peopleFound.toCollection($attributesToExtract)}
 	Else 
 		return {error: $result.logs}
@@ -121,7 +121,9 @@ Function onStreamTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 	var $elapsedTime : Integer
 	
 	If (Not($result.success))
-		ALERT("Problem querying AI provider, please try again. Error: "+$result.errors[0].message)
+		$me.formObject.progressQuestionning({progress: {message: ""}; messages: [{role: "assistant"; content: $result.errors.length#0 ? $result.errors[0].message : ""}]})
+		$me.formObject.terminateQuestionning(0; ds.person.newSelection())
+		//ALERT("Problem querying AI provider, please try again. Error: "+$result.errors[0].message)
 		return 
 	End if 
 	
@@ -137,7 +139,9 @@ Function onStreamData($result : cs.AIKit.OpenAIChatCompletionsResult)
 	var $progress:={message: "Receiving data..."}
 	
 	If (Not($result.success))
-		throw(999; "Problem querying AI provider, please try again")
+		$me.formObject.progressGeneratePeople({AIText: "Problem querying AI provider, please try again"})
+		$me.formObject.terminateGeneratePeople()
+		//throw(999; "Problem querying AI provider, please try again")
 		return 
 	End if 
 	

@@ -24,6 +24,13 @@ Function setAgent($providerName : Text; $model : Text; $reset : Boolean)
 	This.AIClient:=cs.AIKit.OpenAI.new($provider.key#Null ? $provider.key : "")
 	//This.AIClient.httpAgent:=4D.HTTPAgent.new()
 	
+	Case of 
+		: ($providerName="Claude")
+			This.AIClient.customHeaders:={}
+			This.AIClient.customHeaders["x-api-key"]:=$provider.key
+			This.AIClient.customHeaders["anthropic-version"]:="2023-06-01"
+	End case 
+	
 	If ($provider.url#"")
 		This.AIClient.baseURL:=$provider.url
 	End if 

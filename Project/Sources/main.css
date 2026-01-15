@@ -1,6 +1,7 @@
 column {
 	resizable: false;
 	enterable: false;
+	truncateMode: none;
 }
 
 listbox {

@@ -94,7 +94,9 @@ Function onStreamChatTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 		var $timingPerPerson : Integer
 		
 		If (Not($result.success))
-			throw(999; "Problem querying AI provider, please try again")
+			$me.formObject.progressGeneratePeople({AIText: "Problem querying AI provider, please try again"})
+			$me.formObject.terminateGeneratePeople()
+			//throw(999; "Problem querying AI provider, please try again")
 			return 
 		End if 
 		

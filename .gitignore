@@ -36,3 +36,7 @@ Mistral.token
 OpenRouter.token
 Perplexity.token
 DeepInfra.token
+Claude.token
+DeepSeek.token
+HuggingFace.token
+Moonshot.token

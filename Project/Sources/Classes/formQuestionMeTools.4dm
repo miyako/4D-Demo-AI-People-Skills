@@ -60,12 +60,14 @@ Function formEventHandler($formEventCode : Integer)
 			OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
 			If (This.actions.questionning.running=1)
 				OBJECT SET VISIBLE(*; "questionning@"; True)
-				OBJECT SET VISIBLE(*; "btn@"; False)
+				OBJECT SET VISIBLE(*; "btnAskMe"; False)
+				OBJECT SET VISIBLE(*; "btnNewChat"; False)
 				OBJECT SET VISIBLE(*; "select@"; False)
 				OBJECT SET VISIBLE(*; "timingResult"; False)
 			Else 
 				OBJECT SET VISIBLE(*; "questionning@"; False)
-				OBJECT SET VISIBLE(*; "btn@"; True)
+				OBJECT SET VISIBLE(*; "btnAskMe"; True)
+				OBJECT SET VISIBLE(*; "btnNewChat"; True)
 				OBJECT SET VISIBLE(*; "select@"; True)
 				OBJECT SET VISIBLE(*; "timingResult"; True)
 			End if 
@@ -83,10 +85,17 @@ Function btnNewChatEventHandler($formEventCode : Integer)
 	$templatePath:=Get 4D folder(Current resources folder)+$templateFilename
 	OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
 	WA OPEN URL(*; "Web Area"; $templatePath)
-	This.actions:={\
-		questionning: {running: 0; progress: {message: ""}; timing: 0; prompt: ""}\
+	
+	var $actions : Object
+	$actions:={\
+		questionning: {running: 0; progress: {message: ""}; timingResult: ""; prompt: ""}\
 		}
-	This.actions.questionning.prompt:=""
+	
+	var $action : Text
+	For each ($action; $actions)
+		This.actions[$action]:=$actions[$action]
+	End for each 
+	
 	OBJECT SET ENABLED(*; "btnAskMe"; False)
 	
 Function btnAskMeEventHandler($formEventCode : Integer)
@@ -104,7 +113,8 @@ Function btnAskMeEventHandler($formEventCode : Integer)
 			
 			Form.people:=Null
 			OBJECT SET VISIBLE(*; "questionning@"; True)
-			OBJECT SET VISIBLE(*; "btn@"; False)
+			OBJECT SET VISIBLE(*; "btnAskMe"; False)
+			OBJECT SET VISIBLE(*; "btnNewChat"; False)
 			OBJECT SET VISIBLE(*; "select@"; False)
 			OBJECT SET VISIBLE(*; "timingResult"; False)
 			
@@ -159,7 +169,8 @@ Function terminateQuestionning($timing : Integer; $peopleFound : cs.personSelect
 		Form.actions.questionning.timingResult:="Answer given in "+String($timing)+" ms"
 		Form.people:=$peopleFound
 		OBJECT SET VISIBLE(*; "questionning@"; False)
-		OBJECT SET VISIBLE(*; "btn@"; True)
+		OBJECT SET VISIBLE(*; "btnAskMe"; True)
+		OBJECT SET VISIBLE(*; "btnNewChat"; True)
 		OBJECT SET VISIBLE(*; "select@"; True)
 		OBJECT SET VISIBLE(*; "timingResult"; True)
 		This.actions.questionning.running:=0
