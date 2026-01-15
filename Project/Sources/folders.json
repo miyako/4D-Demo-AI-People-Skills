@@ -15,7 +15,6 @@
 		"methods": [
 			"00_Start",
 			"01_Start",
-			"activateWindow",
 			"addLocalONNXRuntime"
 		],
 		"forms": [

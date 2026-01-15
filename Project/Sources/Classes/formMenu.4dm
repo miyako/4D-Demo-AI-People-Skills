@@ -1,10 +1,17 @@
 property menu : Object
+property actions : Object
+
+Class extends form
 
 Class constructor()
+	
+	Super()
 	
 	This.menu:={}
 	This.menu.values:=["Intro"; "Data Gen & Embeddings 🪄"; "Semantic search"; "Question me with tools 🪄"]
 	This.menu.index:=0
+	
+	This.actions:={}
 	
 Function tabMenuEventHandler($formEventCode : Integer)
 	Case of 

@@ -29,9 +29,15 @@ Class constructor()
 		This.modelsGen.index:=This.modelsGen.values.findIndex(Formula($1.value=$provider.defaults.reasoning))
 	End if 
 	
-	This.actions:={\
+	var $actions : Object
+	$actions:={\
 		questionning: {running: 0; progress: {message: ""}; timingResult: ""; prompt: ""}\
 		}
+	
+	var $action : Text
+	For each ($action; $actions)
+		This.actions[$action]:=$actions[$action]
+	End for each 
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
@@ -46,15 +52,6 @@ Function formEventHandler($formEventCode : Integer)
 				OBJECT SET VISIBLE(*; "questionning@"; False)
 				OBJECT SET VISIBLE(*; "timingResult"; False)
 				OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-		End case 
-	End if 
-	
-Function providersGenListEventHandler($formEventCode : Integer)
-	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		Case of 
-			: ($formEventCode=On Data Change)
-				This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
 		End case 
 	End if 
 	
@@ -119,22 +116,19 @@ Function lbPeopleListboxEventHandler($formEventCode : Integer)
 	
 Function terminateQuestionning($timing : Integer; $peopleFound : cs.personSelection)
 	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		
+	If (Form#Null)
 		Form.terminateQuestionning($timing; $peopleFound)
-		
 		Form.actions.questionning.timingResult:="Answer given in "+String($timing)+" ms"
 		Form.people:=$peopleFound
 		OBJECT SET VISIBLE(*; "questionning@"; False)
 		OBJECT SET VISIBLE(*; "btn@"; True)
 		OBJECT SET VISIBLE(*; "select@"; True)
 		OBJECT SET VISIBLE(*; "timingResult"; True)
-		
 	End if 
 	
 Function progressQuestionning($input : Object)
 	
-	If (This.menu.currentValue="Question me with tools 🪄")
+	If (Form#Null)
 		
 		Form.progressQuestionning($input)
 		
@@ -157,32 +151,4 @@ Function progressQuestionning($input : Object)
 			Form.actions.questionning.progress.message:=$input.progress.message
 		End if 
 		
-	End if 
-	
-	//MARK: -
-	//MARK: Other functions
-	
-Function setModelList($providerList : Object; $kind : Text) : Object
-	
-	Super.setModelList($providerList; $kind)
-	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		var $provider : cs.providerSettingsEntity
-		var $models : Collection
-		var $list : Object:={}
-		var $defaultModel : Text
-		
-		$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
-		Case of 
-			: ($kind="reasoning")
-				$models:=$provider.reasoningModels.models
-				$defaultModel:=$provider.defaults.reasoning
-			: ($kind="embedding")
-				$models:=$provider.embeddingModels.models
-				$defaultModel:=$provider.defaults.embedding
-		End case 
-		$list.values:=$models.extract("model")
-		$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
-		
-		return $list
 	End if 

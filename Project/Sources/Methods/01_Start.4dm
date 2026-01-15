@@ -13,7 +13,7 @@ Case of
 		For ($i; 1; Size of array($windows))
 			$window:=$windows{$i}
 			If (0=Compare strings(Get window title($window); $options.title; sk strict))
-				CALL FORM($window; Formula(activateWindow))
+				CALL FORM($window; Formula(Form.activateWindow()))
 				return 
 			End if 
 		End for 

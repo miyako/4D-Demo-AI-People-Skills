@@ -1,17 +1,13 @@
 property skillsData : Collection
 property categoriesData : Collection
 
-
-
 Class constructor()
-	
 	
 	This.skillsData:=[]
 	This.categoriesData:=[]
-
 	
 	//MARK: -
-
+	
 	//MARK: Form & form objects event handlers
 	
 Function formEventHandler($formEventCode : Integer)
@@ -22,7 +18,7 @@ Function formEventHandler($formEventCode : Integer)
 			
 	End case 
 	
-
+	
 	//MARK: -
 	//MARK: Data loading functions
 	
@@ -92,4 +88,5 @@ Function loadSkillsData()
 	// Sort skills by employee count (descending)
 	This.skillsData:=This.skillsData.orderBy("employeeCount desc, skillName asc")
 	
-
+	
+	

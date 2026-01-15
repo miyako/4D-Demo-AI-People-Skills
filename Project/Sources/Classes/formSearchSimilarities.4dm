@@ -5,11 +5,18 @@ property similarPeople : Collection
 property actions : Object
 
 Class constructor()
+	
 	This.similarPeople:=[]
-	This.actions:={\
+	
+	var $actions : Object
+	$actions:={\
 		searchingSimilarities: {running: 0; progress: {value: 0; message: ""}; similarityLevel: 90; timing: 0}\
 		}
 	
+	var $action : Text
+	For each ($action; $actions)
+		This.actions[$action]:=$actions[$action]
+	End for each 
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
@@ -30,6 +37,7 @@ Function btnDropEventHandler($formEventCode : Integer)
 	End case 
 	
 Function btnSearchSimilaritiesEventHandler($formEventCode : Integer)
+	
 	var $startMillisecond; $timing : Integer
 	var $person; $similarPerson : Object
 	

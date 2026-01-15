@@ -3,8 +3,6 @@ property searchText : Text
 property requestedQuantity : Integer
 property exportResult : Object
 
-
-
 Class constructor()
 	
 	This.searchText:=""
@@ -45,7 +43,7 @@ Function btnSearchEventHandler($formEventCode : Integer)
 			End if 
 	End case 
 	
-
+	
 Function btnExportEventHandler($formEventCode : Integer)
 	var $exportData : Collection
 	var $person : cs.personEntity
@@ -99,4 +97,5 @@ Function btnExportEventHandler($formEventCode : Integer)
 			
 	End case 
 	
-
+	
+	

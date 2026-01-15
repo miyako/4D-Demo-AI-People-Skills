@@ -23,11 +23,22 @@ Class constructor()
 	This.providersGen:={values: []; index: 0}
 	This.modelsGen:={values: []; index: 0}
 	
-	This.actions:={\
+	var $actions : Object
+	$actions:={\
 		embedding: {running: 0; progress: {value: 0; message: ""}; recomputeAll: False}; \
 		generatingPeople: {running: 0; progress: {value: 0; message: ""}; quantity: 9; quantityBy: 3; specificRequest: ""}\
 		}
 	
+	var $action : Text
+	For each ($action; $actions)
+		This.actions[$action]:=$actions[$action]
+	End for each 
+	
+	This.updateModels()
+	
+Function updateModels()
+	
+	var $embeddingStatusOK : Boolean
 	$embeddingStatusOK:=ds.embeddingInfo.embeddingStatus()
 	If ($embeddingStatusOK)
 		This.actions.embedding.status:="Done"
@@ -36,11 +47,13 @@ Class constructor()
 		This.actions.embedding.status:="Missing"
 	End if 
 	
+	var $providers : cs.providerSettingsSelection
 	$providers:=ds.providerSettings.providersAvailable("embedding")
 	If ($providers.length>0)
 		This.providersEmb.values:=$providers.extract("name")
 		
 		//Set embedding provider to the last one successfully used, or select the first one
+		var $provider : cs.providerSettingsEntity
 		$provider:=($embeddingStatusOK) ? $providers.query("name = :1"; This.actions.embedding.info.provider).first() : $providers.first()
 		If ($provider=Null)
 			$provider:=$providers.first()  //in case provider does not exist any more
@@ -48,6 +61,7 @@ Class constructor()
 		This.providersEmb.index:=This.providersEmb.values.findIndex(Formula($1.value=$provider.name))
 		
 		//Set embedding model to the last one successfully used, or select the default one
+		var $models : Collection
 		$models:=$provider.embeddingModels.models
 		This.modelsEmb.values:=$models.extract("model")
 		This.modelsEmb.index:=($embeddingStatusOK) ? This.modelsEmb.values.findIndex(Formula($1.value=ds.embeddingInfo.info().model)) : This.modelsEmb.values.findIndex(Formula($1.value=$provider.defaults.embedding))
@@ -73,6 +87,7 @@ Function formEventHandler($formEventCode : Integer)
 	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
+				Form.updateModels()
 				OBJECT SET VISIBLE(*; "peopleGen@"; False)
 				OBJECT SET VISIBLE(*; "embedding@"; False)
 				If (This.actions.embedding.running=1)
@@ -88,21 +103,17 @@ Function formEventHandler($formEventCode : Integer)
 	
 Function providersGenListEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
-		Case of 
-			: ($formEventCode=On Data Change)
-				This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Data Change)
+			This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
+	End case 
 	
 Function providersEmbListEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
-		Case of 
-			: ($formEventCode=On Data Change)
-				This.modelsEmb:=This.setModelList(This.providersEmb; "embedding")
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Data Change)
+			This.modelsEmb:=This.setModelList(This.providersEmb; "embedding")
+	End case 
 	
 Function btnGeneratePeopleEventHandler($formEventCode : Integer)
 	
@@ -229,27 +240,24 @@ Function progressVectorizing($progress : Object)
 	
 Function setModelList($providerList : Object; $kind : Text) : Object
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
-		
-		var $provider : cs.providerSettingsEntity
-		var $models : Collection
-		var $list : Object:={}
-		var $defaultModel : Text
-		
-		$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
-		Case of 
-			: ($kind="reasoning")
-				$models:=$provider.reasoningModels.models
-				$defaultModel:=$provider.defaults.reasoning
-			: ($kind="embedding")
-				$models:=$provider.embeddingModels.models
-				$defaultModel:=$provider.defaults.embedding
-		End case 
-		$list.values:=$models.extract("model")
-		$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
-		
-		return $list
-	End if 
+	var $provider : cs.providerSettingsEntity
+	var $models : Collection
+	var $list : Object:={}
+	var $defaultModel : Text
+	
+	$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
+	Case of 
+		: ($kind="reasoning")
+			$models:=$provider.reasoningModels.models
+			$defaultModel:=$provider.defaults.reasoning
+		: ($kind="embedding")
+			$models:=$provider.embeddingModels.models
+			$defaultModel:=$provider.defaults.embedding
+	End case 
+	$list.values:=$models.extract("model")
+	$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
+	
+	return $list
 	
 	//MARK: -
 	//MARK: Computed properties
