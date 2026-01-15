@@ -4,7 +4,6 @@ property minimumVersion : Text
 property quit : Boolean
 property title : Text
 
-
 Class extends form
 
 Class constructor

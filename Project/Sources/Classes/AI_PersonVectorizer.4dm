@@ -15,16 +15,22 @@ Function vectorizePeople($provider : Text; $model : Text; $recomputeAll : Boolea
 	var $endTime : Integer
 	var $progress : Object:={}
 	
-	$total:=ds.person.all().length
+	var $people : cs.personSelection
+	
+	If ($recomputeAll)
+		$people:=ds.person.all()
+	Else 
+		$people:=ds.person.query("embedding = null")
+	End if 
+	
+	$total:=$people.length
+	
 	$generated:=0
 	
 	This.setAgent($provider; $model; False)
 	
-	For each ($person; ds.person.all())
-		If ($recomputeAll || ($person.embedding=Null))
-			This.vectorizePerson($person)
-		End if 
-		
+	For each ($person; $people)
+		This.vectorizePerson($person)
 		If (Not(Undefined($formObject)) && ($formObject#Null) && ($formObject.window#0))
 			$generated+=1
 			$progress.value:=Int($generated/$total*100)

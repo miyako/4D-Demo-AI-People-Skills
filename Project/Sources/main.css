@@ -1,3 +1,22 @@
+column {
+	resizable: false;
+	enterable: false;
+}
+
+listbox {
+	fill: automatic;
+	alternateFill: automaticAlternate;
+	fontSize: 12;
+	fontFamily: "Avenir Light";
+	focusable: true;
+	horizontalLineStroke: transparent;
+	selectionMode: single;
+	resizingMode: legacy;
+	hideFocusRing: true;
+	scrollbarHorizontal: hidden;
+	scrollbarVertical: visible;
+}	
+
 rectangle.background {
 	stroke: transparent;
 	strokeWidth: 0;

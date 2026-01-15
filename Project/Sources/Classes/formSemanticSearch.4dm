@@ -6,6 +6,7 @@ property result : Collection
 property textToSearch : Text
 property minimumThresholds : Object
 property requestedQuantity : Integer
+property threshold : Real
 
 Class extends formVectorize
 
@@ -16,6 +17,7 @@ Class constructor()
 	This.textToSearch:=""
 	This.result:=Null
 	This.requestedQuantity:=100
+	This.threshold:=0.25
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
@@ -33,7 +35,7 @@ Function formBtnSearchEventHandler($formEventCode : Integer)
 		This.result:=[]
 		Case of 
 			: ($formEventCode=On Clicked)
-				$searchResult:=ds.person.personSearchByVector(This.textToSearch; This.requestedQuantity)
+				$searchResult:=ds.person.personSearchByVector(This.textToSearch; This.requestedQuantity; This.threshold)
 				If ($searchResult.success)
 					For each ($person; $searchResult.peopleFound)
 						This.result.push({person: $person; score: $person.embedding.cosineSimilarity($searchResult.vectorUsed)})

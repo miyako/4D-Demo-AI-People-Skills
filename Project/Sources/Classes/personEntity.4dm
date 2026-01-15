@@ -58,8 +58,8 @@ Function descriptivePhrase($kind : Text) : Text
 		Case of 
 			: (True)
 				$returnValue+=This.fullname+"は"+This.gender+"です。"
-				$returnValue+="生年月日は"+String(This.birthDate; "yyyy-MM-dd")+"です。"
-				$returnValue+=$heShe+"連絡先メールアドレス"+This.email+"あるいは電話番号"+This.phone+"が登録されています。"
+				$returnValue+="生年月日:"+String(This.birthDate; "yyyy-MM-dd")+"。"
+				$returnValue+="連絡先メールアドレス:"+This.email+"。電話番号:"+This.phone+"。"
 			Else 
 				$returnValue+=This.fullname+" is a "+This.gender+" person. "
 				$returnValue+=$heShe+" was born on "+String(This.birthDate; "yyyy-MM-dd")+". "
@@ -70,7 +70,7 @@ Function descriptivePhrase($kind : Text) : Text
 	If (($kind="skills") || ($kind="full"))
 		Case of 
 			: (True)
-				$returnValue+="本人は以下に挙げる技能やスキルを有しています:\n"+This.personSkills.skillSetText()
+				$returnValue+="技能やスキル:\n"+This.personSkills.skillSetText()
 			Else 
 				$returnValue+=$hisHer+" skills and experience are the following:\n"+This.personSkills.skillSetText()
 		End case 
@@ -79,10 +79,10 @@ Function descriptivePhrase($kind : Text) : Text
 	If (($kind="jobDetails") || ($kind="full"))
 		Case of 
 			: (True)
-				$returnValue+="人材データベース登録日は"+String(This.jobDetail.hireDate; "yyyy-MM-dd")+"です。"
-				$returnValue+="職種は"+This.jobDetail.jobTitle+"で基本日給は"+String(This.jobDetail.billingRate)+"に設定されています。"
+				$returnValue+="人材データベース登録日:"+String(This.jobDetail.hireDate; "yyyy-MM-dd")+"。"
+				$returnValue+="職種:"+This.jobDetail.jobTitle+"。基本日給:"+String(This.jobDetail.billingRate)+"。"
 				If (This.jobDetail.notes#Null) && (This.jobDetail.notes#"")
-					$returnValue+="追加情報: "+This.jobDetail.notes
+					$returnValue+="追加情報:"+This.jobDetail.notes
 				End if 
 			Else 
 				$returnValue+=$heShe+" was hired by the company on "+String(This.jobDetail.hireDate; "yyyy-MM-dd")+". "
@@ -96,7 +96,7 @@ Function descriptivePhrase($kind : Text) : Text
 	If (($kind="address") || ($kind="full"))
 		Case of 
 			: (True)
-				$returnValue+="現在"+This.address.country+"に住んでいます。詳しい住所は"+This.address.formatted()+"です。"
+				$returnValue+="居住国:"+This.address.country+"。住所:"+This.address.formatted()+"。"
 			Else 
 				$returnValue+=$heShe+" lives in "+This.address.country+". "+$hisHer+" exact address is "+This.address.formatted()+". "
 		End case 

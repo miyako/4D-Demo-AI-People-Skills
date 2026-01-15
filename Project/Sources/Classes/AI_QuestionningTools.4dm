@@ -6,7 +6,9 @@ property formObject : Object
 Class extends AI_Agent
 
 singleton Class constructor()
+	
 	Super()
+	
 	This.AIBot:=Null
 	This.formObject:=Null
 	
@@ -176,7 +178,7 @@ Function initBot()
 	
 	$options.model:=This.model
 	$options.temperature:=0
-	$options.stream:=False  //True
+	$options.stream:=True
 	$options.onData:=This.onStreamData
 	$options.onTerminate:=This.onStreamTerminate
 	
@@ -192,10 +194,11 @@ Function initBot()
 	This.AIBot:=This.AIClient.chat.create($systemPrompt; $options)
 	This.loadTools()
 	
-	
 	//MARK: -
 	//MARK: Main entry point: askMe function
+	
 Function askMe($prompt : Text; $formObject : Object)
+	
 	var $progress : Object:={}
 	
 	This.formObject:=$formObject
@@ -204,11 +207,6 @@ Function askMe($prompt : Text; $formObject : Object)
 	$progress.message:="Prompting AI"
 	$formObject.progressQuestionning({progress: $progress})
 	
-	If (This.AIBot=Null)
-		This.initBot()
-	End if 
+	This.initBot()
 	
 	This.AIBot.prompt($prompt)
-	
-	
-	

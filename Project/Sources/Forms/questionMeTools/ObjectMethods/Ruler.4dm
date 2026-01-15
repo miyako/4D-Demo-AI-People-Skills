@@ -1,1 +1,0 @@
-Form.rulerSimilarityEventHandler(Form event code)

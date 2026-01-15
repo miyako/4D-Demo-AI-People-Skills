@@ -11,8 +11,8 @@ Function skillSetText() : Text
 			: (True)
 				$skillText:=$skill.skill.name
 				$skillText+=" ("+$skill.skill.category.name+") "
-				$skillText+="の経験が"+String($skill.yearsOfXP)+"年あります。"
-				$skillText+="熟練レベルは"+$skill.levelStr+"です。"
+				$skillText+=String($skill.yearsOfXP)+"年。"
+				$skillText+=$skill.levelStr+"。"
 			Else 
 				$skillText:=$skill.levelStr+" in "+$skill.skill.name
 				$skillText+=" ("+$skill.skill.category.name+") "

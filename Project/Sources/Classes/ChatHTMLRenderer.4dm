@@ -66,8 +66,6 @@ Function _escapeHTML($text : Text) : Text
 	
 	return $escaped
 	
-	
-	
 Function _cleanMarkdownCodeBlocks($content : Text) : Text
 	// Remove markdown code block markers like ```html...``` or ```...```
 	var $result : Text:=$content
@@ -505,17 +503,16 @@ Function updateWebAreaWithJS($webAreaName : Text; $messages : Collection)
 	
 	WA EXECUTE JAVASCRIPT FUNCTION(*; $webAreaName; "updateMessages"; $jsResult; $messagesHTML)
 	
-	
 Function _cleanAndParseJSON($jsonContent : Text) : Object
 	// Shared helper to clean and parse JSON content
 	var $cleanJSON : Text:=$jsonContent
 	var $parsedJSON : Object
 	
 	// Clean up JSON content in one pass
-	$cleanJSON:=Replace string($cleanJSON; Char(Tab); "")
-	$cleanJSON:=Replace string($cleanJSON; Char(Line feed); "")
-	$cleanJSON:=Replace string($cleanJSON; Char(Carriage return); "")
-	$cleanJSON:=Replace string($cleanJSON; "json"+Char(Line feed); "")  // Remove "json" if present
+	$cleanJSON:=Replace string($cleanJSON; Char(Tab); ""; *)
+	$cleanJSON:=Replace string($cleanJSON; Char(Line feed); ""; *)
+	$cleanJSON:=Replace string($cleanJSON; Char(Carriage return); ""; *)
+	$cleanJSON:=Replace string($cleanJSON; "json"+Char(Line feed); ""; *)  // Remove "json" if present
 	
 	Try
 		$parsedJSON:=JSON Parse($cleanJSON)

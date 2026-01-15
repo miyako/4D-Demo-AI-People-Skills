@@ -54,9 +54,13 @@ $huggingfaces:=cs.event.huggingfaces.new([$chat])
 
 Case of 
 	: (True)
-		$folder:=$homeFolder.folder("multilingual-e5-base-onnx")
-		$path:="keisuke-miyako/multilingual-e5-base-onnx"
-		$URL:="keisuke-miyako/multilingual-e5-base-onnx"
+		$folder:=$homeFolder.folder("amber-large-onnx")
+		$path:="keisuke-miyako/amber-large-onnx"
+		$URL:="keisuke-miyako/amber-large-onnx"
+	: (False)
+		$folder:=$homeFolder.folder("multilingual-e5-large-onnx")
+		$path:="keisuke-miyako/multilingual-e5-large-onnx"
+		$URL:="keisuke-miyako/multilingual-e5-large-onnx"
 	: (False)
 		$folder:=$homeFolder.folder("sarashina-embedding-v2-1b-onnx")
 		$path:="keisuke-miyako/sarashina-embedding-v2-1b-onnx"

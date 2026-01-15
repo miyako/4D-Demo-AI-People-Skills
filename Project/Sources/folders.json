@@ -1,4 +1,5 @@
 {
+	"(DEV)": {},
 	"4DB": {
 		"tables": [
 			"address",
@@ -9,52 +10,45 @@
 			"providerSettings",
 			"skill",
 			"skillCategory"
-		]
-	},
-	"Check": {
-		"methods": [
-			"00_Start",
-			"01_Start",
-			"addLocalONNXRuntime"
-		],
-		"forms": [
-			"HDI",
-			"person"
 		],
 		"classes": [
 			"addressEntity",
-			"AI_Agent",
-			"AI_PeopleGenerator",
-			"AI_PersonVectorizer",
-			"AI_Vectorizer",
 			"embeddingInfo",
-			"formHDI",
-			"formIntro",
-			"formMenu",
-			"formSemanticSearch",
-			"formVectorize",
-			"initData",
 			"person",
 			"personEntity",
 			"personSkillEntity",
 			"personSkillSelection",
 			"providerSettings",
-			"providerSettingsEntity",
-			"workerHelper"
+			"providerSettingsEntity"
 		]
 	},
-	"DEV": {
+	"AI": {
+		"classes": [
+			"AI_Agent",
+			"AI_PeopleGenerator",
+			"AI_PersonVectorizer",
+			"AI_QuestionningTools",
+			"AI_Vectorizer"
+		]
+	},
+	"Form": {
 		"forms": [
-			"personList",
-			"searchSimilarities",
-			"selectAPerson",
-			"skillsSummary"
+			"HDI",
+			"menu"
 		],
 		"classes": [
-			"formPersonList",
-			"formSearchSimilarities",
-			"formSkillsSummary"
+			"form",
+			"formHDI",
+			"formIntro",
+			"formMenu",
+			"formQuestionMeTools",
+			"formSemanticSearch",
+			"formVectorize"
 		]
 	},
-	"trash": {}
+	"trash": {
+		"groups": [
+			"(DEV)"
+		]
+	}
 }

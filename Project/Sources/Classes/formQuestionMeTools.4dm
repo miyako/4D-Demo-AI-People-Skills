@@ -46,70 +46,109 @@ Function formEventHandler($formEventCode : Integer)
 	
 	Super.formEventHandler($formEventCode)
 	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		Case of 
-			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
-				OBJECT SET VISIBLE(*; "questionning@"; False)
-				OBJECT SET VISIBLE(*; "timingResult"; False)
-				OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-		End case 
-	End if 
-	
-Function btnNewChatEventHandler($formEventCode : Integer)
-	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		cs.AI_QuestionningTools.me.resetContext()
-		This.people:=Null
-		This.webAreaInitialized:=False
-		var $templateFilename : Text
-		var $templatePath : Text
-		$templateFilename:=cs.ChatHTMLRenderer.me.getInitialHTML()
-		$templatePath:=Get 4D folder(Current resources folder)+$templateFilename
-		OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-		WA OPEN URL(*; "Web Area"; $templatePath)
-		This.actions:={\
-			questionning: {running: 0; progress: {message: ""}; timing: 0; prompt: ""}\
-			}
-	End if 
-	
-Function btnAskMeEventHandler($formEventCode : Integer)
-	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		Case of 
-			: ($formEventCode=On Clicked)
-				If (This.modelsGen.currentValue="")
-					ALERT("Please select a model first")
-					return 
-				End if 
-				
-				This.actions.questionning.running:=1
-				This.actions.questionning.timing:=0
-				
-				Form.people:=Null
+	Case of 
+		: ($formEventCode=On After Edit)
+			
+			Case of 
+				: (FORM Event.objectName="Input17")
+					OBJECT SET ENABLED(*; "btnAskMe"; Get edited text#"")
+			End case 
+			
+		: ($formEventCode=On Load) || ($formEventCode=On Page Change)
+			OBJECT SET VISIBLE(*; "questionning@"; False)
+			OBJECT SET VISIBLE(*; "timingResult"; False)
+			OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
+			If (This.actions.questionning.running=1)
 				OBJECT SET VISIBLE(*; "questionning@"; True)
 				OBJECT SET VISIBLE(*; "btn@"; False)
 				OBJECT SET VISIBLE(*; "select@"; False)
 				OBJECT SET VISIBLE(*; "timingResult"; False)
-				
-				cs.AI_QuestionningTools.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue)
-				cs.AI_QuestionningTools.me.askMe(Form.actions.questionning.prompt; Form)
-				This.actions.questionning.prompt:=""
-				
-		End case 
-	End if 
+			Else 
+				OBJECT SET VISIBLE(*; "questionning@"; False)
+				OBJECT SET VISIBLE(*; "btn@"; True)
+				OBJECT SET VISIBLE(*; "select@"; True)
+				OBJECT SET VISIBLE(*; "timingResult"; True)
+			End if 
+			OBJECT SET ENABLED(*; "btnAskMe"; OBJECT Get value("Input17")#"")
+	End case 
+	
+Function btnNewChatEventHandler($formEventCode : Integer)
+	
+	cs.AI_QuestionningTools.me.resetContext()
+	This.people:=Null
+	This.webAreaInitialized:=False
+	var $templateFilename : Text
+	var $templatePath : Text
+	$templateFilename:=cs.ChatHTMLRenderer.me.getInitialHTML()
+	$templatePath:=Get 4D folder(Current resources folder)+$templateFilename
+	OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
+	WA OPEN URL(*; "Web Area"; $templatePath)
+	This.actions:={\
+		questionning: {running: 0; progress: {message: ""}; timing: 0; prompt: ""}\
+		}
+	This.actions.questionning.prompt:=""
+	OBJECT SET ENABLED(*; "btnAskMe"; False)
+	
+Function btnAskMeEventHandler($formEventCode : Integer)
+	
+	Case of 
+		: ($formEventCode=On Clicked)
+			
+			If (This.modelsGen.currentValue="")
+				ALERT("Please select a model first")
+				return 
+			End if 
+			
+			This.actions.questionning.running:=1
+			This.actions.questionning.timing:=0
+			
+			Form.people:=Null
+			OBJECT SET VISIBLE(*; "questionning@"; True)
+			OBJECT SET VISIBLE(*; "btn@"; False)
+			OBJECT SET VISIBLE(*; "select@"; False)
+			OBJECT SET VISIBLE(*; "timingResult"; False)
+			
+			cs.AI_QuestionningTools.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue)
+			cs.AI_QuestionningTools.me.askMe(Form.actions.questionning.prompt; Form)
+			This.actions.questionning.prompt:=""
+			OBJECT SET ENABLED(*; "btnAskMe"; False)
+			
+	End case 
 	
 Function lbPeopleListboxEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Question me with tools 🪄")
-		Case of 
-			: ($formEventCode=On Selection Change)
-				If (This.selectedPerson#Null)
-					OBJECT SET SUBFORM(*; "personDetails"; "person")
-				Else 
-					OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
-				End if 
-		End case 
-	End if 
+	Case of 
+		: ($formEventCode=On Selection Change)
+			If (This.selectedPerson#Null)
+				OBJECT SET VISIBLE(*; "answerArea_title3"; True)
+				OBJECT SET SUBFORM(*; "personDetails"; "person")
+			Else 
+				OBJECT SET VISIBLE(*; "answerArea_title3"; False)
+				OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
+			End if 
+	End case 
+	
+Function get address() : Text
+	
+	Case of 
+		: (Form.selectedPerson=Null)
+			return 
+		: (Form.selectedPerson.address=Null)
+			return 
+	End case 
+	
+	Form.selectedPerson.address.formatted()
+	
+Function get billingRate() : Text
+	
+	Case of 
+		: (Form.selectedPerson=Null)
+			return 
+		: (Form.selectedPerson.jobDetail=Null)
+			return 
+	End case 
+	
+	return String(Form.selectedPerson.jobDetail.billingRate)  //+" USD"
 	
 	//MARK: -
 	//MARK: Form actions callback functions
@@ -117,21 +156,18 @@ Function lbPeopleListboxEventHandler($formEventCode : Integer)
 Function terminateQuestionning($timing : Integer; $peopleFound : cs.personSelection)
 	
 	If (Form#Null)
-		Form.terminateQuestionning($timing; $peopleFound)
 		Form.actions.questionning.timingResult:="Answer given in "+String($timing)+" ms"
 		Form.people:=$peopleFound
 		OBJECT SET VISIBLE(*; "questionning@"; False)
 		OBJECT SET VISIBLE(*; "btn@"; True)
 		OBJECT SET VISIBLE(*; "select@"; True)
 		OBJECT SET VISIBLE(*; "timingResult"; True)
+		This.actions.questionning.running:=0
 	End if 
 	
 Function progressQuestionning($input : Object)
 	
 	If (Form#Null)
-		
-		Form.progressQuestionning($input)
-		
 		If (Not(Undefined($input.messages)))
 			// Initialize web area with template HTML file on first use
 			If (Not(This.webAreaInitialized))
@@ -142,7 +178,6 @@ Function progressQuestionning($input : Object)
 				WA OPEN URL(*; "Web Area"; $templatePath)
 				This.webAreaInitialized:=True
 			End if 
-			
 			// Update content via JavaScript without page reload
 			cs.ChatHTMLRenderer.me.updateWebAreaWithJS("Web Area"; $input.messages)
 		End if 

@@ -48,30 +48,26 @@ Function updateModels()
 	End if 
 	
 	var $providers : cs.providerSettingsSelection
+	var $provider : cs.providerSettingsEntity
+	var $models : Collection
+	
 	$providers:=ds.providerSettings.providersAvailable("embedding")
 	If ($providers.length>0)
 		This.providersEmb.values:=$providers.extract("name")
-		
-		//Set embedding provider to the last one successfully used, or select the first one
-		var $provider : cs.providerSettingsEntity
-		$provider:=($embeddingStatusOK) ? $providers.query("name = :1"; This.actions.embedding.info.provider).first() : $providers.first()
-		If ($provider=Null)
-			$provider:=$providers.first()  //in case provider does not exist any more
-		End if 
+		$provider:=$providers.first()
 		This.providersEmb.index:=This.providersEmb.values.findIndex(Formula($1.value=$provider.name))
 		
-		//Set embedding model to the last one successfully used, or select the default one
-		var $models : Collection
 		$models:=$provider.embeddingModels.models
 		This.modelsEmb.values:=$models.extract("model")
-		This.modelsEmb.index:=($embeddingStatusOK) ? This.modelsEmb.values.findIndex(Formula($1.value=ds.embeddingInfo.info().model)) : This.modelsEmb.values.findIndex(Formula($1.value=$provider.defaults.embedding))
-		
+		This.modelsEmb.index:=This.modelsEmb.values.findIndex(Formula($1.value=$provider.defaults.embedding))
 	End if 
 	
 	$providers:=ds.providerSettings.providersAvailable("reasoning")
 	If ($providers.length>0)
 		This.providersGen.values:=$providers.extract("name")
 		$provider:=$providers.first()
+		This.providersGen.index:=This.providersGen.values.findIndex(Formula($1.value=$provider.name))
+		
 		$models:=$provider.reasoningModels.models
 		This.modelsGen.values:=$models.extract("model")
 		This.modelsGen.index:=This.modelsGen.values.findIndex(Formula($1.value=$provider.defaults.reasoning))
@@ -146,6 +142,7 @@ Function btnVectorizeEventHandler($formEventCode : Integer)
 		
 		Case of 
 			: ($formEventCode=On Clicked)
+				
 				If (This.modelsEmb.currentValue="")
 					ALERT("Please select a model first")
 					return 
