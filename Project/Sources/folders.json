@@ -47,9 +47,6 @@
 		]
 	},
 	"Settings": {
-		"methods": [
-			"test"
-		],
 		"classes": [
 			"initData",
 			"LocalLLM",
