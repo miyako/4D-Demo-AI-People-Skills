@@ -87,7 +87,6 @@ Function updateProviderSettings()
 		
 	End for each 
 	
-	
 Function add()
 	var $newProvider : cs.providerSettingsEntity
 	
@@ -106,13 +105,9 @@ Function providersAvailable($kind : Text) : cs.providerSettingsSelection
 		: ($kind="embedding")
 			return This.query("hasEmbeddingModels = true")
 		: ($kind="reasoning")
-			return This.query("hasreasoningModels = true")
+			return This.query("hasReasoningModels = true")
 		Else 
 			return This.query("hasModels = true")
 	End case 
-	
-	
-	
-	
 	
 	

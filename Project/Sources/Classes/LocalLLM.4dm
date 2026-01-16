@@ -29,12 +29,16 @@ Function useCTranslate2($name : Text; $port : Integer)
 	$event.onResponse:=This.onResponse
 	$event.onTerminate:=This.onTerminate
 	
+	var $options : Object
 	$options:={pooling: "cls"}
 	var $huggingfaces : cs.event.huggingfaces
 	
+	var $folder : 4D.Folder
 	$folder:=$homeFolder.folder("bge-m3-ct2-int8_float16")
+	var $path : Text
 	$path:="keisuke-miyako/bge-m3-ct2-int8_float16"
 	$URL:="keisuke-miyako/bge-m3-ct2-int8_float16"
+	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding")
 	$huggingfaces:=cs.event.huggingfaces.new([$embeddings])
 	

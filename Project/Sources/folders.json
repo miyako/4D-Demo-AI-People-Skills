@@ -46,6 +46,16 @@
 			"formVectorize"
 		]
 	},
+	"Settings": {
+		"methods": [
+			"test"
+		],
+		"classes": [
+			"initData",
+			"LocalLLM",
+			"RemoteLLM"
+		]
+	},
 	"trash": {
 		"groups": [
 			"(DEV)"

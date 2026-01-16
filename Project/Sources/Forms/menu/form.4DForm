@@ -115,14 +115,11 @@
 					"currentItemSource": "Form:C1466.providersListBox.currentItem",
 					"selectionMode": "single",
 					"singleClickEdit": true,
-					"hideFocusRing": true,
 					"selectedItemsSource": "Form:C1466.providersListBox.selectedItems",
 					"currentItemPositionSource": "Form:C1466.providersListBox.currentItemPos",
 					"fontFamily": "Avenir Light",
 					"fontSize": 12,
 					"headerHeight": "2em",
-					"scrollbarHorizontal": "hidden",
-					"alternateFill": "automaticAlternate",
 					"horizontalLineStroke": "transparent",
 					"columns": [
 						{
@@ -215,16 +212,11 @@
 					"listboxType": "collection",
 					"dataSource": "Form:C1466.providersListBox.currentItem.reasoningModels.models",
 					"currentItemSource": "",
-					"selectionMode": "single",
 					"singleClickEdit": true,
-					"hideFocusRing": true,
 					"selectedItemsSource": "",
 					"currentItemPositionSource": "",
 					"fontFamily": "Avenir Light",
 					"fontSize": 12,
-					"scrollbarHorizontal": "hidden",
-					"alternateFill": "automaticAlternate",
-					"resizingMode": "legacy",
 					"horizontalLineStroke": "transparent",
 					"columns": [
 						{
@@ -260,14 +252,10 @@
 					"currentItemSource": "",
 					"selectionMode": "single",
 					"singleClickEdit": true,
-					"hideFocusRing": true,
 					"selectedItemsSource": "",
 					"currentItemPositionSource": "",
 					"fontFamily": "Avenir Light",
 					"fontSize": 12,
-					"scrollbarHorizontal": "hidden",
-					"alternateFill": "automaticAlternate",
-					"resizingMode": "legacy",
 					"horizontalLineStroke": "transparent",
 					"columns": [
 						{
@@ -1508,7 +1496,7 @@
 						"onDataChange"
 					],
 					"dataSourceTypeHint": "object",
-					"dataSource": "Form:C1466.providersGen",
+					"dataSource": "Form:C1466.providersGen4",
 					"fontFamily": "Avenir Light",
 					"fontSize": 13,
 					"method": "ObjectMethods/selectProvidersList.4dm"
@@ -1523,7 +1511,7 @@
 						"onDataChange"
 					],
 					"dataSourceTypeHint": "object",
-					"dataSource": "Form:C1466.modelsGen",
+					"dataSource": "Form:C1466.modelsGen4",
 					"fontFamily": "Avenir Light",
 					"fontSize": 13
 				},
@@ -1568,7 +1556,7 @@
 					"top": 280,
 					"width": 420,
 					"height": 29,
-					"dataSource": "Form:C1466.fullname",
+					"dataSource": "Form:C1466.selectedPerson.fullname",
 					"enterable": false,
 					"focusable": false,
 					"fill": "transparent",
@@ -1841,7 +1829,7 @@
 					"top": 303,
 					"width": 420,
 					"height": 29,
-					"dataSource": "Form:C1466.jobDetail.jobTitle",
+					"dataSource": "Form:C1466.selectedPerson.jobDetail.jobTitle",
 					"enterable": false,
 					"focusable": false,
 					"fill": "transparent",

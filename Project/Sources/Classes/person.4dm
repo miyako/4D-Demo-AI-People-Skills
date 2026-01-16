@@ -1,7 +1,7 @@
 Class extends DataClass
 
-
 Function personSearchByVector($terms : Text; $requestedQuantity : Integer; $threshold : Real) : Object
+	
 	var $logs : Collection:=[]
 	var $embeddingInfo : cs.embeddingInfoEntity
 	var $peopleFound : cs.personSelection

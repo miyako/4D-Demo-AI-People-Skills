@@ -1,6 +1,3 @@
-property providersGen : Object
-property modelsGen : Object
-property actions : Object
 property people : cs.personSelection
 property selectedPerson : cs.personEntity
 property webAreaInitialized : Boolean
@@ -17,27 +14,17 @@ Class constructor()
 	
 	cs.AI_QuestionningTools.me.resetContext()
 	
-	This.providersGen:={values: []; index: 0}
-	This.modelsGen:={values: []; index: 0}
 	This.webAreaInitialized:=False
-	$providers:=ds.providerSettings.providersAvailable("reasoning")
-	If ($providers.length>0)
-		This.providersGen.values:=$providers.extract("name")
-		$provider:=$providers.first()
-		$models:=$provider.reasoningModels.models
-		This.modelsGen.values:=$models.extract("model")
-		This.modelsGen.index:=This.modelsGen.values.findIndex(Formula($1.value=$provider.defaults.reasoning))
-	End if 
 	
-	var $actions : Object
-	$actions:={\
+	This.providersGen4:={}
+	This.modelsGen4:={}
+	
+	$providers:=ds.providerSettings.query("hasReasoningModels == :1 and hasToolCalling  == :1"; True)
+	This.setupModelsGen($providers; This.providersGen4; This.modelsGen4)
+	
+	This.setActions({\
 		questionning: {running: 0; progress: {message: ""}; timingResult: ""; prompt: ""}\
-		}
-	
-	var $action : Text
-	For each ($action; $actions)
-		This.actions[$action]:=$actions[$action]
-	End for each 
+		})
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
@@ -57,7 +44,6 @@ Function formEventHandler($formEventCode : Integer)
 		: ($formEventCode=On Load) || ($formEventCode=On Page Change)
 			OBJECT SET VISIBLE(*; "questionning@"; False)
 			OBJECT SET VISIBLE(*; "timingResult"; False)
-			OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
 			If (This.actions.questionning.running=1)
 				OBJECT SET VISIBLE(*; "questionning@"; True)
 				OBJECT SET VISIBLE(*; "btnAskMe"; False)
@@ -83,18 +69,11 @@ Function btnNewChatEventHandler($formEventCode : Integer)
 	var $templatePath : Text
 	$templateFilename:=cs.ChatHTMLRenderer.me.getInitialHTML()
 	$templatePath:=Get 4D folder(Current resources folder)+$templateFilename
-	OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
 	WA OPEN URL(*; "Web Area"; $templatePath)
 	
-	var $actions : Object
-	$actions:={\
+	Form.setActions({\
 		questionning: {running: 0; progress: {message: ""}; timingResult: ""; prompt: ""}\
-		}
-	
-	var $action : Text
-	For each ($action; $actions)
-		This.actions[$action]:=$actions[$action]
-	End for each 
+		})
 	
 	OBJECT SET ENABLED(*; "btnAskMe"; False)
 	
@@ -103,7 +82,7 @@ Function btnAskMeEventHandler($formEventCode : Integer)
 	Case of 
 		: ($formEventCode=On Clicked)
 			
-			If (This.modelsGen.currentValue="")
+			If (This.modelsGen4.currentValue="")
 				ALERT("Please select a model first")
 				return 
 			End if 
@@ -118,7 +97,7 @@ Function btnAskMeEventHandler($formEventCode : Integer)
 			OBJECT SET VISIBLE(*; "select@"; False)
 			OBJECT SET VISIBLE(*; "timingResult"; False)
 			
-			cs.AI_QuestionningTools.me.setAgent(This.providersGen.currentValue; This.modelsGen.currentValue)
+			cs.AI_QuestionningTools.me.setAgent(This.providersGen4.currentValue; This.modelsGen4.currentValue)
 			cs.AI_QuestionningTools.me.askMe(Form.actions.questionning.prompt; Form)
 			This.actions.questionning.prompt:=""
 			OBJECT SET ENABLED(*; "btnAskMe"; False)
@@ -131,10 +110,8 @@ Function lbPeopleListboxEventHandler($formEventCode : Integer)
 		: ($formEventCode=On Selection Change)
 			If (This.selectedPerson#Null)
 				OBJECT SET VISIBLE(*; "answerArea_title3"; True)
-				OBJECT SET SUBFORM(*; "personDetails"; "person")
 			Else 
 				OBJECT SET VISIBLE(*; "answerArea_title3"; False)
-				OBJECT SET SUBFORM(*; "personDetails"; "selectAPerson")
 			End if 
 	End case 
 	

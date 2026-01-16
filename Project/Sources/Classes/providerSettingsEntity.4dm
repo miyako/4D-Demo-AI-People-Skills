@@ -23,6 +23,9 @@ Function set embeddingModels()
 Function get hasEmbeddingModels() : Boolean
 	return (This.embeddingModels.models.length>0)
 	
+Function get hasToolCalling() : Boolean
+	return ["OpenAI"; "xAI"].includes(This.name)
+	
 Function set hasEmbeddingModels()
 	
 Function get reasoningModels() : Object
@@ -38,10 +41,10 @@ Function get reasoningModels() : Object
 	
 Function set reasoningModels()
 	
-Function get hasreasoningModels() : Boolean
+Function get hasReasoningModels() : Boolean
 	return (This.reasoningModels.models.length>0)
 	
-Function set hasreasoningModels()
+Function set hasReasoningModels()
 	
 	
 Function get allModels() : Object

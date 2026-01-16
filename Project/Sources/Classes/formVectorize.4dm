@@ -1,8 +1,3 @@
-property providersEmb : Object
-property modelsEmb : Object
-property providersGen : Object
-property modelsGen : Object
-property actions : Object
 property AIText : Text
 property window : Integer
 
@@ -18,60 +13,34 @@ Class constructor()
 	var $embeddingStatusOK : Boolean
 	
 	This.AIText:=""
-	This.providersEmb:={values: []; index: 0}
-	This.modelsEmb:={values: []; index: 0}
-	This.providersGen:={values: []; index: 0}
-	This.modelsGen:={values: []; index: 0}
 	
-	var $actions : Object
-	$actions:={\
+	This.providersGen:={}
+	This.modelsGen:={}
+	This.providersEmb:={}
+	This.modelsEmb:={}
+	
+	This.setActions({\
 		embedding: {running: 0; progress: {value: 0; message: ""}; recomputeAll: False}; \
 		generatingPeople: {running: 0; progress: {value: 0; message: ""}; quantity: 9; quantityBy: 3; specificRequest: ""}\
-		}
+		})
 	
-	var $action : Text
-	For each ($action; $actions)
-		This.actions[$action]:=$actions[$action]
-	End for each 
+	$providers:=ds.providerSettings.query("hasReasoningModels == :1"; True)
+	This.setupModelsGen($providers; This.providersGen; This.modelsGen)
 	
-	This.updateModels()
+	$providers:=ds.providerSettings.query("hasEmbeddingModels == :1"; True)
+	This.setupModelsEmb($providers; This.providersEmb; This.modelsEmb)
 	
-Function updateModels()
+	This.updateEmbeddingStatus()
 	
-	var $embeddingStatusOK : Boolean
-	$embeddingStatusOK:=ds.embeddingInfo.embeddingStatus()
-	If ($embeddingStatusOK)
+Function updateEmbeddingStatus()
+	
+	If (ds.embeddingInfo.embeddingStatus())
 		This.actions.embedding.status:="Done"
 		This.actions.embedding.info:=ds.embeddingInfo.info()
 	Else 
 		This.actions.embedding.status:="Missing"
 	End if 
-	
-	var $providers : cs.providerSettingsSelection
-	var $provider : cs.providerSettingsEntity
-	var $models : Collection
-	
-	$providers:=ds.providerSettings.providersAvailable("embedding")
-	If ($providers.length>0)
-		This.providersEmb.values:=$providers.extract("name")
-		$provider:=$providers.first()
-		This.providersEmb.index:=This.providersEmb.values.findIndex(Formula($1.value=$provider.name))
-		
-		$models:=$provider.embeddingModels.models
-		This.modelsEmb.values:=$models.extract("model")
-		This.modelsEmb.index:=This.modelsEmb.values.findIndex(Formula($1.value=$provider.defaults.embedding))
-	End if 
-	
-	$providers:=ds.providerSettings.providersAvailable("reasoning")
-	If ($providers.length>0)
-		This.providersGen.values:=$providers.extract("name")
-		$provider:=$providers.first()
-		This.providersGen.index:=This.providersGen.values.findIndex(Formula($1.value=$provider.name))
-		
-		$models:=$provider.reasoningModels.models
-		This.modelsGen.values:=$models.extract("model")
-		This.modelsGen.index:=This.modelsGen.values.findIndex(Formula($1.value=$provider.defaults.reasoning))
-	End if 
+	This.actions.embedding.running:=0
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
@@ -83,7 +52,6 @@ Function formEventHandler($formEventCode : Integer)
 	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
 		Case of 
 			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
-				Form.updateModels()
 				OBJECT SET VISIBLE(*; "peopleGen@"; False)
 				OBJECT SET VISIBLE(*; "embedding@"; False)
 				If (This.actions.embedding.running=1)
@@ -210,13 +178,7 @@ Function terminateVectorizing()
 	If (Form#Null)
 		OBJECT SET VISIBLE(*; "embedding@"; False)
 		OBJECT SET VISIBLE(*; "btnVectorize"; True)
-		If (ds.embeddingInfo.embeddingStatus())
-			Form.actions.embedding.status:="Done"
-			Form.actions.embedding.info:=ds.embeddingInfo.info()
-		Else 
-			Form.actions.embedding.status:="Missing"
-		End if 
-		Form.actions.embedding.running:=0
+		Form.updateEmbeddingStatus()
 	End if 
 	
 Function progressVectorizing($progress : Object)

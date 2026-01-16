@@ -2,9 +2,8 @@ property identity : Object
 property jobDetails : Object
 property skills : Object
 property address : Object
-property result : Collection
 property textToSearch : Text
-property minimumThresholds : Object
+property result : Collection
 property requestedQuantity : Integer
 property threshold : Real
 
@@ -28,18 +27,15 @@ Function formEventHandler($formEventCode : Integer)
 	
 Function formBtnSearchEventHandler($formEventCode : Integer)
 	
-	If (This.menu.currentValue="Semantic search")
-		var $person : cs.personEntity
-		var $searchResult : Object
-		
-		This.result:=[]
-		Case of 
-			: ($formEventCode=On Clicked)
-				$searchResult:=ds.person.personSearchByVector(This.textToSearch; This.requestedQuantity; This.threshold)
-				If ($searchResult.success)
-					For each ($person; $searchResult.peopleFound)
-						This.result.push({person: $person; score: $person.embedding.cosineSimilarity($searchResult.vectorUsed)})
-					End for each 
-				End if 
-		End case 
-	End if 
+	var $person : cs.personEntity
+	var $searchResult : Object
+	This.result:=[]
+	Case of 
+		: ($formEventCode=On Clicked)
+			$searchResult:=ds.person.personSearchByVector(This.textToSearch; This.requestedQuantity; This.threshold)
+			If ($searchResult.success)
+				For each ($person; $searchResult.peopleFound)
+					This.result.push({person: $person; score: $person.embedding.cosineSimilarity($searchResult.vectorUsed)})
+				End for each 
+			End if 
+	End case 
