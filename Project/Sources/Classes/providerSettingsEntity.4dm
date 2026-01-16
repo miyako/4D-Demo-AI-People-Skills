@@ -24,7 +24,7 @@ Function get hasEmbeddingModels() : Boolean
 	return (This.embeddingModels.models.length>0)
 	
 Function get hasToolCalling() : Boolean
-	return ["OpenAI"; "xAI"].includes(This.name)
+	return ["OpenAI"; "xAI"/*; "Gemini"*/].includes(This.name)
 	
 Function set hasEmbeddingModels()
 	
@@ -36,7 +36,6 @@ Function get reasoningModels() : Object
 	End if 
 	
 	$models:=This.models.values.query("not(model in :1)"; ["@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-onnx"])
-	//$models:=This.models.values.minus(This.embeddingModels.values)
 	return {models: $models}
 	
 Function set reasoningModels()

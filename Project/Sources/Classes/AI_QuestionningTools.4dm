@@ -25,9 +25,11 @@ Function loadTools()
 	
 	$jsonText:=File($toolsFilePath).getText()
 	$jsonObject:=JSON Parse($jsonText; Is object)
+	
 	For each ($tool; $jsonObject.tools)
 		$tool.handler:=This
 	End for each 
+	
 	This.AIBot.registerTools($jsonObject.tools)
 	
 Function getToolArgumentsSchema($name : Text) : Object
@@ -182,7 +184,11 @@ Function initBot()
 	
 	$options.model:=This.model
 	$options.temperature:=0
-	$options.stream:=True
+	If (This.provider="Gemini")
+		$options.stream:=False
+	Else 
+		$options.stream:=True
+	End if 
 	$options.onData:=This.onStreamData
 	$options.onTerminate:=This.onStreamTerminate
 	

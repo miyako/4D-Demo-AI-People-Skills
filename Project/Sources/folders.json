@@ -1,5 +1,4 @@
 {
-	"(DEV)": {},
 	"4DB": {
 		"tables": [
 			"address",
@@ -53,9 +52,5 @@
 			"RemoteLLM"
 		]
 	},
-	"trash": {
-		"groups": [
-			"(DEV)"
-		]
-	}
+	"trash": {}
 }

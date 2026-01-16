@@ -72,13 +72,13 @@ Function updateProviderSettings()
 			$provider.defaults:={embedding: Null; reasoning: Null}
 		End if 
 		
-		If ($provider.models.values.length>0)
+		If ($provider.models.values.length>0) && ($provider.defaults.embedding=Null)
 			If ($provider.models.values.query("model = :1"; $provider.defaults.embedding).length=0)
 				$defaultModel:=$provider.models.values.query("model in :1"; ["@embed@"; "@-onnx"; "@-ct2-@"]).first()
 				$provider.defaults.embedding:=($defaultModel#Null) ? $defaultModel.model : "No embedding model detected"
 			End if 
 			
-			If ($provider.models.values.query("model = :1"; $provider.defaults.reasoning).length=0)
+			If ($provider.models.values.query("model = :1"; $provider.defaults.reasoning).length=0) && ($provider.defaults.reasoning=Null)
 				$defaultModel:=$provider.models.values.query("not(model in :1)"; ["@embed@"; "@-onnx"; "@-ct2-@"]).first()
 				$provider.defaults.reasoning:=($defaultModel#Null) ? $defaultModel.model : "No reasoning model detected"
 			End if 

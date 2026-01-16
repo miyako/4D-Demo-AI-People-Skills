@@ -26,6 +26,8 @@ Class constructor()
 		questionning: {running: 0; progress: {message: ""}; timingResult: ""; prompt: ""}\
 		})
 	
+	This.actions.questionning.prompt:=This.getText("prompt.txt")
+	
 	//MARK: -
 	//MARK: Form & form objects event handlers
 	
@@ -136,6 +138,19 @@ Function get billingRate() : Text
 	End case 
 	
 	return String(Form.selectedPerson.jobDetail.billingRate)  //+" USD"
+	
+Function resolve($item : Object) : Object
+	
+	return OB Class($item).new($item.platformPath; fk platform path)
+	
+Function getText($name : Text) : Text
+	
+	var $file : 4D.File
+	$file:=This.resolve(Folder("/PROJECT/")).parent.file($name)
+	
+	If ($file.exists)
+		return $file.getText()
+	End if 
 	
 	//MARK: -
 	//MARK: Form actions callback functions

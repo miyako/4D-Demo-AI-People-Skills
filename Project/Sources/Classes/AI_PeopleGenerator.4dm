@@ -100,6 +100,12 @@ Function onStreamChatTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 			return 
 		End if 
 		
+		//%W-550.26
+		If (This.stream=False)
+			$me.formObject.progressGeneratePeople({AIText: $result.choice.message.text})
+		End if 
+		//%W+550.26
+		
 		//terminated and success
 		$me.formObject.progressGeneratePeople({AIText: "\n\nAI response completed\n"})
 		$response:=$me.getPersonArrayFromResponse($me.peopleGenBot.messages.last().text)
@@ -182,7 +188,11 @@ Function initBot()
 	
 	$options.response_format:={type: "json_schema"; json_schema: {name: "person_array_schema"; schema: This.personArraySchema}}
 	$options.model:=This.model
-	$options.stream:=True
+	If (This.provider="Gemini")
+		$options.stream:=False
+	Else 
+		$options.stream:=True
+	End if 
 	$options.onData:=This.onStreamChatData
 	
 	$options.onTerminate:=This.onStreamChatTerminate
