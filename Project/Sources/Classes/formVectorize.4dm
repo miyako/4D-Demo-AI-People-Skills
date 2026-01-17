@@ -65,18 +65,18 @@ Function formEventHandler($formEventCode : Integer)
 		End case 
 	End if 
 	
-Function providersGenListEventHandler($formEventCode : Integer)
+Function providersGenListEventHandler($formEventCode : Integer) : Object
 	
 	Case of 
 		: ($formEventCode=On Data Change)
-			This.modelsGen:=This.setModelList(This.providersGen; "reasoning")
+			return This.setModelList(OBJECT Get value(FORM Event.objectName); "reasoning")
 	End case 
 	
-Function providersEmbListEventHandler($formEventCode : Integer)
+Function providersEmbListEventHandler($formEventCode : Integer) : Object
 	
 	Case of 
 		: ($formEventCode=On Data Change)
-			This.modelsEmb:=This.setModelList(This.providersEmb; "embedding")
+			return This.setModelList(This.providersEmb; "embedding")
 	End case 
 	
 Function btnGeneratePeopleEventHandler($formEventCode : Integer)
