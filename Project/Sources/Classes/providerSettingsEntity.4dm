@@ -24,7 +24,7 @@ Function get hasEmbeddingModels() : Boolean
 	return (This.embeddingModels.models.length>0)
 	
 Function get hasToolCalling() : Boolean
-	return ["OpenAI"; "xAI"/*; "Gemini"*/].includes(This.name)
+	return ["OpenAI"; "xAI"; "Gemini"].includes(This.name)
 	
 Function set hasEmbeddingModels()
 	
