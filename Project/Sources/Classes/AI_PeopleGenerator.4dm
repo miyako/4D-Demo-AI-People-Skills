@@ -101,7 +101,7 @@ Function onStreamChatTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 		End if 
 		
 		//%W-550.26
-		If (This.stream=False)
+		If (This.stream=False)  //This=cs.AIKit.OpenAIChatCompletionsParameters
 			$me.formObject.progressGeneratePeople({AIText: $result.choice.message.text})
 		End if 
 		//%W+550.26
@@ -151,7 +151,15 @@ Function prompt()
 	End case 
 	
 	This.formObject.progressGeneratePeople({AIText: ""/*"Prompt : "+$prompt+"\n\n"*/; progress: $progress})
-	This.peopleGenBot.prompt($prompt)
+	
+	var $result : cs.AIKit.OpenAIChatCompletionsResult
+	$result:=This.peopleGenBot.prompt($prompt)
+	
+	If (This.peopleGenBot.parameters.stream)
+		//async
+	Else 
+		This.onStreamChatTerminate.call(This.peopleGenBot.parameters; $result)
+	End if 
 	
 Function initBot()
 	
@@ -188,14 +196,12 @@ Function initBot()
 	
 	$options.response_format:={type: "json_schema"; json_schema: {name: "person_array_schema"; schema: This.personArraySchema}}
 	$options.model:=This.model
-	If (This.provider="Gemini")
-		$options.stream:=False
-	Else 
-		$options.stream:=True
-	End if 
-	$options.onData:=This.onStreamChatData
+	$options.stream:=True
 	
-	$options.onTerminate:=This.onStreamChatTerminate
+	If ($options.stream)  //setting callbacks will force async
+		$options.onData:=This.onStreamChatData
+		$options.onTerminate:=This.onStreamChatTerminate
+	End if 
 	
 	This.peopleGenBot:=This.AIClient.chat.create($systemPrompt; $options)
 	

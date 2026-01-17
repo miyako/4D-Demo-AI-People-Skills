@@ -184,13 +184,12 @@ Function initBot()
 	
 	$options.model:=This.model
 	$options.temperature:=0
-	If (This.provider="Gemini")
-		$options.stream:=False
-	Else 
-		$options.stream:=True
+	$options.stream:=True
+	
+	If ($options.stream)
+		$options.onData:=This.onStreamData
+		$options.onTerminate:=This.onStreamTerminate
 	End if 
-	$options.onData:=This.onStreamData
-	$options.onTerminate:=This.onStreamTerminate
 	
 	//FIXME: improve adjust tool_choice depending on provider
 	//Check if model info is aware of supported values
@@ -219,4 +218,11 @@ Function askMe($prompt : Text; $formObject : Object)
 	
 	This.initBot()
 	
-	This.AIBot.prompt($prompt)
+	var $result : Object
+	$result:=This.AIBot.prompt($prompt)
+	
+	If (This.AIBot.parameters.stream)
+		//async
+	Else 
+		This.onStreamTerminate.call(This.AIBot.parameters; $result)
+	End if 
