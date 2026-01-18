@@ -1,3 +1,3 @@
-var $onnx : cs.ONNX.ONNX
-$onnx:=cs.ONNX.ONNX.new()
-$onnx.terminate()
+cs.ONNX.ONNX.new().terminate()
+cs.llama.llama.new().terminate()
+cs.CTranslate2.CTranslate2.new().terminate()
