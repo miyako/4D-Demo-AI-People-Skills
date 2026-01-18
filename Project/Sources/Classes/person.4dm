@@ -15,6 +15,11 @@ Function personSearchByVector($terms : Text; $requestedQuantity : Integer; $thre
 	$embeddingInfo:=ds.embeddingInfo.info()
 	cs.AI_Vectorizer.me.setAgent($embeddingInfo.provider; $embeddingInfo.model; False)
 	
+	Case of 
+		: ($embeddingInfo.model="@-e5-@")
+			$terms:="passage:"+$terms  //E5 rule
+	End case 
+	
 	$vector:=cs.AI_Vectorizer.me.vectorize($terms)
 	$vectorObj:={vector: $vector; metric: mk cosine; threshold: $threshold}
 	$peopleFound:=ds.person.query("embedding > :1"; $vectorObj)
