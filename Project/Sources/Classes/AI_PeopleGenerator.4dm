@@ -27,7 +27,6 @@ Function loadSchemas()
 	var $schemaFilePath:="/RESOURCES/personArraySchema.json"
 	var $jsonText:=File($schemaFilePath).getText()
 	This.personArraySchema:=JSON Parse($jsonText; Is object)
-	
 	$schemaFilePath:="/RESOURCES/personArraySchema_fixDate.json"
 	$jsonText:=File($schemaFilePath).getText()
 	This.personArraySchema_fixDate:=JSON Parse($jsonText; Is object)
@@ -51,14 +50,17 @@ Function getPersonArrayFromResponse($AIresponse : Text) : Object
 			$AIresponse:=Delete string($AIresponse; $thinkStart; $thinkEnd+Length("</think>")-$thinkStart)
 		End if 
 	End if 
-	
-	$jsonStart:=Position($charStart; $AIresponse)
+	$jsonStart:=Position($charStart; $AIresponse; *)
 	If ($jsonStart<=0)
 		return {success: False; response: Null; error: "No JSON to process"; errors: Null}
 	End if 
-	
-	$jsonContent:=Substring($AIresponse; $jsonStart)
-	$response:=Try(JSON Parse($jsonContent; Is object))
+	$AIresponse:=Substring($AIresponse; $jsonStart)
+	$charEnd:="```"
+	$jsonEnd:=Position($charEnd; $AIresponse; *)
+	If ($jsonEnd>0)
+		$AIresponse:=Delete string($AIresponse; $jsonEnd; Length($charEnd))
+	End if 
+	$response:=Try(JSON Parse($AIresponse; Is object))
 	If ($response=Null)
 		return {success: False; response: Null; error: "JSON parse failed"; errors: Null}
 	End if 
@@ -194,9 +196,14 @@ Function initBot()
 				"Each skill of **personSkills** has a **skillName** being one of the following values:"+JSON Stringify($skillSet)+"\n"
 	End case 
 	
+	If (This.provider="Claude")
+		$systemPrompt+="Instruction\nRole: You are a Strict JSON Data Generator. You output valid JSON only, with no conversational text.\nTask: Generate a JSON object containing a single key: \"personArray\". This array must contain realistic user profiles that "+"strictly adhere to the following specification.\n1. Root Object & Naming Conventions\nStrict Casing: You must use firstname and lastname (all lowercase). Do NOT use firstName or lastName.\nNo Generic Data: Avoid names like \"John Doe.\" Use culturally dive"+"rse, realistic names.\n2. Personal Details (All Required)\nfirstname: String.\nlastname: String.\nemail: A realistic email address.\nphone: String.\nbirthDate: ISO 8601 date string (YYYY-MM-DD).\ngender: String.\n3. Address Object (Required)\nKey: \"address\"\nMa"+"ndatory Fields: streetName, city, postalCode, country.\nValidation Rule: The address MUST include a streetName AND at least one of the following: streetNumber, building, or poBox.\nOptional Fields: apartment, region.\n4. Skills Array (Required)\nKey: \"per"+"sonSkills\"\nQuantity: Generate between 5 to 15 skills per person.\nCoherence: Skills must match the person's jobTitle.\nItem Structure (All 3 fields are mandatory):\nskillName: String (e.g., \"Python\").\nlevel: Integer (1–10).\nyearsOfXP: Integer. CRITICAL"+": You must use the key yearsOfXP. Do NOT use yearsOfExperience.\n5. Job Details Object (Required)\nKey: \"jobDetail\"\nMandatory Fields:\nhireDate: ISO date string.\njobTitle: A plausible title based on their skills.\nbillingRate: Integer between 250 and 2000"+".\nnotes: String.\nRule: Leave this string empty (\"\") for 90% of people.\nRule: Fill with HR-style notes for 10% of people.\nFinal Check: Ensure every single object in the array has all required fields. Do not omit notes or billingRate. Verify strictly th"+"at yearsOfXP and firstname are spelled exactly as requested."
+	End if 
+	
 	$options.response_format:={type: "json_schema"; json_schema: {name: "person_array_schema"; schema: This.personArraySchema}}
 	$options.model:=This.model
 	$options.stream:=True
+	//$options.temperature:=0
 	
 	If ($options.stream)  //setting callbacks will force async
 		$options.onData:=This.onStreamChatData
