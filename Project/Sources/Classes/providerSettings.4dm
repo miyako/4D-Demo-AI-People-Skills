@@ -68,7 +68,7 @@ Function updateProviderSettings()
 			$provider.models:={values: []}
 		End if 
 		
-		If ($provider.defaults=Null)
+		If ($provider.defaults=Null) || ($provider.key="")
 			$provider.defaults:={embedding: Null; reasoning: Null}
 		End if 
 		
