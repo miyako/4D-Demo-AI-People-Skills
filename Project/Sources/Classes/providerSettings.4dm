@@ -62,7 +62,7 @@ Function updateProviderSettings()
 			End if 
 			
 			$models:=$models.query("model in :1 and not (model in :2)"; $modelsToKeep; $modelsToRemove)
-			$models:=$models.orderBy("model asc")
+			$models:=$models.orderBy("model asc").distinct()
 			$provider.models:={values: $models}
 		Else 
 			$provider.models:={values: []}
