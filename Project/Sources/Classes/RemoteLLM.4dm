@@ -20,6 +20,9 @@ Function use($name : Text)
 		: ($name="DeepSeek")  //💰insufficient balance
 			$baseURL:="https://api.deepseek.com/v1"
 			This.register($name; $baseURL)
+		: ($name="FireWorks")  //🆓
+			$baseURL:="https://api.fireworks.ai/inference/v1/"
+			This.register($name; $baseURL)
 		: ($name="Gemini")  //🆓
 			$baseURL:="https://generativelanguage.googleapis.com/v1beta/openai"
 			This.register($name; $baseURL)
