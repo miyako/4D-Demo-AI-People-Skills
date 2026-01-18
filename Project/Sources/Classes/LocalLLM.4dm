@@ -6,20 +6,21 @@ Class constructor
 Function use($name : Text; $port : Integer)
 	
 	Case of 
+		: ($name="llama.cpp")
+			This.useLlamaCpp("chat.completions"; $name; $port)
+			This.useLlamaCpp("embeddings"; $name; $port+1)
 		: ($name="ONNX Runtime")
 			This.useONNX($name; $port)
 		: ($name="CTranslate2")
 			This.useCTranslate2($name; $port)
 	End case 
 	
-Function useCTranslate2($name : Text; $port : Integer)
+Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 	
-	var $CTranslate2 : cs.CTranslate2.CTranslate2
+	var $llama : cs.llama.llama
 	
 	var $homeFolder : 4D.Folder
-	$homeFolder:=Folder(fk home folder).folder(".CTranslate2")
-	var $file : 4D.File
-	var $URL : Text
+	$homeFolder:=Folder(fk home folder).folder(".GGUF")
 	
 	var $event : cs.event.event
 	$event:=cs.event.event.new()
@@ -30,14 +31,93 @@ Function useCTranslate2($name : Text; $port : Integer)
 	$event.onTerminate:=This.onTerminate
 	
 	var $options : Object
-	$options:={pooling: "cls"}
 	var $huggingfaces : cs.event.huggingfaces
-	
 	var $folder : 4D.Folder
-	$folder:=$homeFolder.folder("sarashina-embedding-v2-1b-ct2-int8_float16")
 	var $path : Text
-	$path:="keisuke-miyako/sarashina-embedding-v2-1b-ct2-int8_float16"
-	$URL:="keisuke-miyako/sarashina-embedding-v2-1b-ct2-int8_float16"
+	var $URL : Text
+	
+	Case of 
+		: ($mode="embeddings")
+			$folder:=$homeFolder.folder("jina-embeddings-v4-text-matching-Q4_K_M")  //where to keep the repo
+			$path:="jina-embeddings-v4-text-matching-Q4_K_M.gguf"  //path to the file
+			$URL:="jinaai/jina-embeddings-v4-text-matching-GGUF"  //path to the repo
+			$options:={\
+				embeddings: True; \
+				pooling: "mean"; \
+				threads: 4; \
+				threads_batch: 4; \
+				threads_http: 4; \
+				log_disable: True; \
+				n_gpu_layers: -1}
+		: ($mode="chat.completions")
+			Case of 
+				: (True)
+					$folder:=$homeFolder.folder("Phi-3.5-mini-instruct-Q4_0")  //where to keep the repo
+					$path:="Phi-3.5-mini-instruct-Q4_0.gguf"  //path to the file
+					$URL:="bartowski/Phi-3.5-mini-instruct-GGUF"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("qwen2.5-7b-instruct-q4_k_m")  //where to keep the repo
+					$path:="qwen2.5-7b-instruct-q4_k_m-@-of-00002.gguf"  //path to the file
+					$URL:="Qwen/Qwen2.5-7B-Instruct-GGUF"  //path to the repo
+			End case 
+			$options:={\
+			ctx_size: 4096; \
+			batch_size: 2048; \
+			threads: 4; \
+			n_predict: -1; \
+			threads_batch: 4; \
+			threads_http: 4; \
+			temp: 0.3; \
+			top_k: 40; \
+			top_p: 0.9; \
+			log_disable: True; \
+			repeat_penalty: 1; \
+			n_gpu_layers: -1; \
+			jinja: True}
+	End case 
+	
+	var $huggingface : cs.event.huggingface
+	$huggingface:=cs.event.huggingface.new($folder; $URL; $path)
+	$huggingfaces:=cs.event.huggingfaces.new([$huggingface])
+	
+	$llama:=cs.llama.llama.new($port; $huggingfaces; $homeFolder; $options; $event)
+	
+	This.register($name+"."+$mode; $port)
+	
+Function useCTranslate2($name : Text; $port : Integer)
+	
+	var $CTranslate2 : cs.CTranslate2.CTranslate2
+	
+	var $homeFolder : 4D.Folder
+	$homeFolder:=Folder(fk home folder).folder(".CTranslate2")
+	
+	var $event : cs.event.event
+	$event:=cs.event.event.new()
+	$event.onError:=This.onError
+	$event.onSuccess:=This.onSuccess
+	$event.onData:=This.onData
+	$event.onResponse:=This.onResponse
+	$event.onTerminate:=This.onTerminate
+	
+	var $options : Object
+	var $huggingfaces : cs.event.huggingfaces
+	var $folder : 4D.Folder
+	var $path : Text
+	var $URL : Text
+	
+	Case of 
+		: (False)  //much slower than onnx
+			$folder:=$homeFolder.folder("bge-m3-ct2-int8_float16")
+			$path:="keisuke-miyako/bge-m3-ct2-int8_float16"
+			$URL:="keisuke-miyako/bge-m3-ct2-int8_float16"
+			$options:={pooling: "cls"}
+		: (True)
+			$folder:=$homeFolder.folder("multilingual-e5-base-ct2-int8_float16")
+			$path:="keisuke-miyako/multilingual-e5-base-ct2-int8_float16"
+			$URL:="keisuke-miyako/multilingual-e5-base-ct2-int8_float16"
+			$options:={pooling: "mean"}
+	End case 
+	
 	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding")
 	$huggingfaces:=cs.event.huggingfaces.new([$embeddings])
@@ -51,8 +131,6 @@ Function useONNX($name : Text; $port : Integer)
 	var $ONNX : cs.ONNX.ONNX
 	var $homeFolder : 4D.Folder
 	$homeFolder:=Folder(fk home folder).folder(".ONNX")
-	var $file : 4D.File
-	var $URL : Text
 	
 	var $event : cs.event.event
 	$event:=cs.event.event.new()
@@ -69,6 +147,7 @@ Function useONNX($name : Text; $port : Integer)
 	var $chat_template : Text
 	var $folder : 4D.Folder
 	var $path : Text
+	var $URL : Text
 	
 	Case of 
 		: (True)
@@ -89,28 +168,37 @@ Function useONNX($name : Text; $port : Integer)
 	
 	Case of 
 		: (True)
+			$folder:=$homeFolder.folder("bge-m3-onnx")
+			$path:="keisuke-miyako/bge-m3-onnx"
+			$URL:="keisuke-miyako/bge-m3-onnx"
+			$pooling:="cls"
+		: (False)
 			$folder:=$homeFolder.folder("amber-large-onnx")
 			$path:="keisuke-miyako/amber-large-onnx"
 			$URL:="keisuke-miyako/amber-large-onnx"
+			$pooling:="mean"
 		: (False)
-			$folder:=$homeFolder.folder("multilingual-e5-large-onnx")
-			$path:="keisuke-miyako/multilingual-e5-large-onnx"
-			$URL:="keisuke-miyako/multilingual-e5-large-onnx"
+			$folder:=$homeFolder.folder("multilingual-e5-base-onnx")
+			$path:="keisuke-miyako/multilingual-e5-base-onnx"
+			$URL:="keisuke-miyako/multilingual-e5-base-onnx"
+			$pooling:="mean"
 		: (False)
 			$folder:=$homeFolder.folder("sarashina-embedding-v2-1b-onnx")
 			$path:="keisuke-miyako/sarashina-embedding-v2-1b-onnx"
 			$URL:="keisuke-miyako/sarashina-embedding-v2-1b-onnx"
+			$pooling:="mean"
 		: (False)
 			$folder:=$homeFolder.folder("ruri-v3-310m-onnx")
 			$path:="keisuke-miyako/ruri-v3-310m-onnx"
 			$URL:="keisuke-miyako/ruri-v3-310m-onnx"
+			$pooling:="mean"
 	End case 
 	
 	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding"; "model_quantized.onnx")
 	$huggingfaces:=cs.event.huggingfaces.new([$chat; $embeddings])
 	
-	$options:={chat_template: $chat_template; pooling: "mean"}
+	$options:={chat_template: $chat_template; pooling: $pooling}
 	$ONNX:=cs.ONNX.ONNX.new($port; $huggingfaces; $homeFolder; $options; $event)
 	
 	This.register($name; $port)
