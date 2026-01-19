@@ -17,6 +17,7 @@
 	"events": [
 		"onLoad",
 		"onClick",
+		"onDoubleClick",
 		"onDataChange",
 		"onUnload",
 		"onSelectionChange",
@@ -102,8 +103,8 @@
 					"type": "listbox",
 					"left": 283,
 					"top": 121,
-					"width": 1015,
-					"height": 188,
+					"width": 1144,
+					"height": 273,
 					"events": [
 						"onClick",
 						"onHeaderClick",
@@ -185,8 +186,8 @@
 				"btnRefresh": {
 					"type": "button",
 					"text": "Refresh",
-					"top": 671,
-					"left": 1183,
+					"top": 680,
+					"left": 1315,
 					"width": 115,
 					"height": 31,
 					"events": [
@@ -200,9 +201,9 @@
 				"List Box1": {
 					"type": "listbox",
 					"left": 767,
-					"top": 343,
-					"width": 260,
-					"height": 306,
+					"top": 414,
+					"width": 320,
+					"height": 246,
 					"events": [
 						"onClick",
 						"onHeaderClick",
@@ -212,7 +213,6 @@
 					"listboxType": "collection",
 					"dataSource": "Form:C1466.providersListBox.currentItem.reasoningModels.models",
 					"currentItemSource": "",
-					"singleClickEdit": true,
 					"selectedItemsSource": "",
 					"currentItemPositionSource": "",
 					"fontFamily": "Avenir Light",
@@ -237,10 +237,10 @@
 				},
 				"List Box2": {
 					"type": "listbox",
-					"left": 1038,
-					"top": 343,
-					"width": 260,
-					"height": 306,
+					"left": 1107,
+					"top": 414,
+					"width": 320,
+					"height": 246,
 					"events": [
 						"onClick",
 						"onHeaderClick",
@@ -250,8 +250,6 @@
 					"listboxType": "collection",
 					"dataSource": "Form:C1466.providersListBox.currentItem.embeddingModels.models",
 					"currentItemSource": "",
-					"selectionMode": "single",
-					"singleClickEdit": true,
 					"selectedItemsSource": "",
 					"currentItemPositionSource": "",
 					"fontFamily": "Avenir Light",
@@ -277,7 +275,7 @@
 				"Input2": {
 					"type": "input",
 					"left": 468,
-					"top": 514,
+					"top": 521,
 					"width": 270,
 					"height": 18,
 					"dataSource": "Form:C1466.providersListBox.currentItem.name",
@@ -297,7 +295,7 @@
 				"Text9": {
 					"type": "text",
 					"text": "Provider name:",
-					"top": 514,
+					"top": 521,
 					"left": 284,
 					"width": 180,
 					"height": 18,
@@ -307,7 +305,7 @@
 				"Input1": {
 					"type": "input",
 					"left": 468,
-					"top": 542,
+					"top": 549,
 					"width": 270,
 					"height": 18,
 					"dataSource": "Form:C1466.providersListBox.currentItem.url",
@@ -327,7 +325,7 @@
 				"Text10": {
 					"type": "text",
 					"text": "Provider url:",
-					"top": 542,
+					"top": 549,
 					"left": 284,
 					"width": 180,
 					"height": 18,
@@ -337,7 +335,7 @@
 				"Input3": {
 					"type": "input",
 					"left": 468,
-					"top": 601,
+					"top": 608,
 					"width": 270,
 					"height": 18,
 					"dataSource": "Form:C1466.providersListBox.currentItem.defaults.embedding",
@@ -357,7 +355,7 @@
 				"Text11": {
 					"type": "text",
 					"text": "Default embedding model:",
-					"top": 601,
+					"top": 608,
 					"left": 284,
 					"width": 180,
 					"height": 18,
@@ -367,7 +365,7 @@
 				"Input4": {
 					"type": "input",
 					"left": 468,
-					"top": 630,
+					"top": 637,
 					"width": 270,
 					"height": 18,
 					"dataSource": "Form:C1466.providersListBox.currentItem.defaults.reasoning",
@@ -387,7 +385,7 @@
 				"Text12": {
 					"type": "text",
 					"text": "Default reasoning model:",
-					"top": 630,
+					"top": 637,
 					"left": 284,
 					"width": 180,
 					"height": 18,
@@ -397,7 +395,7 @@
 				"Input5": {
 					"type": "input",
 					"left": 468,
-					"top": 571,
+					"top": 578,
 					"width": 270,
 					"height": 18,
 					"dataSource": "Form:C1466.providersListBox.currentItem.keyHidden",
@@ -417,7 +415,7 @@
 				"Text1": {
 					"type": "text",
 					"text": "Provider API Key:",
-					"top": 571,
+					"top": 578,
 					"left": 284,
 					"width": 180,
 					"height": 18,
@@ -427,7 +425,7 @@
 				"Text3": {
 					"type": "text",
 					"text": "Selected provider",
-					"top": 480,
+					"top": 487,
 					"left": 283,
 					"width": 475,
 					"height": 22,
@@ -599,8 +597,8 @@
 				"Text14": {
 					"type": "text",
 					"text": "Embeddings",
-					"top": 94,
-					"left": 1119,
+					"top": 96,
+					"left": 1146,
 					"width": 250,
 					"height": 22,
 					"fontFamily": "Avenir Light",
@@ -619,8 +617,8 @@
 				},
 				"Rectangle4": {
 					"type": "rectangle",
-					"top": 411,
-					"left": 1119,
+					"top": 413,
+					"left": 1146,
 					"width": 232,
 					"height": 85,
 					"borderRadius": 10,
@@ -630,8 +628,8 @@
 				"Text15": {
 					"type": "text",
 					"text": "Persons missing embeddings",
-					"top": 421,
-					"left": 1129,
+					"top": 423,
+					"left": 1156,
 					"width": 203,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -639,8 +637,8 @@
 				},
 				"Input8": {
 					"type": "input",
-					"left": 1129,
-					"top": 450,
+					"left": 1156,
+					"top": 452,
 					"width": 210,
 					"height": 42,
 					"dataSource": "ds:C1482.person.peopleMissingEmbedding()",
@@ -655,8 +653,8 @@
 				},
 				"Rectangle5": {
 					"type": "rectangle",
-					"top": 129,
-					"left": 1119,
+					"top": 131,
+					"left": 1146,
 					"width": 231,
 					"height": 85,
 					"borderRadius": 10,
@@ -666,8 +664,8 @@
 				"Text17": {
 					"type": "text",
 					"text": "Embedding status",
-					"top": 139,
-					"left": 1129,
+					"top": 141,
+					"left": 1156,
 					"width": 170,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -676,8 +674,8 @@
 				},
 				"Input7": {
 					"type": "input",
-					"left": 1129,
-					"top": 168,
+					"left": 1156,
+					"top": 170,
 					"width": 209,
 					"height": 42,
 					"dataSource": "Form:C1466.actions.embedding.status",
@@ -693,8 +691,8 @@
 				},
 				"Rectangle6": {
 					"type": "rectangle",
-					"top": 222,
-					"left": 1118,
+					"top": 224,
+					"left": 1145,
 					"width": 231,
 					"height": 85,
 					"borderRadius": 10,
@@ -704,8 +702,8 @@
 				"Text19": {
 					"type": "text",
 					"text": "Model used",
-					"top": 232,
-					"left": 1128,
+					"top": 234,
+					"left": 1155,
 					"width": 170,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -714,8 +712,8 @@
 				},
 				"Input9": {
 					"type": "input",
-					"left": 1128,
-					"top": 253,
+					"left": 1155,
+					"top": 255,
 					"width": 209,
 					"height": 26,
 					"dataSource": "Form:C1466.actions.embedding.info.provider",
@@ -731,8 +729,8 @@
 				},
 				"Rectangle7": {
 					"type": "rectangle",
-					"top": 316,
-					"left": 1119,
+					"top": 318,
+					"left": 1146,
 					"width": 231,
 					"height": 85,
 					"borderRadius": 10,
@@ -742,8 +740,8 @@
 				"Text20": {
 					"type": "text",
 					"text": "Embedding date / time / duration",
-					"top": 326,
-					"left": 1129,
+					"top": 328,
+					"left": 1156,
 					"width": 209,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -752,8 +750,8 @@
 				},
 				"Input10": {
 					"type": "input",
-					"left": 1129,
-					"top": 349,
+					"left": 1156,
+					"top": 351,
 					"width": 209,
 					"height": 26,
 					"dataSource": "Form:C1466.embeddingDateTime",
@@ -769,8 +767,8 @@
 				},
 				"Input11": {
 					"type": "input",
-					"left": 1129,
-					"top": 374,
+					"left": 1156,
+					"top": 376,
 					"width": 209,
 					"height": 16,
 					"dataSource": "Form:C1466.actions.embedding.info.duration/1000",
@@ -787,8 +785,8 @@
 				},
 				"Input12": {
 					"type": "input",
-					"left": 1128,
-					"top": 281,
+					"left": 1155,
+					"top": 283,
 					"width": 209,
 					"height": 26,
 					"dataSource": "Form:C1466.actions.embedding.info.model",
@@ -804,8 +802,8 @@
 				},
 				"providersEmbList": {
 					"type": "dropdown",
-					"left": 1177,
-					"top": 549,
+					"left": 1204,
+					"top": 551,
 					"width": 208,
 					"height": 27,
 					"events": [
@@ -819,8 +817,8 @@
 				},
 				"modelsEmbList": {
 					"type": "dropdown",
-					"left": 1177,
-					"top": 578,
+					"left": 1204,
+					"top": 580,
 					"width": 208,
 					"height": 27,
 					"events": [
@@ -834,8 +832,8 @@
 				"Text21": {
 					"type": "text",
 					"text": "Provider:",
-					"top": 553,
-					"left": 1118,
+					"top": 555,
+					"left": 1145,
 					"width": 59,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -844,8 +842,8 @@
 				"Text22": {
 					"type": "text",
 					"text": "Model:",
-					"top": 582,
-					"left": 1118,
+					"top": 584,
+					"left": 1145,
 					"width": 59,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -854,8 +852,8 @@
 				"Text23": {
 					"type": "text",
 					"text": "Compute embeddings for all records",
-					"top": 514,
-					"left": 1118,
+					"top": 516,
+					"left": 1145,
 					"width": 267,
 					"height": 18,
 					"fontFamily": "Avenir Light",
@@ -864,8 +862,8 @@
 				"Check Box": {
 					"type": "checkbox",
 					"text": "Recompute all embeddings",
-					"top": 610,
-					"left": 1119,
+					"top": 612,
+					"left": 1146,
 					"width": 266,
 					"height": 22,
 					"events": [
@@ -878,8 +876,8 @@
 				"btnVectorize": {
 					"type": "button",
 					"text": "🪄 Compute Embeddings",
-					"top": 665,
-					"left": 1119,
+					"top": 667,
+					"left": 1146,
 					"width": 269,
 					"height": 41,
 					"events": [
@@ -891,8 +889,8 @@
 				},
 				"embeddingProgressBar": {
 					"type": "progress",
-					"left": 1129,
-					"top": 665,
+					"left": 1156,
+					"top": 667,
 					"width": 247,
 					"height": 17,
 					"max": 100,
@@ -900,8 +898,8 @@
 				},
 				"embeddingProgressMessage": {
 					"type": "input",
-					"left": 1129,
-					"top": 680,
+					"left": 1156,
+					"top": 682,
 					"width": 218,
 					"height": 19,
 					"dataSource": "Form:C1466.actions.embedding.progress.message",
@@ -1055,8 +1053,8 @@
 				},
 				"embeddingSpinner": {
 					"type": "spinner",
-					"left": 1344,
-					"top": 673,
+					"left": 1371,
+					"top": 675,
 					"width": 44,
 					"height": 31,
 					"dataSource": "Form:C1466.actions.embedding.running"
@@ -1428,7 +1426,7 @@
 					"type": "input",
 					"left": 31,
 					"top": 593,
-					"width": 673,
+					"width": 689,
 					"height": 109,
 					"fontFamily": "Avenir Light",
 					"fontSize": 13,
@@ -1840,7 +1838,7 @@
 			}
 		}
 	],
-	"geometryStamp": 854,
+	"geometryStamp": 867,
 	"editor": {
 		"groups": {
 			"Group": [

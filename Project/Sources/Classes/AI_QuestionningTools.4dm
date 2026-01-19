@@ -72,7 +72,6 @@ Function tool_listCitiesAndCountries($input : Object) : Collection
 Function tool_listJobTitles($input : Object) : Collection
 	return ds.jobDetail.all().distinct("jobTitle")
 	
-	
 	//MARK: -
 	//MARK: onStreamTerminate and onStreamData
 	
@@ -105,7 +104,7 @@ Function getMentionnedPersonsInResponse($AIresponse : Text) : cs.personSelection
 		$jsonContent:=Substring($AIresponse; $jsonStart)
 		$response:=Try(JSON Parse($jsonContent; Is object))
 		If (($response#Null) && (Value type($response.personIDs)=Is collection))
-			If ($response.personIDS.length=0)
+			If ($response.personIDs.length=0)
 				return {success: True; response: Null; error: ""}
 			End if 
 			If ((Value type($response.personIDs.first())=Is object) && (Not(Undefined($response.personIDs.first().ID))))
@@ -182,9 +181,13 @@ Function initBot()
 		"The end-user sometimes asks irrelevant questions, not related to persons, skills, job position or locations.\n"+\
 		"In such case, and only in such case, do not execute any tool and invite the user to ask more appropriate questions.\n"
 	
+	$systemPrompt+="If you generate a header or a list or a table, use HTML tags like <p>, <h1>, <ul> <html> <b> <i>."
+	$systemPrompt+="Do not use markdown tags like ### or *italic* or **bold** or - list or |table|:-:|row|."
+	
 	$options.model:=This.model
 	$options.temperature:=0
 	$options.stream:=True
+	$options["max_tokens"]:=999000
 	
 	If ($options.stream)
 		$options.onData:=This.onStreamData

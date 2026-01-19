@@ -52,28 +52,29 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 		: ($mode="chat.completions")
 			Case of 
 				: (True)
-					$folder:=$homeFolder.folder("Phi-3.5-mini-instruct-Q4_0")  //where to keep the repo
-					$path:="Phi-3.5-mini-instruct-Q4_0.gguf"  //path to the file
-					$URL:="bartowski/Phi-3.5-mini-instruct-GGUF"  //path to the repo
+					$folder:=$homeFolder.folder("Phi-4-reasoning-plus-Q4_K_M")  //where to keep the repo
+					$path:="Phi-4-reasoning-plus-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/Phi-4-reasoning-plus-gguf-q4k_m"  //path to the repo
 				: (False)
 					$folder:=$homeFolder.folder("qwen2.5-7b-instruct-q4_k_m")  //where to keep the repo
 					$path:="qwen2.5-7b-instruct-q4_k_m-@-of-00002.gguf"  //path to the file
 					$URL:="Qwen/Qwen2.5-7B-Instruct-GGUF"  //path to the repo
 			End case 
 			$options:={\
-			ctx_size: 4096; \
-			batch_size: 2048; \
-			threads: 4; \
-			n_predict: -1; \
-			threads_batch: 4; \
-			threads_http: 4; \
-			temp: 0.3; \
-			top_k: 40; \
-			top_p: 0.9; \
-			log_disable: True; \
-			repeat_penalty: 1; \
-			n_gpu_layers: -1; \
-			jinja: True}
+				ctx_size: 4096; \
+				batch_size: 2048; \
+				threads: 4; \
+				n_predict: -1; \
+				threads_batch: 4; \
+				threads_http: 4; \
+				temp: 1; \
+				top_k: 64; \
+				top_p: 0.95; \
+				min_p: 0; \
+				log_disable: True; \
+				repeat_penalty: 1; \
+				n_gpu_layers: -1; \
+				jinja: True}
 	End case 
 	
 	var $huggingface : cs.event.huggingface
@@ -147,7 +148,7 @@ Function useONNX($name : Text; $port : Integer)
 	var $chat_template : Text
 	var $folder : 4D.Folder
 	var $path : Text
-	var $URL : Text
+	var $URL; $pooling : Text
 	
 	Case of 
 		: (True)

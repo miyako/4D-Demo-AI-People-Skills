@@ -36,6 +36,14 @@ Function formEventHandler($formEventCode : Integer)
 	Super.formEventHandler($formEventCode)
 	
 	Case of 
+		: ($formEventCode=On Double Clicked)
+			
+			Case of 
+				: (FORM Event.objectName="Input17")
+					This.actions.questionning.prompt:=This.getText("prompt.txt")
+					OBJECT SET ENABLED(*; "btnAskMe"; True)
+			End case 
+			
 		: ($formEventCode=On After Edit)
 			
 			Case of 

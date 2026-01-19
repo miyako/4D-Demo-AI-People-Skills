@@ -54,6 +54,8 @@ Function getPersonArrayFromResponse($AIresponse : Text) : Object
 	If ($jsonStart<=0)
 		return {success: False; response: Null; error: "No JSON to process"; errors: Null}
 	End if 
+	var $charEnd : Text
+	var $jsonEnd : Integer
 	$AIresponse:=Substring($AIresponse; $jsonStart)
 	$charEnd:="```"
 	$jsonEnd:=Position($charEnd; $AIresponse; *)

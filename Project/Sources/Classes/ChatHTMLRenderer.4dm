@@ -4,7 +4,6 @@ singleton Class constructor()
 	// Singleton instance is automatically managed by 4D
 	This.lastContentHash:=""
 	
-	
 	//MARK: -
 	//MARK: Private helper methods
 	
@@ -94,7 +93,6 @@ Function _cleanMarkdownCodeBlocks($content : Text) : Text
 	
 	return $result
 	
-	
 Function _hasHTMLTags($content : Text) : Boolean
 	// Check if content contains common HTML tags - optimized with early exit
 	var $htmlTags : Collection:=["<div"; "<p>"; "<ul>"; "<li>"; "<strong>"; "<br>"; "<table"; "<tr>"; "<td>"; "<th>"]
@@ -107,7 +105,6 @@ Function _hasHTMLTags($content : Text) : Boolean
 	End for each 
 	
 	return False
-	
 	
 Function _countPersonIDs($content : Text) : Integer
 	// Count person IDs in content
@@ -124,7 +121,6 @@ Function _countPersonIDs($content : Text) : Integer
 	Until ($foundPos=0)
 	
 	return $personCount
-	
 	
 Function _processPersonsMarker($content : Text) : Text
 	// Process content that contains [PERSONS] marker
@@ -210,7 +206,6 @@ Function _processPersonsMarker($content : Text) : Text
 	
 	return $result
 	
-	
 Function _processThinkSections($content : Text) : Text
 	// Process content that contains <think> sections with state logic like tool calls
 	var $result : Text:=$content
@@ -262,7 +257,6 @@ Function _processThinkSections($content : Text) : Text
 	
 	return $result
 	
-	
 Function _processRegularContent($content : Text) : Text
 	// Process content without [PERSONS] marker but check for <think> sections
 	var $processedContent : Text:=$content
@@ -284,16 +278,14 @@ Function _processRegularContent($content : Text) : Text
 	If ($contentHasHTML)
 		return $cleanContent  // Use cleaned HTML content
 	Else 
-		return This._escapeHTML($processedContent)  // Escape the processed content (after think processing)
+		return This._escapeHTML($processedContent)
 	End if 
-	
 	
 Function _hasIncompleteToolArgs($toolCall : Object) : Boolean
 	// Check if tool call has incomplete or missing arguments
 	If ($toolCall.function.arguments=Null) || ($toolCall.function.arguments="")
 		return True  // No arguments at all
 	End if 
-	
 	// Try to parse JSON arguments
 	Try
 		var $testArgs : Object:=JSON Parse($toolCall.function.arguments; Is object)
@@ -302,11 +294,10 @@ Function _hasIncompleteToolArgs($toolCall : Object) : Boolean
 		return True  // Parse error means incomplete
 	End try
 	
-	
 Function _hasToolResponse($toolCall : Object; $messages : Collection; $currentIndex : Integer) : Boolean
 	// Check if this tool call has a response by looking ahead in messages array
 	If ($toolCall.id=Null) || ($toolCall.id="")
-		return False
+		return True
 	End if 
 	
 	// Look for tool response messages after current message
@@ -319,7 +310,6 @@ Function _hasToolResponse($toolCall : Object; $messages : Collection; $currentIn
 	End for 
 	
 	return False
-	
 	
 Function _renderToolCallArgs($toolCall : Object) : Text
 	// Render tool call arguments as HTML
@@ -363,7 +353,6 @@ Function _renderToolCallArgs($toolCall : Object) : Text
 	
 	return $result
 	
-	
 Function _processToolCalls($message : Object; $messages : Collection; $currentIndex : Integer) : Text
 	// Process all tool calls for a message
 	var $result : Text
@@ -396,7 +385,6 @@ Function _processToolCalls($message : Object; $messages : Collection; $currentIn
 	
 	return $result
 	
-	
 Function _generateContentHash($messages : Collection) : Text
 	// Generate a simple hash of the messages to detect if content changed
 	var $content : Text
@@ -411,7 +399,6 @@ Function _generateContentHash($messages : Collection) : Text
 	
 	return Generate digest($content; MD5 digest)
 	
-	
 	//MARK: -
 	//MARK: Public methods
 	
@@ -419,7 +406,6 @@ Function getInitialHTML() : Text
 	// Returns the filename of the HTML template for initial load
 	// The calling code should combine this with Current resources folder
 	return "chat-template.html"
-	
 	
 Function generateMessagesHTML($messages : Collection) : Text
 	// Generates only the messages HTML content (not the full page)
@@ -482,7 +468,6 @@ Function generateMessagesHTML($messages : Collection) : Text
 	
 	return $result
 	
-	
 Function updateWebAreaWithJS($webAreaName : Text; $messages : Collection)
 	// Update web area content via JavaScript without page reload
 	var $messagesHTML : Text
@@ -520,7 +505,6 @@ Function _cleanAndParseJSON($jsonContent : Text) : Object
 	Catch
 		return Null
 	End try
-	
 	
 Function _hasIncompletePersonJSONAnywhere($content : Text) : Boolean
 	// Unified function to check if personID JSON is complete anywhere in content
