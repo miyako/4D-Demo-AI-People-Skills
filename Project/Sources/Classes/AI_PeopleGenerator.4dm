@@ -205,7 +205,11 @@ Function initBot()
 	$options.response_format:={type: "json_schema"; json_schema: {name: "person_array_schema"; schema: This.personArraySchema}}
 	$options.model:=This.model
 	$options.stream:=True
-	//$options.temperature:=0
+	$options["top_k"]:=64
+	$options["min_p"]:=0
+	$options["top_p"]:=0.95
+	$options["repeat_penalty"]:=1.05
+	$options.temperature:=0
 	
 	If ($options.stream)  //setting callbacks will force async
 		$options.onData:=This.onStreamChatData
