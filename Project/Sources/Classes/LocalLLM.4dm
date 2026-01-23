@@ -13,6 +13,8 @@ Function use($name : Text; $port : Integer)
 			This.useONNX($name; $port)
 		: ($name="CTranslate2")
 			This.useCTranslate2($name; $port)
+		: ($name="swama")
+			This.useSwama($name; $port)
 	End case 
 	
 Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
@@ -51,30 +53,70 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 				n_gpu_layers: -1}
 		: ($mode="chat.completions")
 			Case of 
+				: (False)
+					$folder:=$homeFolder.folder("DeepSeek-R1-Distill-Qwen-7B-Q4_K_M")  //where to keep the repo
+					$path:="DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/DeepSeek-R1-Distill-Qwen-7B-gguf-q4_k_m"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("DeepSeek-R1-0528-Qwen3-8B-Q4_K_M")  //where to keep the repo
+					$path:="DeepSeek-R1-0528-Qwen3-8B-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/DeepSeek-R1-0528-Qwen3-8B-gguf-q4_k_m"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("Llama-3.2-3B-Instruct-Q4_K_M")  //where to keep the repo
+					$path:="Llama-3.2-3B-Instruct-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/Llama-3.2-3B-Instruct-gguf-q4_k_m"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("gemma-3-270m-it-Q8_0")  //where to keep the repo
+					$path:="gemma-3-270m-it-Q8_0.gguf"  //path to the file
+					$URL:="keisuke-miyako/gemma-3-270m-it-gguf-q8_0"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("Qwen3-0.6B-Q8_0")  //where to keep the repo
+					$path:="Qwen3-0.6B-Q8_0.gguf"  //path to the file
+					$URL:="keisuke-miyako/Qwen3-0.6B-gguf-q8_0"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("Qwen3-1.7B-Q8_0")  //where to keep the repo
+					$path:="Qwen3-1.7B-Q8_0.gguf"  //path to the file
+					$URL:="keisuke-miyako/Qwen3-1.7B-gguf-q8_0"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("Phi-4-mini-instruct-Q4_K_M")  //where to keep the repo
+					$path:="Phi-4-mini-instruct-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/Phi-4-mini-instruct-gguf-q4k_m"
+				: (False)
+					$folder:=$homeFolder.folder("functiongemma-270m-it-Q4_K_M")  //where to keep the repo
+					$path:="functiongemma-270m-it-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/functiongemma-270m-it-gguf-q4_k_m"  //path to the repo
+				: (False)
+					$folder:=$homeFolder.folder("Gemma-2-Llama-Swallow-2b-it-v0.1-Q4_K_M")  //where to keep the repo
+					$path:="Gemma-2-Llama-Swallow-2b-it-v0.1-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/Gemma-2-Llama-Swallow-2b-it-v0.1-gguf-q4_k_m"  //path to the repo
 				: (True)
-					$folder:=$homeFolder.folder("Phi-4-reasoning-plus-Q4_K_M")  //where to keep the repo
-					$path:="Phi-4-reasoning-plus-Q4_K_M.gguf"  //path to the file
-					$URL:="keisuke-miyako/Phi-4-reasoning-plus-gguf-q4k_m"  //path to the repo
+					$folder:=$homeFolder.folder("Qwen3-4B-Thinking-2507-Q4_K_M")  //where to keep the repo
+					$path:="Qwen3-4B-Thinking-2507-Q4_K_M.gguf"  //path to the file
+					$URL:="keisuke-miyako/Qwen3-4B-Thinking-2507-gguf-q4k_m"  //path to the repo
 				: (False)
 					$folder:=$homeFolder.folder("qwen2.5-7b-instruct-q4_k_m")  //where to keep the repo
 					$path:="qwen2.5-7b-instruct-q4_k_m-@-of-00002.gguf"  //path to the file
 					$URL:="Qwen/Qwen2.5-7B-Instruct-GGUF"  //path to the repo
 			End case 
-			$options:={\
-				ctx_size: 4096; \
-				batch_size: 2048; \
-				threads: 4; \
-				n_predict: -1; \
-				threads_batch: 4; \
-				threads_http: 4; \
-				temp: 1; \
-				top_k: 64; \
-				top_p: 0.95; \
-				min_p: 0; \
-				log_disable: True; \
-				repeat_penalty: 1; \
-				n_gpu_layers: -1; \
-				jinja: True}
+			
+			If ($options=Null)
+				$options:={\
+					ctx_size: 40000; \
+					batch_size: 2048; \
+					threads: 4; \
+					n_predict: -1; \
+					threads_batch: 4; \
+					threads_http: 4; \
+					temp: 1; \
+					top_k: 64; \
+					top_p: 0.95; \
+					min_p: 0; \
+					log_disable: True; \
+					repeat_penalty: 1; \
+					n_gpu_layers: -1; \
+					jinja: True}
+			End if 
+			
 	End case 
 	
 	var $huggingface : cs.event.huggingface
@@ -127,6 +169,35 @@ Function useCTranslate2($name : Text; $port : Integer)
 	
 	This.register($name; $port)
 	
+Function useSwama($name : Text; $port : Integer)
+	
+	var $swama : cs.swama.swama
+	var $homeFolder : 4D.Folder
+	$homeFolder:=Folder(fk home folder).folder(".MLX")
+	
+	var $event : cs.event.event
+	$event:=cs.event.event.new()
+	$event.onError:=This.onError
+	$event.onSuccess:=This.onSuccess
+	$event.onData:=This.onData
+	$event.onResponse:=This.onResponse
+	$event.onTerminate:=This.onTerminate
+	
+	var $options : Object
+	$options:={host: "127.0.0.1"}
+	var $huggingfaces : cs.event.huggingfaces
+	
+	$folder:=$homeFolder.folder("Qwen3-4B-Instruct-2507")
+	$path:="keisuke-miyako/Qwen3-4B-Instruct-2507-mlx-4bit"
+	$URL:="keisuke-miyako/Qwen3-4B-Instruct-2507-mlx-4bit"
+	
+	$chat:=cs.event.huggingface.new($folder; $URL; $path)
+	$huggingfaces:=cs.event.huggingfaces.new([$chat])
+	
+	$swama:=cs.swama.swama.new($port; $huggingfaces; $homeFolder; $options; $event)
+	
+	This.register($name; $port)
+	
 Function useONNX($name : Text; $port : Integer)
 	
 	var $ONNX : cs.ONNX.ONNX
@@ -152,6 +223,14 @@ Function useONNX($name : Text; $port : Integer)
 	
 	Case of 
 		: (True)
+			$folder:=$homeFolder.folder("gemma-3-1b-it")
+			$path:="keisuke-miyako/gemma-3-1b-it-onnx-int4-cpu"
+			$URL:="keisuke-miyako/gemma-3-1b-it-onnx-int4-cpu"
+		: (False)
+			$folder:=$homeFolder.folder("Qwen2.5-3B-Instruct")
+			$path:="keisuke-miyako/Qwen2.5-3B-Instruct-onnx-int4-cpu"
+			$URL:="keisuke-miyako/Qwen2.5-3B-Instruct-onnx-int4-cpu"
+		: (False)
 			$chat_template:="{% set loop_messages = messages %}{% for message in loop_messages %}{% set content = '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n'+ message['content'] | trim + '<|eot_id|>' %}{% if loop.index0 == 0 %}{% set content = bos_token + cont"+"ent %}{% endif %}{{ content }}{% endfor %}{% if add_generation_prompt %}{{ '<|start_header_id|>assistant<|end_header_id|>\n\n' }}{% endif %}"
 			$folder:=$homeFolder.folder("Llama-3-ELYZA-JP-8B-onnx-int4-cpu")
 			$path:="keisuke-miyako/Llama-3-ELYZA-JP-8B-onnx-int4-cpu"
@@ -221,7 +300,7 @@ Function onError($params : Object; $error : cs.event.error)
 	ALERT($error.message)
 	
 Function onSuccess($params : Object; $models : cs.event.models)
-	ALERT($models.models.extract("name").join(",")+" loaded!")
+	//ALERT($models.models.extract("name").join(",")+" loaded!")
 	
 Function onData($request : 4D.HTTPRequest; $event : Object)
 	LOG EVENT(Into 4D debug message; This.file.fullName+":"+String((This.range.end/This.range.length)*100; "###.00%"))
