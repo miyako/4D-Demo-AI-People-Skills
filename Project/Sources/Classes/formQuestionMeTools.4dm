@@ -19,14 +19,14 @@ Class constructor()
 	This.providersGen4:={}
 	This.modelsGen4:={}
 	
-	$providers:=ds.providerSettings.query("hasReasoningModels == :1 and hasToolCalling  == :1"; True)
+	$providers:=ds.providerSettings.query("hasReasoningModels == :1 and hasToolCalling  == :1"; True).orderBy("name asc")
 	This.setupModelsGen($providers; This.providersGen4; This.modelsGen4)
 	
 	This.setActions({\
 		questionning: {running: 0; progress: {message: ""}; timingResult: ""; prompt: ""}\
 		})
 	
-	This.actions.questionning.prompt:=This.getText("prompt.txt")
+	This.actions.questionning.prompt:=This.getText(Macintosh command down ? "prompt/en.txt" : "prompt/ja.txt")
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
@@ -40,7 +40,7 @@ Function formEventHandler($formEventCode : Integer)
 			
 			Case of 
 				: (FORM Event.objectName="Input17")
-					This.actions.questionning.prompt:=This.getText("prompt.txt")
+					This.actions.questionning.prompt:=This.getText(Macintosh command down ? "prompt/en.txt" : "prompt/ja.txt")
 					OBJECT SET ENABLED(*; "btnAskMe"; True)
 			End case 
 			
