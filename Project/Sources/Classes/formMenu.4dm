@@ -49,7 +49,7 @@ Function setupModelsGen($providers : cs.providerSettingsSelection; $providersGen
 		$providersGen.values:=$providers.extract("name")
 		$provider:=$providers.first()
 		$models:=$provider.reasoningModels.models
-		$modelsGen.values:=$models.extract("model")
+		$modelsGen.values:=$models.extract("model").orderBy()
 		$modelsGen.index:=$modelsGen.values.findIndex(Formula($1.value=$provider.defaults.reasoning))
 	End if 
 	
@@ -67,6 +67,6 @@ Function setupModelsEmb($providers : cs.providerSettingsSelection; $providersEmb
 		$providersEmb.values:=$providers.extract("name")
 		$provider:=$providers.first()
 		$models:=$provider.embeddingModels.models
-		$modelsEmb.values:=$models.extract("model")
+		$modelsEmb.values:=$models.extract("model").orderBy()
 		$modelsEmb.index:=$modelsEmb.values.findIndex(Formula($1.value=$provider.defaults.embedding))
 	End if 
