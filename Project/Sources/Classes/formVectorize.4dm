@@ -24,10 +24,10 @@ Class constructor()
 		generatingPeople: {running: 0; progress: {value: 0; message: ""}; quantity: 9; quantityBy: 3; specificRequest: ""}\
 		})
 	
-	$providers:=ds.providerSettings.query("hasReasoningModels == :1"; True)
+	$providers:=ds.providerSettings.query("hasReasoningModels == :1"; True).orderBy("name asc")
 	This.setupModelsGen($providers; This.providersGen; This.modelsGen)
 	
-	$providers:=ds.providerSettings.query("hasEmbeddingModels == :1"; True)
+	$providers:=ds.providerSettings.query("hasEmbeddingModels == :1"; True).orderBy("name asc")
 	This.setupModelsEmb($providers; This.providersEmb; This.modelsEmb)
 	
 	This.updateEmbeddingStatus()
@@ -207,7 +207,7 @@ Function setModelList($providerList : Object; $kind : Text) : Object
 			$models:=$provider.embeddingModels.models
 			$defaultModel:=$provider.defaults.embedding
 	End case 
-	$list.values:=$models.extract("model")
+	$list.values:=$models.extract("model").orderBy()
 	$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
 	
 	return $list
