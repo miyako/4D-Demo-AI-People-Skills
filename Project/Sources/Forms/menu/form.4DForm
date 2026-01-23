@@ -6,8 +6,8 @@
 	"css": [
 		"/SOURCES/main.css"
 	],
-	"windowSizingX": "variable",
-	"windowSizingY": "variable",
+	"windowSizingX": "fixed",
+	"windowSizingY": "fixed",
 	"windowMinWidth": 0,
 	"windowMinHeight": 0,
 	"windowMaxWidth": 32767,
@@ -1838,7 +1838,7 @@
 			}
 		}
 	],
-	"geometryStamp": 867,
+	"geometryStamp": 869,
 	"editor": {
 		"groups": {
 			"Group": [

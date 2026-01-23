@@ -13,8 +13,9 @@
 			"github": "miyako/llama-cpp",
 			"version": "latest"
 		},
-		"aikit": {
-			"github": "miyako/aikit",
+		"4D AIKit": {},
+		"swama": {
+			"github": "miyako/swama",
 			"version": "latest"
 		}
 	}
