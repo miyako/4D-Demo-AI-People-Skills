@@ -1,0 +1,5 @@
+The project is located in Italy. 
+Technology stack is 4D and we'll need to build a mobile app, a web app, that both rely on server side 4D database. 
+The project will last a couple of months. 
+Can you suggest an adequate team for such project? 
+Estimate the costs for 2 full months. And draft a proposal?
