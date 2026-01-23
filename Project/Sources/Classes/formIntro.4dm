@@ -58,16 +58,16 @@ Function btnRefreshProvidersEventHandler($formEventCode : Integer)
 			
 			var $providers : cs.providerSettingsSelection
 			
-			$providers:=ds.providerSettings.query("hasReasoningModels == :1"; True)
+			$providers:=ds.providerSettings.query("hasReasoningModels == :1"; True).orderBy("name asc")
 			This.setupModelsGen($providers; This.providersGen; This.modelsGen)
 			
-			$providers:=ds.providerSettings.query("hasEmbeddingModels == :1"; True)
+			$providers:=ds.providerSettings.query("hasEmbeddingModels == :1"; True).orderBy("name asc")
 			This.setupModelsEmb($providers; This.providersEmb; This.modelsEmb)
 			
 			This.providersGen4:={}
 			This.modelsGen4:={}
 			
-			$providers:=ds.providerSettings.query("hasReasoningModels == :1 and hasToolCalling  == :1"; True)
+			$providers:=ds.providerSettings.query("hasReasoningModels == :1 and hasToolCalling  == :1"; True).orderBy("name asc")
 			This.setupModelsGen($providers; This.providersGen4; This.modelsGen4)
 			
 	End case 
