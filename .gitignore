@@ -25,3 +25,4 @@ Settings/buildApp.4DSettings
 Backup/
 backupHistory.json
 Components/
+Secrets/*
