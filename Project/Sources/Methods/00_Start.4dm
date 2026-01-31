@@ -1,4 +1,4 @@
-//%attributes = {"preemptive":"incapable"}
+//%attributes = {"invisible":true,"preemptive":"incapable"}
 #DECLARE($options : Object)
 
 var $i; $window : Integer
