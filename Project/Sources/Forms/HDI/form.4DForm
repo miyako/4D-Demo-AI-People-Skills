@@ -4,13 +4,14 @@
 	"windowSizingY": "fixed",
 	"width": 724,
 	"height": 560,
-	"menuBar": "Menu Bar #1",
+	"menuBar": "Barre #1",
 	"markerHeader": 15,
 	"markerBody": 200,
 	"markerBreak": 220,
 	"markerFooter": 240,
 	"events": [
-		"onLoad"
+		"onLoad",
+		"onUnload"
 	],
 	"method": "method.4dm",
 	"pageFormat": {
@@ -63,7 +64,7 @@
 					"action": "Accept",
 					"shortcutKey": "[Return]",
 					"text": "Demo",
-					"class": "default1",
+					"class": "",
 					"focusable": false,
 					"defaultButton": true,
 					"events": [
@@ -204,7 +205,7 @@
 				"White90": {
 					"type": "picture",
 					"top": 110,
-					"left": 1,
+					"left": 0,
 					"width": 724,
 					"height": 364,
 					"visibility": "hidden",
@@ -245,5 +246,7 @@
 		"views": {
 			"View 1": {}
 		}
-	}
+	},
+	"geometryStamp": 3,
+	"formClass": "formHDI"
 }
