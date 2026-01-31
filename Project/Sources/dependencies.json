@@ -17,6 +17,10 @@
 		"swama": {
 			"github": "miyako/swama",
 			"version": "latest"
+		},
+		"event": {
+			"github": "miyako/event",
+			"version": "latest"
 		}
 	}
 }
