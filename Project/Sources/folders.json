@@ -1,15 +1,56 @@
 {
-	"Default Classes": {},
-	"Default Folder": {
-		"groups": [
-			"Default Classes",
-			"Default Forms",
-			"Default Project Methods",
-			"Default Tables"
+	"4DB": {
+		"tables": [
+			"address",
+			"embeddingInfo",
+			"jobDetail",
+			"person",
+			"personSkill",
+			"providerSettings",
+			"skill",
+			"skillCategory"
+		],
+		"classes": [
+			"addressEntity",
+			"embeddingInfo",
+			"person",
+			"personEntity",
+			"personSkillEntity",
+			"personSkillSelection",
+			"providerSettings",
+			"providerSettingsEntity"
 		]
 	},
-	"Default Forms": {},
-	"Default Project Methods": {},
-	"Default Tables": {},
+	"AI": {
+		"classes": [
+			"AI_Agent",
+			"AI_PeopleGenerator",
+			"AI_PersonVectorizer",
+			"AI_QuestionningTools",
+			"AI_Vectorizer"
+		]
+	},
+	"Form": {
+		"forms": [
+			"HDI",
+			"menu"
+		],
+		"classes": [
+			"form",
+			"formHDI",
+			"formIntro",
+			"formMenu",
+			"formQuestionMeTools",
+			"formSemanticSearch",
+			"formVectorize"
+		]
+	},
+	"Settings": {
+		"classes": [
+			"initData",
+			"LocalLLM",
+			"RemoteLLM"
+		]
+	},
 	"trash": {}
 }
