@@ -16,17 +16,20 @@ shared singleton Class constructor
 		Mistral: "https://api.mistral.ai/v1"; \
 		Moonshot: "https://api.moonshot.ai/v1"; \
 		NVIDIA: "https://integrate.api.nvidia.com/v1"; \
+		OpenAI: ""; \
 		OpenRouter: "https://openrouter.ai/api/v1"; \
 		Perplexity: "https://api.perplexity.ai"; \
 		xAI: "https://api.x.ai/v1"}; ck shared)
 	
-Function use($name : Text)
+Function use($name : Text) : cs.RemoteLLM
 	
 	If (Not(OB Is defined(This.endpoints; $name)))
 		return 
 	End if 
 	
 	This._register($name)
+	
+	return This
 	
 Function _register($name : Text)
 	
@@ -56,3 +59,35 @@ Function getAccessToken($name : Text) : Text
 	If ($file.exists)
 		return $file.getText()
 	End if 
+	
+Function getRule($name : Text) : Object
+	
+	var $file : 4D.File
+	$file:=This._resolvePath(Folder("/PROJECT/")).parent.folder("Rules").file($name+".json")
+	
+	If (Not($file.exists))
+		var $rule : Object
+		$rule:={modelsToKeep: {values: []}; modelsToRemove: {values: []}; defaults: {reasoning: Null; embedding: Null}}
+		$file.setText(JSON Stringify($rule; *))
+		return $rule
+	End if 
+	
+	return JSON Parse($file.getText(); Is object)
+	
+Function configure($name : Text)
+	
+	var $rule : Object
+	$rule:=This.getRule($name)
+	
+	var $providerSettings : cs.providerSettingsEntity
+	$providerSettings:=ds.providerSettings.query("name == :1"; $name).first()
+	If ($providerSettings=Null)
+		return 
+	End if 
+	
+	var $property : Text
+	For each ($property; $rule)
+		$providerSettings[$property]:=$rule[$property]
+	End for each 
+	
+	$providerSettings.save()
