@@ -6,7 +6,9 @@ property formObject : Object
 Class extends AI_Agent
 
 singleton Class constructor()
+	
 	Super()
+	
 	This.AIBot:=Null
 	This.formObject:=Null
 	
@@ -23,9 +25,11 @@ Function loadTools()
 	
 	$jsonText:=File($toolsFilePath).getText()
 	$jsonObject:=JSON Parse($jsonText; Is object)
+	
 	For each ($tool; $jsonObject.tools)
 		$tool.handler:=This
 	End for each 
+	
 	This.AIBot.registerTools($jsonObject.tools)
 	
 Function getToolArgumentsSchema($name : Text) : Object
@@ -53,7 +57,7 @@ Function tool_PersonSearchByVector($input : Object) : Object
 	
 	$result:=ds.person.personSearchByVector($input.terms; 20)
 	
-	If ($result.success)
+	If ($result.success) || ($result.peopleFound.length=0)
 		return {peopleFound: $result.peopleFound.toCollection($attributesToExtract)}
 	Else 
 		return {error: $result.logs}
@@ -67,7 +71,6 @@ Function tool_listCitiesAndCountries($input : Object) : Collection
 	
 Function tool_listJobTitles($input : Object) : Collection
 	return ds.jobDetail.all().distinct("jobTitle")
-	
 	
 	//MARK: -
 	//MARK: onStreamTerminate and onStreamData
@@ -101,7 +104,7 @@ Function getMentionnedPersonsInResponse($AIresponse : Text) : cs.personSelection
 		$jsonContent:=Substring($AIresponse; $jsonStart)
 		$response:=Try(JSON Parse($jsonContent; Is object))
 		If (($response#Null) && (Value type($response.personIDs)=Is collection))
-			If ($response.personIDS.length=0)
+			If ($response.personIDs.length=0)
 				return {success: True; response: Null; error: ""}
 			End if 
 			If ((Value type($response.personIDs.first())=Is object) && (Not(Undefined($response.personIDs.first().ID))))
@@ -119,7 +122,9 @@ Function onStreamTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 	var $elapsedTime : Integer
 	
 	If (Not($result.success))
-		ALERT("Problem querying AI provider, please try again. Error: "+$result.errors[0].message)
+		$me.formObject.progressQuestionning({progress: {message: ""}; messages: [{role: "assistant"; content: $result.errors.length#0 ? $result.errors[0].message : ""}]})
+		$me.formObject.terminateQuestionning(0; ds.person.newSelection())
+		//ALERT("Problem querying AI provider, please try again. Error: "+$result.errors[0].message)
 		return 
 	End if 
 	
@@ -135,7 +140,9 @@ Function onStreamData($result : cs.AIKit.OpenAIChatCompletionsResult)
 	var $progress:={message: "Receiving data..."}
 	
 	If (Not($result.success))
-		throw(999; "Problem querying AI provider, please try again")
+		$me.formObject.progressGeneratePeople({AIText: "Problem querying AI provider, please try again"})
+		$me.formObject.terminateGeneratePeople()
+		//throw(999; "Problem querying AI provider, please try again")
 		return 
 	End if 
 	
@@ -169,20 +176,49 @@ Function initBot()
 		"Avoid using person IDs in your direct answer. Refer to persons by their name."+\
 		"But at the very end of your answer, insert a section <!--[PERSONS]\n```json\n"+JSON Stringify($personSectionSchema; *)+"-->\n"+\
 		"personIDs is an json array of IDs. Everytime you mention a given person in your answer, mention its ID in the array 'personIDs'.\n"+\
-		"Avoid any kind of comments in this part, as it breaks json parsing.\n"+\
-		"**NOTES**:\n"+\
+		"Avoid any kind of comments in this part, as it breaks json parsing."
+	
+	//"**NOTES**:\n"+\
 		"The end-user sometimes asks irrelevant questions, not related to persons, skills, job position or locations.\n"+\
 		"In such case, and only in such case, do not execute any tool and invite the user to ask more appropriate questions.\n"
 	
+	//$systemPrompt+="If you generate a header or a list or a table, use HTML tags like <p>, <h1>, <ul> <html> <b> <i>."
+	//$systemPrompt+="Do not use markdown tags like ### or *italic* or **bold** or - list or |table|:-:|row|."
+	$systemPrompt+="Do not generate fake data for illustration; always call tools to get actual data."
+	$systemPrompt+="Remember, you have tools available. Use them if needed."
+	
 	$options.model:=This.model
-	$options.temperature:=0
 	$options.stream:=True
-	$options.onData:=This.onStreamData
-	$options.onTerminate:=This.onStreamTerminate
+	
+	Case of 
+		: (This.provider="ONNX@")
+			$options["top_k"]:=50
+			$options["top_p"]:=0.9
+			$options["max_tokens"]:=100000
+			$options["repetition_penalty"]:=1.2
+			$options.temperature:=0.7
+			
+			$options.body:=Formula($0:={\
+				top_k: This.top_k; \
+				top_p: This.top_p; \
+				max_tokens: This.max_tokens; \
+				repetition_penalty: This.repetition_penalty; \
+				temperature: This.temperature; \
+				n: This.n; \
+				response_format: This.response_format; \
+				stream: This.stream})
+	End case 
+	
+	If ($options.stream)  //setting callbacks will force async
+		$options.onData:=This.onStreamData
+		$options.onTerminate:=This.onStreamTerminate
+	End if 
 	
 	//FIXME: improve adjust tool_choice depending on provider
 	//Check if model info is aware of supported values
 	Case of 
+		: (This.provider="llama.cpp@")
+			$options.tool_choice:="auto"  //invalid tool choice "any"
 		: (This.provider="@Ollama@")
 			$options.tool_choice:="any"
 		Else 
@@ -192,10 +228,11 @@ Function initBot()
 	This.AIBot:=This.AIClient.chat.create($systemPrompt; $options)
 	This.loadTools()
 	
-	
 	//MARK: -
 	//MARK: Main entry point: askMe function
+	
 Function askMe($prompt : Text; $formObject : Object)
+	
 	var $progress : Object:={}
 	
 	This.formObject:=$formObject
@@ -204,11 +241,13 @@ Function askMe($prompt : Text; $formObject : Object)
 	$progress.message:="Prompting AI"
 	$formObject.progressQuestionning({progress: $progress})
 	
-	If (This.AIBot=Null)
-		This.initBot()
+	This.initBot()
+	
+	var $result : Object
+	$result:=This.AIBot.prompt($prompt)
+	
+	If (This.AIBot.parameters.stream)
+		//async
+	Else 
+		This.onStreamTerminate.call(This.AIBot.parameters; $result)
 	End if 
-	
-	This.AIBot.prompt($prompt)
-	
-	
-	
