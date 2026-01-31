@@ -1,1 +1,0 @@
-Form.btnNewChatEventHandler(Form event code)
