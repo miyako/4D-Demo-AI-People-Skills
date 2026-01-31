@@ -1,7 +1,7 @@
 Class extends DataClass
 
-
-Function personSearchByVector($terms : Text; $requestedQuantity : Integer) : Object
+Function personSearchByVector($terms : Text; $requestedQuantity : Integer; $threshold : Real) : Object
+	
 	var $logs : Collection:=[]
 	var $embeddingInfo : cs.embeddingInfoEntity
 	var $peopleFound : cs.personSelection
@@ -15,14 +15,16 @@ Function personSearchByVector($terms : Text; $requestedQuantity : Integer) : Obj
 	$embeddingInfo:=ds.embeddingInfo.info()
 	cs.AI_Vectorizer.me.setAgent($embeddingInfo.provider; $embeddingInfo.model; False)
 	
-	//Each executed query part will reduce the scope of employees returned
-	
-	$logs.push("Selection of "+String($peopleFound.length)+" people => searched terms = '"+$terms+"'")
+	Case of 
+		: ($embeddingInfo.model="@-e5-@")
+			$terms:="passage:"+$terms  //E5 rule
+	End case 
 	
 	$vector:=cs.AI_Vectorizer.me.vectorize($terms)
-	$vectorObj:={vector: $vector; metric: "cosine"}
+	$vectorObj:={vector: $vector; metric: mk cosine; threshold: $threshold}
 	$peopleFound:=ds.person.query("embedding > :1"; $vectorObj)
 	
+	$logs.push("Selection of "+String($peopleFound.length)+" people => searched terms = '"+$terms+"'")
 	$logs.push("... "+String($peopleFound.length)+" people matched")
 	$logs.push("Now ordering and slicing to return the "+String($requestedQuantity)+" best matches")
 	
@@ -33,7 +35,6 @@ Function personSearchByVector($terms : Text; $requestedQuantity : Integer) : Obj
 	$logs.push("Returning the following persons: "+$peopleFound.extract("fullname").join(" || "))
 	
 	return {success: True; peopleFound: $peopleFound; logs: $logs; vectorUsed: $vector}
-	
 	
 Function pushPersonSimilarity($peopleCol : Collection; $personX : cs.personEntity; $personY : cs.personEntity; $similarity : Real) : Collection
 /**
@@ -94,11 +95,8 @@ Function peopleWithSimilarities($targetSimilarity : Real) : Collection
 	$peopleCol:=$peopleCol.orderBy("bestMatch desc")
 	return $peopleCol
 	
-	
-	
 Function peopleMissingEmbedding() : Integer
 	return This.query("embedding = null").length
-	
 	
 Function newPersonFromObject($personObject : Object) : cs.personEntity
 	
@@ -114,7 +112,6 @@ Function newPersonFromObject($personObject : Object) : cs.personEntity
 	If (Undefined($personObject.address) || Undefined($personObject.personSkills) || Undefined($personObject.jobDetail))
 		return Null
 	End if 
-	
 	
 	Try
 		START TRANSACTION
@@ -158,13 +155,4 @@ Function newPersonFromObject($personObject : Object) : cs.personEntity
 		CANCEL TRANSACTION
 		return Null
 		
-		
 	End try
-	
-	
-	
-	
-	
-	
-	
-	
