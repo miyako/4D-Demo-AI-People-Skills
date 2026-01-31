@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": []
+	},
+	"modelsToRemove": {
+		"values": ["@image@", "@vision@", "@video@"]
+	},
+	"defaults": {
+		"reasoning": "grok-4-1-fast-reasoning",
+		"embedding": null
+	}
+}

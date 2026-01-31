@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": ["gpt-@", "text-embedding@", "computer-@"]
+	},
+	"modelsToRemove": {
+		"values": ["gpt-image@", "@audio@", "@transcribe@", "@tts@", "@search@", "@realtime@", "@codex@", "gpt-4", "@3.5@", "gpt-5", "@5-nano", "@5-mini", "@5-pro", "@0125@", "@1106@", "@0613@"]
+	},
+	"defaults": {
+		"reasoning": null,
+		"embedding": null
+	}
+}

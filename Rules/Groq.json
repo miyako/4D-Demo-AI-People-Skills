@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": ["@"]
+	},
+	"modelsToRemove": {
+		"values": ["openai/@", "whisper-@", "allam-@", "@guard@", "canopylabs/@", "groq/@"]
+	},
+	"defaults": {
+		"reasoning": "moonshotai/kimi-k2-instruct-0905",
+		"embedding":  "baai/bge-m3"
+	}
+}

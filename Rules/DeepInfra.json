@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": ["@"]
+	},
+	"modelsToRemove": {
+		"values": ["sao10k@","shibing@","anthropic@","nvidia@","google@","bytedance@","stability@","@image@","@bria@","@ocr@","@qwen3-235b-a22b","@deepseek-v3@","@instruct@","@coder@","@8b@","@30b@","@llama@","@glm@","@minimax@","@gpt@","@flux@","@-vl-@", "moonshotai/Kimi-K2.5", "ClarityAI/@", "@Wizard@", "@Janus@", "Gryphe/@", "deepseek-ai/DeepSeek-R1-0528-Turbo"]
+	},
+	"defaults": {
+		"reasoning": "moonshotai/Kimi-K2-Thinking",
+		"embedding": "intflat/multilingual-e5-large"
+	}
+}

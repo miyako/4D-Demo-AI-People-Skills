@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": ["@"]
+	},
+	"modelsToRemove": {
+		"values": ["01-ai/@", "abacusai/@", "adept/@", "ai21labs/@", "baichuan-inc/@", "aisingapore/@", "bigcode/@", "databricks/@", "google/@", "@terminus@", "@coder@", "mistralai/@", "@guard@", "gotocompany/@", "minimaxai/@", "@phi-3.5@", "@phi-3@", "@mistral@", "@nemotron@", "@kosmos@", "@teuken@", "thudm/@", "stockmark/@", "openai/@", "speakleash/@", "@taiwan@", "@qwq@", "zyphra/@", "z-ai/@", "@vila@", "writer/@", "sarvamai/@", "@falcon@", "igenius@", "@neva@", "@stream@", "@parse@", "@cosmos@", "@code@", "@chat@", "moonshot/@", "@translate@", "@deepseek-v3.1", "upstage/@", "@nvclip@", "@qwen3-next@", "rakuten@", "@multimodal@", "@vision@", "@distill@", "tokyotech-llm/@", "@flash@", "@-tokyo@", "@breeze@", "bytedance@", "@granite@", "@marin@", "utter@", "microsoft/@", "meta/llama2-@", "meta/llama3-@", "meta/llama-3.2-3b-instruct", "moonshotai/kimi-k2-thinking", "qwen/qwen2.5-7b-instruct", "qwen/qwen2-7b-instruct", "moonshotai/kimi-k2.5"]
+	},
+	"defaults": {
+		"reasoning": "meta/llama-3.1-405b-instruct",
+		"embedding": "baai/bge-m3"
+	}
+}

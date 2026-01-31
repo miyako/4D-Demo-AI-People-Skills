@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": []
+	},
+	"modelsToRemove": {
+		"values": ["@veo@", "@lyria@", "@banana@", "@flash@", "@aqa@", "@image@", "@robotics@", "@deep@", "@computer@", "@tts@", "@exp@"]
+	},
+	"defaults": {
+		"reasoning": "models/gemini-3-12b-it",
+		"embedding": "models/gemini-embedding-001"
+	}
+}

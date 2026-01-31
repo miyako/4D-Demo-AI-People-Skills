@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": []
+	},
+	"modelsToRemove": {
+		"values": ["seed@", "@distill@", "@250120", "@250515", "@250905", "@250711", "@250805", "@241226", "@251201", "-@v3", "skylark-pro", "@250215"]
+	},
+	"defaults": {
+		"reasoning": "kimi-k2-thinking-251104",
+		"embedding": "skylark-embedding-vision-251215"
+	}
+}
