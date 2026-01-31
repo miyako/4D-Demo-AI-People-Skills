@@ -197,16 +197,7 @@ Function initBot()
 			$options["max_tokens"]:=100000
 			$options["repetition_penalty"]:=1.2
 			$options.temperature:=0.7
-			
-			$options.body:=Formula($0:={\
-				top_k: This.top_k; \
-				top_p: This.top_p; \
-				max_tokens: This.max_tokens; \
-				repetition_penalty: This.repetition_penalty; \
-				temperature: This.temperature; \
-				n: This.n; \
-				response_format: This.response_format; \
-				stream: This.stream})
+			$options.body:=This.body
 	End case 
 	
 	If ($options.stream)  //setting callbacks will force async
@@ -227,6 +218,20 @@ Function initBot()
 	
 	This.AIBot:=This.AIClient.chat.create($systemPrompt; $options)
 	This.loadTools()
+	
+Function body() : Object
+	
+	//%W-550.26
+	return {\
+		top_k: This.top_k; \
+		top_p: This.top_p; \
+		max_tokens: This.max_tokens; \
+		repetition_penalty: This.repetition_penalty; \
+		temperature: This.temperature; \
+		n: This.n; \
+		response_format: This.response_format; \
+		stream: This.stream}
+	//%W+550.26
 	
 	//MARK: -
 	//MARK: Main entry point: askMe function
