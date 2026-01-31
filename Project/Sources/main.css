@@ -1,0 +1,72 @@
+column {
+	resizable: false;
+	enterable: false;
+	truncateMode: none;
+}
+
+listbox {
+	fill: automatic;
+	alternateFill: automaticAlternate;
+	fontSize: 12;
+	fontFamily: "Avenir Light";
+	focusable: true;
+	horizontalLineStroke: transparent;
+	selectionMode: single;
+	resizingMode: legacy;
+	hideFocusRing: true;
+	scrollbarHorizontal: hidden;
+	scrollbarVertical: visible;
+}	
+
+rectangle.background {
+	stroke: transparent;
+	strokeWidth: 0;
+	fill: automatic;
+}	
+
+tab {
+	fontSize: 16;
+	fontFamily: "Avenir Light";
+}
+
+text {
+	fontFamily: "Avenir Light";
+}
+
+text.title {
+	fontSize: 20;
+}
+
+text.description {
+	fontSize: 13;
+}
+
+text.subtitle {
+	fontSize: 16;
+}
+ 
+@media (prefers-color-scheme: light) {
+	rectangle.titleBackground {
+		fill: #b1c4dd;
+	}
+	column.titleBackground {
+		fill: #b1c4dd;
+		alternateFill:#b1c4dd;
+	}	
+	rectangle.titleBackgroundAlert {
+		fill: #FDBBC1;
+	}		
+}
+
+@media (prefers-color-scheme: dark) {
+	rectangle.titleBackground {
+		fill: #142841;
+	}	
+	column.titleBackground {
+		fill: #142841;
+		alternateFill:#142841;
+	}	
+	rectangle.titleBackgroundAlert {
+		fill: #54060d;
+	}	
+}
