@@ -8,8 +8,12 @@ $cases:=[]
 //$cases.push({provider: "DeepInfra"; models: \
 ["Qwen/Qwen3-32B"/*;"Qwen/Qwen3-14B";"microsoft/phi-4";"deepseek-ai/DeepSeek-R1-0528";"moonshotai/Kimi-K2-Thinking"*/]})
 
-$cases.push({provider: "FireWorks"; models: \
+//$cases.push({provider: "FireWorks"; models: \
 ["accounts/fireworks/models/kimi-k2p5"/*;"accounts/fireworks/models/kimi-k2-thinking";"accounts/fireworks/models/deepseek-r1-0528";"accounts/cogito/models/cogito-671b-v2-p1";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507"*/]})
+
+$cases.push({provider: "ModelArk"; models: \
+["glm-4-7-251222"/*;"accounts/fireworks/models/kimi-k2-thinking";"accounts/fireworks/models/deepseek-r1-0528";"accounts/cogito/models/cogito-671b-v2-p1";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507"*/]})
+
 
 var $OpenAITool : cs.AIKit.OpenAITool
 $OpenAITool:=cs.AIKit.OpenAITool.new({\
