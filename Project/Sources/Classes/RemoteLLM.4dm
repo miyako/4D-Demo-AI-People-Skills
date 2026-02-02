@@ -12,6 +12,7 @@ shared singleton Class constructor
 		Gemini: "https://generativelanguage.googleapis.com/v1beta/openai"; \
 		Groq: "https://api.groq.com/openai/v1/"; \
 		HuggingFace: "https://router.huggingface.co/v1"; \
+		LongCat: "https://api.longcat.chat/openai/v1/"; \
 		ModelArk: "https://ark.ap-southeast.bytepluses.com/api/v3"; \
 		Mistral: "https://api.mistral.ai/v1"; \
 		Moonshot: "https://api.moonshot.ai/v1"; \

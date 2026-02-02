@@ -19,7 +19,14 @@ Function updateProviderSettings()
 		$key:=cs.RemoteLLM.me.getAccessToken($provider.name)
 		$AIClient:=cs.AIKit.OpenAI.new($key)
 		$AIClient.baseURL:=($provider.url#"") ? $provider.url : $AIClient.baseURL
-		$modelsList:=$AIClient.models.list()
+		
+		Case of 
+			: ($provider.name="LongCat")
+				$modelsList:={success: True; models: [{id: "LongCat-Flash-Thinking-2601"}]}
+			Else 
+				$modelsList:=$AIClient.models.list()
+		End case 
+		
 		If ($modelsList.success)
 			If ($provider.url="")
 				cs.RemoteLLM.me.configure("OpenAI")

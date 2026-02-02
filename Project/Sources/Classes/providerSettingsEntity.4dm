@@ -24,7 +24,7 @@ Function get hasEmbeddingModels() : Boolean
 	return (This.embeddingModels.models.length>0)
 	
 Function get hasToolCalling() : Boolean
-	return ["Groq"; "NVIDIA"; "OpenAI"; "xAI"; "ModelArk"; "swama"; "ONNX Runtime"; "xAI"; "DeepInfra"; "Gemini"; "Azure"; "Moonshot"; "Claude"; "FireWorks"; "llama.cpp.chat.completions"].includes(This.name)
+	return ["Groq"; "LongCat"; "NVIDIA"; "OpenAI"; "xAI"; "ModelArk"; "swama"; "ONNX Runtime"; "xAI"; "DeepInfra"; "Gemini"; "Azure"; "Moonshot"; "Claude"; "FireWorks"; "llama.cpp.chat.completions"].includes(This.name)
 	
 Function set hasEmbeddingModels()
 	

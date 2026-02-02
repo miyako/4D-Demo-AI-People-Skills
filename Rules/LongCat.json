@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": []
+	},
+	"modelsToRemove": {
+		"values": []
+	},
+	"defaults": {
+		"reasoning": "LongCat-Flash-Thinking-2601",
+		"embedding": null
+	}
+}
