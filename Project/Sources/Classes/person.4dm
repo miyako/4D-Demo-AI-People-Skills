@@ -10,9 +10,13 @@ Function personSearchByVector($terms : Text; $requestedQuantity : Integer; $thre
 	var $formula : 4D.Function
 	var $distincts : Collection
 	
+	$embeddingInfo:=ds.embeddingInfo.info()
+	If ($embeddingInfo.model=Null)
+		return {success: False}
+	End if 
+	
 	$logs.push("Start vector search")
 	
-	$embeddingInfo:=ds.embeddingInfo.info()
 	cs.AI_Vectorizer.me.setAgent($embeddingInfo.provider; $embeddingInfo.model; False)
 	
 	Case of 

@@ -1,5 +1,6 @@
 //%attributes = {"invisible":true}
-cs.RemoteLLM.me.use("LongCat")
+cs.RemoteLLM.me.use("Cohere")
+//cs.RemoteLLM.me.use("LongCat")
 //cs.RemoteLLM.me.use("Azure")
 //cs.RemoteLLM.me.use("Groq")
 //cs.RemoteLLM.me.use("NVIDIA")

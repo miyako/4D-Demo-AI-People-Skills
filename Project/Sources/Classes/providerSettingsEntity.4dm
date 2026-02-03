@@ -15,7 +15,10 @@ Function get embeddingModels() : Object
 		return {models: []}
 	End if 
 	
-	$models:=This.models.values.query("model in :1"; ["@e5@"; "@gte@"; "BAAI@"; "sentence-transformers@"; "text-@"; "@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-ct2-@"; "@-onnx"])
+	var $embed : Collection
+	$embed:=["@e5@"; "@gte@"; "BAAI@"; "@ruri@"; "@sarashina@"; "sentence-transformers@"; "text-@"; "@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-ct2-@"; "@-onnx"]
+	
+	$models:=This.models.values.query("model in :1"; $embed)
 	return {models: $models}
 	
 Function set embeddingModels()
@@ -24,7 +27,7 @@ Function get hasEmbeddingModels() : Boolean
 	return (This.embeddingModels.models.length>0)
 	
 Function get hasToolCalling() : Boolean
-	return ["Groq"; "LongCat"; "NVIDIA"; "OpenAI"; "xAI"; "ModelArk"; "swama"; "ONNX Runtime"; "xAI"; "DeepInfra"; "Gemini"; "Azure"; "Moonshot"; "Claude"; "FireWorks"; "llama.cpp.chat.completions"].includes(This.name)
+	return ["Groq"; "OpenAI"; "xAI"; "ModelArk"; "xAI"; "Gemini"; "Moonshot"; "Claude"].includes(This.name)
 	
 Function set hasEmbeddingModels()
 	
@@ -35,8 +38,10 @@ Function get reasoningModels() : Object
 		return {models: []}
 	End if 
 	
-	$models:=This.models.values.query("not(model in :1)"; \
-		["@e5@"; "@gte@"; "BAAI@"; "sentence-transformers@"; "text-@"; "@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-ct2-@"; "@-onnx"]).combine\
+	var $embed : Collection
+	$embed:=["@e5@"; "@gte@"; "BAAI@"; "@ruri@"; "@sarashina@"; "sentence-transformers@"; "text-@"; "@embed@"; "@bge@"; "all-minilm"; "paraphrase-multilingual"; "@-ct2-@"; "@-onnx"]
+	
+	$models:=This.models.values.query("not(model in :1)"; $embed).combine\
 		(This.models.values.query("model in :1"; ["@reasoning@"; "@instruct@"; "@thinking@"])).distinct()
 	return {models: $models}
 	

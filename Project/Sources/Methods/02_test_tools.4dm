@@ -14,10 +14,21 @@ If (False)
 	
 	//$cases.push({provider: "ModelArk"; models: \
 		["glm-4-7-251222"/*;"accounts/fireworks/models/kimi-k2-thinking";"accounts/fireworks/models/deepseek-r1-0528";"accounts/cogito/models/cogito-671b-v2-p1";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507"*/]})
+	
+	//$cases.push({provider: "Gemini"; models: \
+		["models/gemini-pro-latest"; "models/gemini-2.5-pro"; "models/gemini-3-pro-preview"]})
 End if 
 
-$cases.push({provider: "LongCat"; \
-models: ["LongCat-Flash-Thinking-2601"]})
+var $class : Text
+If (Macintosh option down)
+	$class:="RemoteLLM"
+	$cases.push({provider: "LongCat"; \
+		models: ["LongCat-Flash-Thinking-2601"]})
+Else 
+	$class:="LocalLLM"
+	$cases.push({provider: "llama.cpp.chat.completions"; \
+		models: ["Hammer2.1-1.5b"]})
+End if 
 
 var $OpenAITool : cs.AIKit.OpenAITool
 $OpenAITool:=cs.AIKit.OpenAITool.new({\
@@ -56,7 +67,7 @@ For each ($case; $cases)
 		$key:=cs.RemoteLLM.me.getAccessToken($name)
 		var $OpenAI : cs.AIKit.OpenAI
 		$OpenAI:=cs.AIKit.OpenAI.new($key)
-		$OpenAI.baseURL:=cs.RemoteLLM.me.endpoints[$name]
+		$OpenAI.baseURL:=cs[$class].me.endpoints[$name]
 		
 		var $ChatCompletionsResult : cs.AIKit.OpenAIChatCompletionsResult
 		$ChatCompletionsResult:=$OpenAI.chat.completions.create($messages; $ChatCompletionsParameters)

@@ -37,3 +37,27 @@ Function setAgent($providerName : Text; $model : Text; $reset : Boolean)
 		This.AIClient.baseURL:=$provider.url
 	End if 
 	
+Function body() : Object
+	//%W-550.26
+	return {\
+		top_k: This.top_k; \
+		top_p: This.top_p; \
+		max_tokens: This.max_tokens; \
+		repetition_penalty: This.repetition_penalty; \
+		temperature: This.temperature; \
+		n: This.n; \
+		response_format: This.response_format; \
+		stream: This.stream}
+	//%W+550.26
+	
+Function body_cohere() : Object
+	//%W-550.26
+	return {\
+		top_k: This.top_k; \
+		top_p: This.top_p; \
+		max_tokens: This.max_tokens; \
+		repetition_penalty: This.repetition_penalty; \
+		temperature: This.temperature; \
+		response_format: This.response_format; \
+		stream: This.stream}
+	//%W+550.26

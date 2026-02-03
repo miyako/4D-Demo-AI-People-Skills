@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true,"preemptive":"capable"}
 #DECLARE($arguments : Object) : Text
 
 var $location; $unit : Text

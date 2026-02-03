@@ -1,7 +1,19 @@
+property endpoints : Object
 property file : 4D.File
 property range : Object
 
-Class constructor
+shared singleton Class constructor
+	
+	var $localLLMs : cs.providerSettingsSelection
+	$localLLMs:=ds.providerSettings.query("url == :1"; "http://127.0.0.1:@")
+	
+	var $endpoints : Object
+	$endpoints:={}
+	For each ($localLLM; $localLLMs)
+		$endpoints[$localLLM.name]:=$localLLM.url
+	End for each 
+	
+	This.endpoints:=OB Copy($endpoints; ck shared)
 	
 Function use($name : Text; $port : Integer)
 	
@@ -40,9 +52,43 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 	
 	Case of 
 		: ($mode="embeddings")
-			$folder:=$homeFolder.folder("jina-embeddings-v4-text-matching")  //where to keep the repo
-			$path:="jina-embeddings-v4-text-matching-Q4_K_M.gguf"  //path to the file
-			$URL:="jinaai/jina-embeddings-v4-text-matching-GGUF"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("jina-embeddings-v4-text-matching")  //where to keep the repo
+			//$path:="jina-embeddings-v4-text-matching-Q4_K_M.gguf"  //path to the file
+			//$URL:="jinaai/jina-embeddings-v4-text-matching-GGUF"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("sarashina-embedding-v2-1b")  //where to keep the repo
+			//$path:="sarashina-embedding-v2-1b-Q4_K_M.gguf"  //path to the file
+			//$URL:="keisuke-miyako/sarashina-embedding-v2-1b-gguf-q4_k_m"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("granite-embedding-278m-multilingual")  //where to keep the repo
+			//$path:="granite-embedding-278m-multilingual-Q4_k_m.gguf"  //path to the file
+			//$URL:="keisuke-miyako/granite-embedding-278m-multilingual-gguf-q4_k_m"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("multilingual-e5-base")  //where to keep the repo
+			//$path:="multilingual-e5-base-Q4_k_m.gguf"  //path to the file
+			//$URL:="keisuke-miyako/multilingual-e5-base-gguf-q4_k_m"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("granite-embedding-107m-multilingual")  //where to keep the repo
+			//$path:="granite-embedding-107m-multilingual-Q4_k_m.gguf"  //path to the file
+			//$URL:="keisuke-miyako/granite-embedding-107m-multilingual-gguf-q4_k_m"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("multilingual-e5-large")  //where to keep the repo
+			//$path:="multilingual-e5-large-q4_k_m.gguf"  //path to the file
+			//$URL:="keisuke-miyako/multilingual-e5-large-gguf-q4_k_m"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("multilingual-e5-base")  //where to keep the repo
+			//$path:="multilingual-e5-base-Q8_0.gguf"  //path to the file
+			//$URL:="keisuke-miyako/multilingual-e5-base-gguf-q8_0"  //path to the repo
+			
+			$folder:=$homeFolder.folder("multilingual-e5-small")  //where to keep the repo
+			$path:="multilingual-e5-small-Q8_0.gguf"  //path to the file
+			$URL:="keisuke-miyako/multilingual-e5-small-gguf-q8_0"  //path to the repo
+			
+			//$folder:=$homeFolder.folder("bge-m3")  //where to keep the repo
+			//$path:="bge-m3-Q4_k_m.gguf"  //path to the file
+			//$URL:="keisuke-miyako/bge-m3-gguf-q4_k_m"  //path to the repo
+			
 			$options:={\
 				embeddings: True; \
 				pooling: "mean"; \
@@ -51,10 +97,16 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 				threads_http: 4; \
 				log_disable: True; \
 				n_gpu_layers: -1}
+			
 		: ($mode="chat.completions")
+			
 			$folder:=$homeFolder.folder("Qwen3-4B-Thinking-2507")  //where to keep the repo
 			$path:="Qwen3-4B-Thinking-2507-Q4_K_M.gguf"  //path to the file
 			$URL:="keisuke-miyako/Qwen3-4B-Thinking-2507-gguf-q4k_m"  //path to the repo
+			
+			$folder:=$homeFolder.folder("Hammer2.1-1.5b")  //where to keep the repo
+			$path:="Hammer2.1-1.5b-Q8_0.gguf"  //path to the file
+			$URL:="keisuke-miyako/Hammer2.1-1.5b-gguf-q8_0"  //path to the repo
 			
 			var $temperature; $min_p; $top_p; $top_k : Real
 			var $ctx_size; $n_gpu_layers; $repeat_penalty : Integer
@@ -112,18 +164,20 @@ Function useCTranslate2($name : Text; $port : Integer)
 	var $path : Text
 	var $URL : Text
 	
-	Case of 
-		: (False)  //much slower than onnx
-			$folder:=$homeFolder.folder("bge-m3-ct2-int8_float16")
-			$path:="keisuke-miyako/bge-m3-ct2-int8_float16"
-			$URL:="keisuke-miyako/bge-m3-ct2-int8_float16"
-			$options:={pooling: "cls"}
-		: (True)
-			$folder:=$homeFolder.folder("multilingual-e5-base-ct2-int8_float16")
-			$path:="keisuke-miyako/multilingual-e5-base-ct2-int8_float16"
-			$URL:="keisuke-miyako/multilingual-e5-base-ct2-int8_float16"
-			$options:={pooling: "mean"}
-	End case 
+	//$folder:=$homeFolder.folder("multilingual-e5-base")
+	//$path:="multilingual-e5-base-ct2-int8_float16"
+	//$URL:="keisuke-miyako/multilingual-e5-base-ct2-int8_float16"
+	//$options:={pooling: "mean"}
+	
+	$folder:=$homeFolder.folder("multilingual-e5-small")
+	$path:="multilingual-e5-small-ct2-int8_float16"
+	$URL:="keisuke-miyako/multilingual-e5-small-ct2-int8_float16"
+	$options:={pooling: "mean"}
+	
+	//$folder:=$homeFolder.folder("granite-embedding-278m-multilingual")
+	//$path:="granite-embedding-278m-multilingual-ct2-int8_float16"
+	//$URL:="keisuke-miyako/granite-embedding-278m-multilingual-ct2-int8_float16"
+	//$options:={pooling: "mean"}
 	
 	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding")
@@ -181,68 +235,49 @@ Function useONNX($name : Text; $port : Integer)
 	$event.onResponse:=This.onResponse
 	$event.onTerminate:=This.onTerminate
 	
-	var $options : Object
-	$options:={}
-	var $huggingfaces : cs.event.huggingfaces
+	$LLMs:=[]
 	
 	var $chat_template : Text
 	var $folder : 4D.Folder
 	var $path : Text
 	var $URL; $pooling : Text
-	
-	$folder:=$homeFolder.folder("Qwen2.5-3B-Instruct")
-	$path:="keisuke-miyako/Qwen2.5-3B-Instruct-onnx-int4-cpu"
-	$URL:="keisuke-miyako/Qwen2.5-3B-Instruct-onnx-int4-cpu"
-	
 	var $temperature; $min_p; $top_p; $top_k : Real
 	var $ctx_size; $n_gpu_layers; $repeat_penalty : Integer
 	var $flash_attn : Text
+	var $options : Object
+	$options:={}
 	
-	$temperature:=0  // (default: 0.8)
-	$ctx_size:=40000
-	$min_p:=0.1  // (default: 0.1, 0.0 = disabled)
-	$top_p:=1  //(default: 0.9, 1.0 = disabled)
-	$top_k:=0  //top-k sampling (default: 40, 0 = disabled)
-	$repeat_penalty:=1  //(default: 1.0 = disabled)
-	$flash_attn:="on"
+	var $huggingfaces : cs.event.huggingfaces
 	
-	var $chat : cs.event.huggingface
-	$chat:=cs.event.huggingface.new($folder; $URL; $path; "chat.completion")
-	$huggingfaces:=cs.event.huggingfaces.new([$chat])
+	If (False)
+		$folder:=$homeFolder.folder("Qwen2.5-3B-Instruct")
+		$path:="keisuke-miyako/Qwen2.5-3B-Instruct-onnx-int4-cpu"
+		$URL:="keisuke-miyako/Qwen2.5-3B-Instruct-onnx-int4-cpu"
+		var $chat : cs.event.huggingface
+		$chat:=cs.event.huggingface.new($folder; $URL; $path; "chat.completion")
+		$LLMs.push($chat)
+	End if 
 	
-	Case of 
-		: (False)
-			$folder:=$homeFolder.folder("bge-m3")
-			$path:="keisuke-miyako/bge-m3-onnx"
-			$URL:="keisuke-miyako/bge-m3-onnx"
-			$pooling:="cls"
-		: (False)
-			$folder:=$homeFolder.folder("amber-large-onnx")
-			$path:="keisuke-miyako/amber-large-onnx"
-			$URL:="keisuke-miyako/amber-large-onnx"
-			$pooling:="mean"
-		: (False)
-			$folder:=$homeFolder.folder("multilingual-e5-base-onnx")
-			$path:="keisuke-miyako/multilingual-e5-base-onnx"
-			$URL:="keisuke-miyako/multilingual-e5-base-onnx"
-			$pooling:="mean"
-		: (False)
-			$folder:=$homeFolder.folder("sarashina-embedding-v2-1b-onnx")
-			$path:="keisuke-miyako/sarashina-embedding-v2-1b-onnx"
-			$URL:="keisuke-miyako/sarashina-embedding-v2-1b-onnx"
-			$pooling:="mean"
-		: (False)
-			$folder:=$homeFolder.folder("ruri-v3-310m-onnx")
-			$path:="keisuke-miyako/ruri-v3-310m-onnx"
-			$URL:="keisuke-miyako/ruri-v3-310m-onnx"
-			$pooling:="mean"
-	End case 
+	//$folder:=$homeFolder.folder("multilingual-e5-base")
+	//$path:="multilingual-e5-base-onnx"
+	//$URL:="keisuke-miyako/multilingual-e5-base-onnx"
+	//$options.pooling:="mean"
+	
+	$folder:=$homeFolder.folder("multilingual-e5-small")
+	$path:="multilingual-e5-small-onnx"
+	$URL:="keisuke-miyako/multilingual-e5-small-onnx"
+	$options.pooling:="mean"
+	
+	//$folder:=$homeFolder.folder("granite-embedding-278m-multilingual")
+	//$path:="granite-embedding-278m-multilingual-onnx"
+	//$URL:="keisuke-miyako/granite-embedding-278m-multilingual-onnx"
+	//$options.pooling:="mean"
 	
 	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding"; "model_quantized.onnx")
-	$huggingfaces:=cs.event.huggingfaces.new([$chat; $embeddings])
+	$LLMs.push($embeddings)
+	$huggingfaces:=cs.event.huggingfaces.new($LLMs)
 	
-	$options:={chat_template: $chat_template; pooling: $pooling}
 	$ONNX:=cs.ONNX.ONNX.new($port; $huggingfaces; $homeFolder; $options; $event)
 	
 	This.register($name; $port)

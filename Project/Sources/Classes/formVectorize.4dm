@@ -125,7 +125,7 @@ Function btnVectorizeEventHandler($formEventCode : Integer)
 			
 			$provider:=This.providersEmb.currentValue
 			$model:=This.modelsEmb.currentValue
-			$recomputeAll:=This.actions.embedding.recomputeAll
+			$recomputeAll:=Bool(This.actions.embedding.recomputeAll)
 			
 			CALL WORKER(String(Session.id)+"-embedding"; Formula(cs.AI_PersonVectorizer.me.vectorizePeople($1; $2; $3; $4)); $provider; $model; $recomputeAll; Form)
 			
@@ -199,13 +199,14 @@ Function setModelList($providerList : Object; $kind : Text) : Object
 	var $defaultModel : Text
 	
 	$provider:=ds.providerSettings.query("name = :1"; $providerList.currentValue).first()
+	
 	Case of 
 		: ($kind="reasoning")
 			$models:=$provider.reasoningModels.models
-			$defaultModel:=$provider.defaults.reasoning
+			$defaultModel:=$provider.defaults.reasoning#"No reasoning model detected" ? $provider.defaults.reasoning : $models.first().model
 		: ($kind="embedding")
 			$models:=$provider.embeddingModels.models
-			$defaultModel:=$provider.defaults.embedding
+			$defaultModel:=$provider.defaults.embedding#"No embedding model detected" ? $provider.defaults.embedding : $models.first().model
 	End case 
 	$list.values:=$models.extract("model").orderBy()
 	$list.index:=$list.values.findIndex(Formula($1.value=$defaultModel))
