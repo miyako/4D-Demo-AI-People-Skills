@@ -3,10 +3,10 @@
 		"values": ["gpt-@", "text-embedding@", "computer-@"]
 	},
 	"modelsToRemove": {
-		"values": ["gpt-image@", "@audio@", "@transcribe@", "@tts@", "@search@", "@realtime@", "@codex@", "gpt-4", "@3.5@", "gpt-5", "@5-nano", "@5-mini", "@5-pro", "@0125@", "@1106@", "@0613@"]
+		"values": ["gpt-image@", "@audio@", "@transcribe@", "@tts@", "@search@", "@realtime@", "@codex@", "gpt-4", "@3.5@", "gpt-5", "@5-nano", "@5-mini", "@5-pro", "@0125@", "@1106@", "@0613@", "@-pro-@"]
 	},
 	"defaults": {
-		"reasoning": null,
-		"embedding": null
+		"reasoning": "gpt-5.1-chat-latest",
+		"embedding": "text-embedding-3-small"
 	}
 }
