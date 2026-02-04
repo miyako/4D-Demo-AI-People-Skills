@@ -9,6 +9,7 @@ shared singleton Class constructor
 	
 	var $endpoints : Object
 	$endpoints:={}
+	var $localLLM : Object
 	For each ($localLLM; $localLLMs)
 		$endpoints[$localLLM.name]:=$localLLM.url
 	End for each 
@@ -49,6 +50,8 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 	var $folder : 4D.Folder
 	var $path : Text
 	var $URL : Text
+	var $pooling : Text
+	$pooling:="mean"
 	
 	Case of 
 		: ($mode="embeddings")
@@ -81,17 +84,19 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 			//$path:="multilingual-e5-base-Q8_0.gguf"  //path to the file
 			//$URL:="keisuke-miyako/multilingual-e5-base-gguf-q8_0"  //path to the repo
 			
-			$folder:=$homeFolder.folder("multilingual-e5-small")  //where to keep the repo
-			$path:="multilingual-e5-small-Q8_0.gguf"  //path to the file
-			$URL:="keisuke-miyako/multilingual-e5-small-gguf-q8_0"  //path to the repo
+			//$folder:=$homeFolder.folder("multilingual-e5-small")  //where to keep the repo
+			//$path:="multilingual-e5-small-Q8_0.gguf"  //path to the file
+			//$URL:="keisuke-miyako/multilingual-e5-small-gguf-q8_0"  //path to the repo
 			
-			//$folder:=$homeFolder.folder("bge-m3")  //where to keep the repo
-			//$path:="bge-m3-Q4_k_m.gguf"  //path to the file
-			//$URL:="keisuke-miyako/bge-m3-gguf-q4_k_m"  //path to the repo
+			$folder:=$homeFolder.folder("bge-m3")  //where to keep the repo
+			$path:="bge-m3-Q4_k_m.gguf"  //path to the file
+			$URL:="keisuke-miyako/bge-m3-gguf-q4_k_m"  //path to the repo
+			
+			//$pooling:="cls"//doesn't seem to matter very much
 			
 			$options:={\
 				embeddings: True; \
-				pooling: "mean"; \
+				pooling: $pooling; \
 				threads: 4; \
 				threads_batch: 4; \
 				threads_http: 4; \
@@ -179,6 +184,11 @@ Function useCTranslate2($name : Text; $port : Integer)
 	//$URL:="keisuke-miyako/granite-embedding-278m-multilingual-ct2-int8_float16"
 	//$options:={pooling: "mean"}
 	
+	$folder:=$homeFolder.folder("bge-m3")
+	$path:="bge-m3-ct2-int8_float16"
+	$URL:="keisuke-miyako/bge-m3-ct2-int8_float16"
+	$options:={pooling: "mean"}
+	
 	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding")
 	$huggingfaces:=cs.event.huggingfaces.new([$embeddings])
@@ -235,6 +245,7 @@ Function useONNX($name : Text; $port : Integer)
 	$event.onResponse:=This.onResponse
 	$event.onTerminate:=This.onTerminate
 	
+	var $LLMs : Collection
 	$LLMs:=[]
 	
 	var $chat_template : Text
@@ -272,6 +283,11 @@ Function useONNX($name : Text; $port : Integer)
 	//$path:="granite-embedding-278m-multilingual-onnx"
 	//$URL:="keisuke-miyako/granite-embedding-278m-multilingual-onnx"
 	//$options.pooling:="mean"
+	
+	$folder:=$homeFolder.folder("bge-m3")
+	$path:="bge-m3-onnx"
+	$URL:="keisuke-miyako/bge-m3-onnx"
+	$options.pooling:="cls"  //!!not mean
 	
 	var $embeddings : cs.event.huggingface
 	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding"; "model_quantized.onnx")

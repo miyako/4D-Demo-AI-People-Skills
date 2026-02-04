@@ -13,6 +13,7 @@ property progress : Object
 property personArraySchema : Object
 property personArraySchema_fixDate : Object
 property specificRequest : Text
+property promptFilePath : Object
 
 Class extends AI_Agent
 
@@ -21,6 +22,7 @@ singleton Class constructor()
 	Super()
 	
 	This.formObject:=Null
+	This.promptFilePath:={en: "Prompts/person-en.txt"; ja: "Prompts/person-ja.txt"}
 	
 Function loadSchemas()
 	
@@ -32,6 +34,7 @@ Function loadSchemas()
 	This.personArraySchema_fixDate:=JSON Parse($jsonText; Is object)
 	
 Function getPersonArrayFromResponse($AIresponse : Text) : Object
+	
 	var $jsonContent : Text
 	var $charStart : Text:=""
 	var $jsonStart : Integer
@@ -141,20 +144,15 @@ Function onStreamChatTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 	
 Function prompt()
 	
-	var $prompt : Text
+	var $prompt; $message : Text
 	var $toGenerate : Integer
 	var $progress : Object
 	
 	$progress:={value: Int(This.generated/This.quantity*100); message: "Generating people "+String(This.generated)+"/"+String(This.quantity)}
 	$toGenerate:=(This.quantityBy<(This.quantity-This.generated)) ? This.quantityBy : (This.quantity-This.generated)
-	Case of 
-		: (True)
-			$prompt:=String($toGenerate)+" 人分のデータを生成してください。"+This.specificRequest+"回答は以下の文字列で始めてください``\n{ \"personArray\":"
-		Else 
-			$prompt:="generate "+String($toGenerate)+" people. Specific request: "+This.specificRequest+"Start answering with \n{ \"personArray\":"
-	End case 
+	$prompt:="generate "+String($toGenerate)+" people. Specific request: "+This.specificRequest+". Start answering with\n{\"personArray\":"
 	
-	This.formObject.progressGeneratePeople({AIText: ""/*"Prompt : "+$prompt+"\n\n"*/; progress: $progress})
+	This.formObject.progressGeneratePeople({AIText: ""; progress: $progress})
 	
 	var $result : cs.AIKit.OpenAIChatCompletionsResult
 	$result:=This.peopleGenBot.prompt($prompt)
@@ -173,34 +171,8 @@ Function initBot()
 	
 	This.loadSchemas()
 	
-	Case of 
-		: (True)
-			$systemPrompt:="あなたは誠実で優秀な日本人のサンプルデータ生成アシスタントです。特に指示が無い場合は、常に日本語で回答してください。あなたの回答はデータベースにサンプルデータを登録す"+"るために使用されます。\n"+\
-				"**場面**\n"+\
-				"わたしのデータベースアプリケーションには、さまざま業種のソフトウェア開発プロジェクトを手掛ける国際的なコンサルティング会社で使用されるデータベースで、開発エンジニアや"+"人事部門やプロジェクトマネージャーといった分野のスキルを有するメンバーの個人情報が登録されることになっています。\n"+\
-				"**指示**\n"+\
-				"あなたには、一定数のサンプルデータを生成していただきたいと思います。データは必ずjson array形式で返してください。\n"+\
-				"処理の過程で思考に入るときは <THINK> </THINK> の中にその内容を収め、最終的なデータそのものとは混ざらないようにお願いします。\n"+\
-				"**制約**\n"+\
-				"回答は厳密はJSON形式の構造で返してください。データではない説明文や補足情報や終了トークンなどは不要です。生成した個人情報データだけを返してください。\n"+\
-				"いかにも機械的に生成したような氏名ではなく、それなりに現実的な個人名を生成してください\n"+\
-				"スキルの項目つまりpersonSkillsはそれぞれがオブジェクトで、skillNameプロパティには、つぎに挙げる値の中からひとつ以上の値を含めてください:"+JSON Stringify($skillSet; *)+"\n"
-		Else 
-			$systemPrompt:="You are a data generating assistant. Your answers are used to populate a database.\n"+\
-				"**CONTEXT**\n"+\
-				"My application stores employees data of a worldwide software consulting firm, dealing with a wide variety of projects from app development to HR and project management\n"+\
-				"**INSTRUCTIONS**\n"+\
-				"I will ask you to generate a certain amount of records, and you always provide me the answer as a **json array**.\n"+\
-				"You can reason step by step, but in such case do it between <THINK> </THINK> so that it does not polute your final answer.\n"+\
-				"**CONSTRAINTS**\n"+\
-				"Your answers must be structured and stricly JSON formatted, not conclusion, no introduction, no greetings, just pure json.\n"+\
-				"Avoid too generic names like john doe, prefer realistic ones.\n"+\
-				"Each skill of **personSkills** has a **skillName** being one of the following values:"+JSON Stringify($skillSet)+"\n"
-	End case 
-	
-	//If (This.provider="Claude")
-	$systemPrompt+="Instruction\nRole: You are a Strict JSON Data Generator. You output valid JSON only, with no conversational text.\nTask: Generate a JSON object containing a single key: \"personArray\". This array must contain realistic user profiles that "+"strictly adhere to the following specification.\n1. Root Object & Naming Conventions\nStrict Casing: You must use firstname and lastname (all lowercase). Do NOT use firstName or lastName.\nNo Generic Data: Avoid names like \"John Doe.\" Use culturally dive"+"rse, realistic names.\n2. Personal Details (All Required)\nfirstname: String.\nlastname: String.\nemail: A realistic email address.\nphone: String.\nbirthDate: ISO 8601 date string (YYYY-MM-DD).\ngender: String.\n3. Address Object (Required)\nKey: \"address\"\nMa"+"ndatory Fields: streetName, city, postalCode, country.\nValidation Rule: The address MUST include a streetName AND at least one of the following: streetNumber, building, or poBox.\nOptional Fields: apartment, region.\n4. Skills Array (Required)\nKey: \"per"+"sonSkills\"\nQuantity: Generate between 5 to 15 skills per person.\nCoherence: Skills must match the person's jobTitle.\nItem Structure (All 3 fields are mandatory):\nskillName: String (e.g., \"Python\").\nlevel: Integer (1–10).\nyearsOfXP: Integer. CRITICAL"+": You must use the key yearsOfXP. Do NOT use yearsOfExperience.\n5. Job Details Object (Required)\nKey: \"jobDetail\"\nMandatory Fields:\nhireDate: ISO date string.\njobTitle: A plausible title based on their skills.\nbillingRate: Integer between 250 and 2000"+".\nnotes: String.\nRule: Leave this string empty (\"\") for 90% of people.\nRule: Fill with HR-style notes for 10% of people.\nFinal Check: Ensure every single object in the array has all required fields. Do not omit notes or billingRate. Verify strictly th"+"at yearsOfXP and firstname are spelled exactly as requested."
-	//End if 
+	$systemPrompt:=This.getText(This.promptFilePath[Macintosh command down ? "en" : "ja"])
+	$systemPrompt+=JSON Stringify($skillSet)+"\n"
 	
 	$options.response_format:={type: "json_schema"; json_schema: {name: "person_array_schema"; schema: This.personArraySchema}}
 	
@@ -213,7 +185,7 @@ Function initBot()
 			$options.temperature:=1
 		: (This.provider="Cohere")
 			$options.temperature:=1  //Cohere is 0 to 2
-			$options.body:=This.body_cohere
+			$options.body:=This.body_cohere  //Cohere rejects n
 		: (This.provider="ONNX@")
 			$options["top_k"]:=50
 			$options["top_p"]:=0.9
