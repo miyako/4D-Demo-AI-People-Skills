@@ -1,4 +1,8 @@
+Class extends demo
+
 Class constructor
+	
+	Super()
 	
 Function activateWindow()
 	

@@ -6,15 +6,15 @@ Function get levelStr() : Text
 		: (True)
 			Case of 
 				: (This.level<=3)
-					return "基本"
+					return "基本的な知識を学習した程度"
 				: (This.level<=6)
-					return "中級者"
+					return "基本的な知識を有しており少しの実務経験がある"
 				: (This.level<=8)
-					return "上級者"
+					return "基本以上の知識と実務経験がある"
 				: (This.level<=9)
-					return "師範"
+					return "かなり高度な知識と豊富な実務経験がある"
 				: (This.level<=10)
-					return "神"
+					return "かなり高度な知識と豊富な実務経験があり他の人を指導できる"
 				Else 
 					return "不明"
 			End case 
