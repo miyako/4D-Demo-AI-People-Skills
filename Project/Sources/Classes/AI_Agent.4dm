@@ -2,7 +2,11 @@ property model : Text
 property provider : Text
 property AIClient : cs.AIKit.OpenAI
 
+Class extends demo
+
 Class constructor()
+	
+	Super()
 	
 	This.model:=""
 	This.provider:=""

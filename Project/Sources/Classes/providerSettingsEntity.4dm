@@ -63,4 +63,3 @@ Function get hasModels() : Boolean
 	
 Function set hasModels()
 	
-	
