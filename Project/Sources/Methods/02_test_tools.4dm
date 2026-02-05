@@ -2,7 +2,7 @@
 var $cases : Collection
 $cases:=[]
 
-If (False)
+If (True)
 	//$cases.push({provider: "NVIDIA"; models: \
 		["moonshotai/kimi-k2.5"/*;"qwen/qwen3-235b-a22b";"moonshotai/kimi-k2-instruct-0905";"meta/llama-3.1-8b-instruct";"meta/llama-3.1-70b-instruct";"meta/llama-3.1-405b-instruct"*/]})
 	
@@ -15,7 +15,7 @@ If (False)
 	//$cases.push({provider: "ModelArk"; models: \
 		["glm-4-7-251222"/*;"accounts/fireworks/models/kimi-k2-thinking";"accounts/fireworks/models/deepseek-r1-0528";"accounts/cogito/models/cogito-671b-v2-p1";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507";"accounts/fireworks/models/qwen3-235b-a22b-thinking-2507"*/]})
 	
-	//$cases.push({provider: "Gemini"; models: \
+	$cases.push({provider: "Gemini"; models: \
 		["models/gemini-pro-latest"; "models/gemini-2.5-pro"; "models/gemini-3-pro-preview"]})
 End if 
 

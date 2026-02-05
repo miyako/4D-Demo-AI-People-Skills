@@ -1104,7 +1104,8 @@
 					"height": 19,
 					"dataSource": "Form:C1466.textToSearch",
 					"fontFamily": "Avenir Light",
-					"fontSize": 13
+					"fontSize": 13,
+					"contextMenu": "none"
 				},
 				"Text": {
 					"type": "text",

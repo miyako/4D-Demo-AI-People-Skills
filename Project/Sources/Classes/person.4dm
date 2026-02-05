@@ -20,8 +20,12 @@ Function personSearchByVector($terms : Text; $requestedQuantity : Integer; $thre
 	cs.AI_Vectorizer.me.setAgent($embeddingInfo.provider; $embeddingInfo.model; False)
 	
 	Case of 
-		: ($embeddingInfo.model="@-e5-@")
-			$terms:="passage:"+$terms  //E5 rule
+		: ($embeddingInfo.model="@sarashina-@")
+			$terms:="task: クエリを与えるので，もっともクエリに意味が似ている一節を探してください。\nquery: "+$terms
+		: ($embeddingInfo.model="@bge-@")
+			$terms:="Represent this sentence for searching relevant passages: "+$terms
+		: ($embeddingInfo.model="@e5-@")
+			$terms:="query: "+$terms
 	End case 
 	
 	$vector:=cs.AI_Vectorizer.me.vectorize($terms)

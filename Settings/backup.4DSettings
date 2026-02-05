@@ -32,7 +32,7 @@
         <IncludeStructureFile>False</IncludeStructureFile>
         <IncludeDataFile>True</IncludeDataFile>
         <IncludeAltStructFile>False</IncludeAltStructFile>
-        <DestinationFolder>./Backup/</DestinationFolder>
+        <DestinationFolder>Macintosh HD:Users:miyako:Documents:GitHub:4D-Demo-AI-People-Skills:Backup:</DestinationFolder>
         <IncludesFiles>
           <ItemsCount>3</ItemsCount>
           <Item1>./Data/data.4DIndx</Item1>

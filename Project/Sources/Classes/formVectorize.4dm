@@ -49,7 +49,7 @@ Function formEventHandler($formEventCode : Integer)
 	
 	Super.formEventHandler($formEventCode)
 	
-	If (This.menu.currentValue="Data Gen & Embeddings 🪄")
+	If (This.menu.index=1)
 		Case of 
 			: ($formEventCode=On Load) || ($formEventCode=On Page Change)
 				OBJECT SET VISIBLE(*; "peopleGen@"; False)

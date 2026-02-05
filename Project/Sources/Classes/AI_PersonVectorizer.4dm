@@ -3,8 +3,8 @@ Class extends AI_Vectorizer
 singleton Class constructor()
 	Super()
 	
-Function vectorizePerson($person : cs.personEntity)
-	$person.embedding:=This.vectorize($person.descriptivePhrase("full"))
+Function vectorizePerson($person : cs.personEntity; $prefix : Text)
+	$person.embedding:=This.vectorize($prefix+$person.descriptivePhrase("full"))
 	$person.save()
 	
 Function vectorizePeople($provider : Text; $model : Text; $recomputeAll : Boolean; $formObject : Object)
@@ -29,8 +29,19 @@ Function vectorizePeople($provider : Text; $model : Text; $recomputeAll : Boolea
 	
 	This.setAgent($provider; $model; False)
 	
+	Case of 
+		: ($model="@sarashina-@")
+			$prefix:="task: クエリを与えるので，もっともクエリに意味が似ている一節を探してください。\nquery: "
+		: ($model="@bge-@")
+			$prefix:=""
+		: ($model="@e5-@")
+			$prefix:="passage: "
+		Else 
+			$prefix:=""
+	End case 
+	
 	For each ($person; $people)
-		This.vectorizePerson($person)
+		This.vectorizePerson($person; $prefix)
 		If (Not(Undefined($formObject)) && ($formObject#Null) && ($formObject.window#0))
 			$generated+=1
 			$progress.value:=Int($generated/$total*100)

@@ -13,7 +13,7 @@ property progress : Object
 property personArraySchema : Object
 property personArraySchema_fixDate : Object
 property specificRequest : Text
-property promptFilePath : Object
+property personFilePath : Object
 
 Class extends AI_Agent
 
@@ -22,7 +22,7 @@ singleton Class constructor()
 	Super()
 	
 	This.formObject:=Null
-	This.promptFilePath:={en: "Prompts/person-en.txt"; ja: "Prompts/person-ja.txt"}
+	This.personFilePath:={en: "Prompts/person-en.txt"; ja: "Prompts/person-ja.txt"}
 	
 Function loadSchemas()
 	
@@ -171,7 +171,7 @@ Function initBot()
 	
 	This.loadSchemas()
 	
-	$systemPrompt:=This.getText(This.promptFilePath[Macintosh command down ? "en" : "ja"])
+	$systemPrompt:=This.getText(This.personFilePath[Macintosh command down ? "en" : "ja"])
 	$systemPrompt+=JSON Stringify($skillSet)+"\n"
 	
 	$options.response_format:={type: "json_schema"; json_schema: {name: "person_array_schema"; schema: This.personArraySchema}}
