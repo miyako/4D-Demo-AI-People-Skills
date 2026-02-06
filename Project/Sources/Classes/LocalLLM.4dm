@@ -75,8 +75,8 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 						$pooling:="last"
 					: ($embeddingInfo.model="Qwen3-Embedding-4B-Q8_0.gguf")
 						$folder:=$homeFolder.folder("Qwen3-Embedding-4B")  //where to keep the repo
-						$path:="Qwen3-Embedding-4B-Q4_k_m.gguf"  //path to the file
-						$URL:="keisuke-miyako/Qwen3-Embedding-4B-gguf-q4_k_m"  //path to the repo
+						$path:="Qwen3-Embedding-4B-Q8_0.gguf"  //path to the file
+						$URL:="keisuke-miyako/Qwen3-Embedding-4B-gguf-q8_0"  //path to the repo
 						$ubatch_size:=1024  //model max:32768
 						$pooling:="last"
 					: ($embeddingInfo.model="Qwen3-Embedding-8B-Q4_k_m.gguf")
@@ -100,10 +100,10 @@ Function useLlamaCpp($mode : Text; $name : Text; $port : Integer)
 						$folder:=$homeFolder.folder("granite-embedding-107m-multilingual")  //where to keep the repo
 						$path:="granite-embedding-107m-multilingual-Q8_0.gguf"  //path to the file
 						$URL:="keisuke-miyako/granite-embedding-107m-multilingual-gguf-q8_0"  //path to the repo
-					: ($embeddingInfo.model="granite-embedding-278m-multilingual-Q4_k_m.gguf")
+					: ($embeddingInfo.model="granite-embedding-278m-multilingual-Q8_0.gguf")
 						$folder:=$homeFolder.folder("granite-embedding-278m-multilingual")  //where to keep the repo
-						$path:="granite-embedding-278m-multilingual-Q4_k_m.gguf"  //path to the file
-						$URL:="keisuke-miyako/granite-embedding-278m-multilingual-gguf-q4_k_m"  //path to the repo
+						$path:="granite-embedding-278m-multilingual-Q8_0.gguf"  //path to the file
+						$URL:="keisuke-miyako/granite-embedding-278m-multilingual-gguf-q8_0"  //path to the repo
 					: ($embeddingInfo.model="multilingual-e5-large-q4_k_m.gguf")
 						$folder:=$homeFolder.folder("multilingual-e5-large")  //where to keep the repo
 						$path:="multilingual-e5-large-q4_k_m.gguf"  //path to the file
