@@ -13,7 +13,6 @@
 			"github": "miyako/llama-cpp",
 			"version": "latest"
 		},
-		"4D AIKit": {},
 		"swama": {
 			"github": "miyako/swama",
 			"version": "latest"
@@ -21,6 +20,7 @@
 		"event": {
 			"github": "miyako/event",
 			"version": "latest"
-		}
+		},
+		"4D AIKit": {}
 	}
 }
