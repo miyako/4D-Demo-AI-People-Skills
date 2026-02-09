@@ -6,7 +6,7 @@
 		"values": ["@veo@", "@lyria@", "@banana@", "@flash@", "@aqa@", "@image@", "@robotics@", "@deep@", "@computer@", "@tts@", "@exp@"]
 	},
 	"defaults": {
-		"reasoning": "models/gemini-2.5-pro",
+		"reasoning": "models/gemini-pro-latest",
 		"embedding": "models/gemini-embedding-001"
 	}
 }
