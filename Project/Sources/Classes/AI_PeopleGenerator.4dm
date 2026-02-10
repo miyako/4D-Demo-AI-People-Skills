@@ -107,12 +107,6 @@ Function onStreamChatTerminate($result : cs.AIKit.OpenAIChatCompletionsResult)
 			return 
 		End if 
 		
-		//%W-550.26
-		If (This.stream=False)  //This=cs.AIKit.OpenAIChatCompletionsParameters
-			$me.formObject.progressGeneratePeople({AIText: $result.choice.message.text})
-		End if 
-		//%W+550.26
-		
 		//terminated and success
 		$me.formObject.progressGeneratePeople({AIText: "\n\nAI response completed\n"})
 		$response:=$me.getPersonArrayFromResponse($me.peopleGenBot.messages.last().text)
