@@ -18,7 +18,7 @@ Class constructor()
 	This.textToSearch:=This.getText(This.searchFilePath[Macintosh command down ? "en" : "ja"])
 	This.result:=Null
 	This.requestedQuantity:=100
-	This.threshold:=0.7
+	This.threshold:=0.5
 	
 	//MARK: -
 	//MARK: Form & form objects event handlers
