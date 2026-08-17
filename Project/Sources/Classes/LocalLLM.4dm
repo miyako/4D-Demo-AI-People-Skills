@@ -316,6 +316,7 @@ Function useONNX($name : Text; $port : Integer)
 	$path:="multilingual-e5-small-onnx"
 	$URL:="keisuke-miyako/multilingual-e5-small-onnx"
 	$options.pooling:="mean"
+	$name:="model.onnx"
 	
 	var $embeddingInfo : cs.embeddingInfoEntity
 	$embeddingInfo:=ds.embeddingInfo.all().first()
@@ -326,21 +327,24 @@ Function useONNX($name : Text; $port : Integer)
 				$path:="multilingual-e5-base-onnx"
 				$URL:="keisuke-miyako/multilingual-e5-base-onnx"
 				$options.pooling:="mean"
+				$name:="model_quantized.onnx"
 			: ($embeddingInfo.model="granite-embedding-278m-multilingual")
 				$folder:=$homeFolder.folder("granite-embedding-278m-multilingual")
 				$path:="granite-embedding-278m-multilingual-onnx"
 				$URL:="keisuke-miyako/granite-embedding-278m-multilingual-onnx"
 				$options.pooling:="mean"
+				$name:="model_quantized.onnx"
 			: ($embeddingInfo.model="bge-m3")
 				$folder:=$homeFolder.folder("bge-m3")
 				$path:="bge-m3-onnx"
 				$URL:="keisuke-miyako/bge-m3-onnx"
 				$options.pooling:="cls"
+				$name:="model_quantized.onnx"
 		End case 
 	End if 
 	
 	var $embeddings : cs.event.huggingface
-	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding"; "model_quantized.onnx")
+	$embeddings:=cs.event.huggingface.new($folder; $URL; $path; "embedding"; $name)
 	$LLMs.push($embeddings)
 	$huggingfaces:=cs.event.huggingfaces.new($LLMs)
 	
@@ -365,7 +369,7 @@ Function onError($params : Object; $error : cs.event.error)
 	ALERT($error.message)
 	
 Function onSuccess($params : Object; $models : cs.event.models)
-	//ALERT($models.models.extract("name").join(",")+" loaded!")
+	ALERT($models.models.extract("name").join(",")+" loaded!")
 	
 Function onData($request : 4D.HTTPRequest; $event : Object)
 	LOG EVENT(Into 4D debug message; This.file.fullName+":"+String((This.range.end/This.range.length)*100; "###.00%"))
