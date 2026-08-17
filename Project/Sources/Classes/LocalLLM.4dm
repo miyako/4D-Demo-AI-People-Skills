@@ -369,7 +369,7 @@ Function onError($params : Object; $error : cs.event.error)
 	ALERT($error.message)
 	
 Function onSuccess($params : Object; $models : cs.event.models)
-	ALERT($models.models.extract("name").join(",")+" loaded!")
+	//ALERT($models.models.extract("name").join(",")+" loaded!")
 	
 Function onData($request : 4D.HTTPRequest; $event : Object)
 	LOG EVENT(Into 4D debug message; This.file.fullName+":"+String((This.range.end/This.range.length)*100; "###.00%"))
