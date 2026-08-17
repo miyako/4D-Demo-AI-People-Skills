@@ -1,0 +1,12 @@
+{
+	"modelsToKeep": {
+		"values": []
+	},
+	"modelsToRemove": {
+		"values": []
+	},
+	"defaults": {
+		"reasoning": null,
+		"embedding": null
+	}
+}
